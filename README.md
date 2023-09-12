@@ -1,6 +1,6 @@
 # Fifth Fleet
 
-## DAtabase Schema Design
+## Database Schema Design
 ![Database image goes here]
 (use the local image)
 
