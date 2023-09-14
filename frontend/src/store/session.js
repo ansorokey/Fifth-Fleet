@@ -28,8 +28,8 @@ export function logIn(data) {
         });
 
         if (response.ok) {
-            const res = await data.json();
-            dispatch(setUser(data.user));
+            const res = await response.json();
+            dispatch(setUser(res.user));
         }
 
         return response;
@@ -40,12 +40,10 @@ export function logIn(data) {
 const sessionReducer = (state = {user: null}, action) => {
     switch (action.type) {
         case SET_USER:
-            state = { user: action.payload };
-            return state;
+            return { user: action.payload };
 
         case REMOVE_USER:
-            state = { user: null }
-            return state;
+            return { user: null };
 
         default:
             return state;
