@@ -6,6 +6,27 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+// Get the curent user
+router.get('/', async (req, res) => {
+    // user was stored in request by restoreUser in previous middleware
+    const { user } = req;
+    if( user ) {
+        const safeUser = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        };
+
+        return res.json({
+            user: safeUser
+        });
+    } else {
+        return res.json({
+            user: null
+        })
+    }
+});
+
 // Logging In
 router.post('/', async (req, res, next) => {
     const { credential, password } = req.body;
