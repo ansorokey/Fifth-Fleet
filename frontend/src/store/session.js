@@ -18,21 +18,38 @@ export function removeUser() {
     }
 }
 
+// thunk action: restore user
+export function restoreUser() {
+    return async function(dispatch) {
+        // get the current user: a user or null
+        const response = await csrfFetch('/api/session');
+
+        const res = await response.json();
+
+        dispatch(setUser(res));
+    }
+}
+
 // thunk action: log in user
 export function logIn(data) {
     return async function (dispatch) {
         const { credential, password } = data;
-        const response = await csrfFetch('/api/session', {
-            method: 'POST',
-            body: JSON.stringify({ credential, password})
-        });
+        try {
+            const response = await csrfFetch('/api/session', {
+                method: 'POST',
+                body: JSON.stringify({ credential, password})
+            });
 
-        if (response.ok) {
-            const res = await response.json();
-            dispatch(setUser(res.user));
+            // no need to return a success
+            if (response.ok) {
+                const res = await response.json();
+                dispatch(setUser(res.user));
+            }
+        } catch (e) {
+            return e.json();
         }
 
-        return response;
+
     }
 }
 
