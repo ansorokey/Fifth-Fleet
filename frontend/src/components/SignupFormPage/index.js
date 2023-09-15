@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
 import './SignupFormPage.css';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { signup } from '../../store/session';
 import { useHistory, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
