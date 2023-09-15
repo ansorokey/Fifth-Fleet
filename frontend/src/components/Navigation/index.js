@@ -4,35 +4,32 @@ import { Link } from 'react-router-dom';
 import { logout } from '../../store/session';
 import { useState } from 'react';
 
-function Navigation({isLoaded, currentUser}) {
-    // const currentUser = useSelector(state => state.session.user);
+function Navigation({isLoaded}) {
+    const currentUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
 
-    const [showDropDown, setShowDropDown] = useState(false);
-
-    const isUser = <>
+    let links = (currentUser ?
         <li>
-                <button onClick={() => dispatch(logout())}>
+                <button onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(logout())
+                }}>
                     Logout
                 </button>
         </li>
-    </>
-    const isNoUser = <>
+        :
         <li>
             <Link to='/login'>Sign in</Link>
-        </li>
-
-        <li>
             <Link to='/signup'>Sign up</Link>
         </li>
-    </>
+    );
 
     return <nav>
-        <i className="fa-solid fa-user" onClick={() => setShowDropDown(!showDropDown)}>
-            {showDropDown && <ul>
+        <i className="fa-solid fa-user">
+            <ul>
                 <Link to="/">Home</Link>
-                {isLoaded && (currentUser ? isUser : isNoUser)}
-            </ul>}
+                {isLoaded && links}
+            </ul>
         </i>
     </nav>;
 }
