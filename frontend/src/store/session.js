@@ -18,6 +18,9 @@ export function removeUser() {
     }
 }
 
+// thunk action: sign up user
+// create sign up thunk here
+
 // thunk action: restore user
 export function restoreUser() {
     return async function(dispatch) {
