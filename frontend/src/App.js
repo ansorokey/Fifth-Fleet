@@ -4,6 +4,7 @@ import { restoreUser } from './store/session';
 import { useDispatch } from 'react-redux';
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
+import Navigation from './components/Navigation';
 
 function App() {
   const [initalLoad, setInitialLoad] = useState(false);
@@ -21,6 +22,7 @@ function App() {
   // only returns content of initial load after useEffect has run
   return (
     initalLoad ? <>
+    <Navigation />
     <Switch>
       <Route exact path="/login">
         <LoginFormPage />

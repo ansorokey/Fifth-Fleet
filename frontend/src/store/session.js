@@ -72,6 +72,17 @@ export function logIn(data) {
     }
 }
 
+// thunk action: logout user
+export function logout() {
+    return async function(dispatch) {
+        const response = await csrfFetch('/api/session', {
+            method: 'DELETE'
+        });
+
+        dispatch(removeUser());
+    }
+}
+
 // reducer
 const sessionReducer = (state = {user: null}, action) => {
     switch (action.type) {
