@@ -1,8 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
-import LoginFormPage from './components/LoginFormPage';
 import { useEffect, useState } from 'react';
 import { restoreUser } from './store/session';
 import { useDispatch } from 'react-redux';
+import LoginFormPage from './components/LoginFormPage';
+import SignupFormPage from './components/SignupFormPage';
 
 function App() {
   const [initalLoad, setInitialLoad] = useState(false);
@@ -23,6 +24,10 @@ function App() {
     <Switch>
       <Route exact path="/login">
         <LoginFormPage />
+      </Route>
+
+      <Route exact path="/signup">
+        <SignupFormPage />
       </Route>
 
       <Route exact path="/">
