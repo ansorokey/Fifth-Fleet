@@ -1,17 +1,20 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './SignupFormPage.css';
 import { useState } from 'react';
-// import { } import signup thunk here
+import { signup } from '../../store/session';
+import { useHistory, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function SignupFormPage() {
+    const currentUser = useSelector(state => state.session.user);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [valErrors, setValErrors] = useState({});
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const errs = {};
 
@@ -20,14 +23,36 @@ function SignupFormPage() {
             errs.confirmPassword = 'Passwords must match';
         }
 
-        if (Object.keys(errs)) {
+        if (username.length < 4 || username.length > 30){
+            valErrors.username = 'Please provide a username 4 and 30 characters in length';
+        }
+
+        if (password.length < 6) {
+            valErrors.password = 'Password must be at least 6 characters';
+            valErrors.confirmPassword = 'Password must be at least 6 characters';
+        }
+
+        if (Object.keys(errs).length) {
             return setValErrors(errs);
         }
 
-        //
-        // const response = await dispatch();
+        const signupInfo = {
+            username,
+            email,
+            password
+        }
 
+        const response = await dispatch(signup(signupInfo));
 
+        if (response && response.errors) {
+            return setValErrors(response.errors);
+        }
+
+        history.push('/');
+    }
+
+    if (currentUser) {
+        return <Redirect to="/" />
     }
 
     return (
@@ -39,6 +64,7 @@ function SignupFormPage() {
                 required
                 onChange={e => setUsername(e.target.value)}
             />
+            <p>{valErrors.username}</p>
 
             <input
                 type='email'
@@ -47,6 +73,7 @@ function SignupFormPage() {
                 required
                 onChange={e => setEmail(e.target.value)}
             />
+            <p>{valErrors.email}</p>
 
             <input
                 type='password'

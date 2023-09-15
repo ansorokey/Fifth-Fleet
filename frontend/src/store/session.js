@@ -19,7 +19,23 @@ export function removeUser() {
 }
 
 // thunk action: sign up user
-// create sign up thunk here
+export function signup(data) {
+    return async function(dispatch) {
+        try {
+            const response = await csrfFetch('/api/users', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const res = await response.json();
+                dispatch(setUser(res));
+            }
+        } catch (e) {
+            return e.json();
+        }
+    }
+}
 
 // thunk action: restore user
 export function restoreUser() {
@@ -60,7 +76,7 @@ export function logIn(data) {
 const sessionReducer = (state = {user: null}, action) => {
     switch (action.type) {
         case SET_USER:
-            return { user: action.payload };
+            return { user: action.payload.user };
 
         case REMOVE_USER:
             return { user: null };
