@@ -2,6 +2,9 @@ import './Navigation.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProfileButton from './ProfileButton';
+import OpenModalButton from '../OpenModalButton';
+import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
 
 function Navigation({isLoaded}) {
     const currentUser = useSelector(state => state.session.user);
@@ -21,8 +24,15 @@ function Navigation({isLoaded}) {
         :
         // if user not logged in, return log in / sign up
         <li>
-            <Link to='/login'>Sign in</Link>
-            <Link to='/signup'>Sign up</Link>
+            <OpenModalButton
+                buttonText="Sign In"
+                modalComponent={<LoginFormModal />}
+            />
+
+            <OpenModalButton
+                buttonText="Sign Up"
+                modalComponent={<SignupFormModal />}
+            />
         </li>
     )}
             </ul>

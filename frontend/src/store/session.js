@@ -29,7 +29,7 @@ export function signup(data) {
 
             if (response.ok) {
                 const res = await response.json();
-                dispatch(setUser(res));
+                dispatch(setUser(res.user));
             }
         } catch (e) {
             return e.json();

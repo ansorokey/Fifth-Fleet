@@ -4,8 +4,8 @@ function OpenModalButton({modalComponent, buttonText, onButtonClick=null, onModa
     const {setModalContent, setOnModalClose} = useModal();
 
     function handleModal() {
-        onButtonClick();
-        setOnModalClose(onModalClose);
+        if (typeof onButtonClick === 'function') onButtonClick();
+        if (typeof onModalClose === 'function') setOnModalClose(onModalClose);
         setModalContent(modalComponent);
     };
 
