@@ -1,6 +1,5 @@
 'use strict';
 
-// Applies the database schema to tablename in production
 let options = {};
 if(process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -9,33 +8,19 @@ if(process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Weapons', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-      },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-      },
-      hashedPassword: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      favWeaponId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Weapons',
-          key: 'id'
-        }
+      iconUrl: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -50,7 +35,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Users'
-    return await queryInterface.dropTable(options);
+    options.tableName = 'Weapons';
+    await queryInterface.dropTable(options);
   }
 };

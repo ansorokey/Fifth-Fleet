@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.Weapon, {foreignKey: 'id'});
     }
   }
   User.init({
@@ -42,6 +43,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: [60, 60]
+      }
+    },
+    favWeaponId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Weapons",
+        key: 'id'
       }
     }
   }, {

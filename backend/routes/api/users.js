@@ -1,11 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Weapon } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
+
 // Validate User sign up information
 const validateSignup = [
     check('email')
@@ -55,5 +56,20 @@ router.post('/', validateSignup, async (req, res, next) => {
         user: safeUser
     })
 });
+
+// retrieve all users
+router.get('/', async (req, res) => {
+
+    const allUsers = await User.findAll({
+        include: {
+            model: Weapon
+        }
+
+    });
+
+    res.json({
+        users: allUsers
+    })
+})
 
 module.exports = router;
