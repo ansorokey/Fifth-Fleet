@@ -7,7 +7,7 @@ const REMOVE_USER = 'session/REMOVE_USER';
 export function setUser(user) {
     return {
         type: SET_USER,
-        payload: user
+        user
     }
 };
 
@@ -42,10 +42,8 @@ export function restoreUser() {
     return async function(dispatch) {
         // get the current user: a user or null
         const response = await csrfFetch('/api/session');
-
         const res = await response.json();
-
-        dispatch(setUser(res));
+        dispatch(setUser(res.user));
     }
 }
 
@@ -87,7 +85,7 @@ export function logout() {
 const sessionReducer = (state = {user: null}, action) => {
     switch (action.type) {
         case SET_USER:
-            return { user: action.payload.user };
+            return { user: action.user };
 
         case REMOVE_USER:
             return { user: null };

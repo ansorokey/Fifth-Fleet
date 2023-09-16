@@ -8,7 +8,7 @@ import Navigation from './components/Navigation';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const currentUser = useSelector(state => state.session.user);
+  let currentUser = useSelector(state => state.session.user);
 
   const dispatch = useDispatch();
   useEffect(() => {

@@ -1,36 +1,31 @@
 import './Navigation.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../../store/session';
-import { useState } from 'react';
+import ProfileButton from './ProfileButton';
 
 function Navigation({isLoaded}) {
     const currentUser = useSelector(state => state.session.user);
-    const dispatch = useDispatch();
 
-    let links = (currentUser ?
+    // if user logged in, return a profile button and a logout button
+    // let links = ;
+
+    return <nav>
+            <ul>
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                {isLoaded && (currentUser ?
         <li>
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    dispatch(logout())
-                }}>
-                    Logout
-                </button>
+                <ProfileButton user={currentUser} />
         </li>
         :
+        // if user not logged in, return log in / sign up
         <li>
             <Link to='/login'>Sign in</Link>
             <Link to='/signup'>Sign up</Link>
         </li>
-    );
-
-    return <nav>
-        <i className="fa-solid fa-user">
-            <ul>
-                <Link to="/">Home</Link>
-                {isLoaded && links}
+    )}
             </ul>
-        </i>
     </nav>;
 }
 
