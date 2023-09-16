@@ -1,6 +1,5 @@
 'use strict';
 
-const { mapFinderOptions } = require('sequelize/types/utils');
 const { User } = require('../models/user');
 const bcrypt = require('bcryptjs');
 
