@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import { useState, useEffect, useRef } from "react";
 import OpenModalButton from '../OpenModalButton';
+import OpenModalMenuItem from "../OpenModalMenuItem";
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 
@@ -45,6 +46,7 @@ function ProfileButton({user}) {
     function handleLogout(e) {
         e.preventDefault();
         dispatch(logout());
+        closeMenu2();
     }
 
     const validUser = (<>
@@ -54,21 +56,17 @@ function ProfileButton({user}) {
     </>);
 
     const nullUser = (<>
-            <li>
-                <OpenModalButton
-                    buttonText="Sign In"
+                <OpenModalMenuItem
+                    itemText="Sign In"
                     modalComponent={<LoginFormModal />}
-                    onButtonClick={closeMenu2}
+                    onItemClick={closeMenu2}
                 />
-            </li>
 
-            <li>
-                <OpenModalButton
-                    buttonText="Sign Up"
+                <OpenModalMenuItem
+                    itemText="Sign Up"
                     modalComponent={<SignupFormModal />}
-                    onButtonClick={closeMenu2}
+                    onItemClick={closeMenu2}
                 />
-            </li>
     </>);
 
     return (<>
