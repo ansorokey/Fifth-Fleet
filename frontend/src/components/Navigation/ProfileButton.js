@@ -1,6 +1,9 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import { useState, useEffect, useRef } from "react";
+import OpenModalButton from '../OpenModalButton';
+import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
 
 function ProfileButton({user}) {
     const [showMenu, setShowMenu] = useState(false);
@@ -25,9 +28,7 @@ function ProfileButton({user}) {
         document.addEventListener('click', closeMenu);
 
         // runs a function that removes the event listener on dismount
-        return () => {
-            document.removeEventListener('click', closeMenu);
-        }
+        return () => document.removeEventListener('click', closeMenu);
     }, [showMenu]);
 
     function openMenu() {
@@ -35,20 +36,48 @@ function ProfileButton({user}) {
         setShowMenu(true);
     }
 
+    // a differently scoped function for the
+    // openModalButton components to reference
+    function closeMenu2() {
+        setShowMenu(false);
+    }
+
     function handleLogout(e) {
         e.preventDefault();
         dispatch(logout());
     }
 
+    const validUser = (<>
+            <li>{user?.username}</li>
+            <li>{user?.email}</li>
+            <button onClick={handleLogout}>Logout</button>
+    </>);
+
+    const nullUser = (<>
+            <li>
+                <OpenModalButton
+                    buttonText="Sign In"
+                    modalComponent={<LoginFormModal />}
+                    onButtonClick={closeMenu2}
+                />
+            </li>
+
+            <li>
+                <OpenModalButton
+                    buttonText="Sign Up"
+                    modalComponent={<SignupFormModal />}
+                    onButtonClick={closeMenu2}
+                />
+            </li>
+    </>);
+
     return (<>
         <button onClick={openMenu}>
             <i className="fa-solid fa-user"></i>
         </button>
-        {showMenu && <ul ref={refEl}>
-            <li>{user.username}</li>
-            <li>{user.email}</li>
-            <button onClick={handleLogout}>Logout</button>
-        </ul>}
+        <ul hidden={!showMenu} ref={refEl}>
+            {user ? validUser : nullUser}
+        </ul>
     </>);
 }
 
