@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.belongsTo(models.Weapon, { foreignKey: 'favWeaponId'});
       User.belongsToMany(models.Lobby, { through: 'LobbyMembers'});
+      User.belongsToMany(models.Guild, { through: 'GuildMembers'});
     }
   }
   User.init({

@@ -13,7 +13,7 @@ router.get('/:lobbyId', async (req, res) => {
     });
 
     res.json({
-        messages: allMembers
+        members: allMembers
     });
 });
 
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     const allMembers = await LobbyMember.findAll();
 
     res.json({
-        messages: allMembers
+        members: allMembers
     });
 });
 

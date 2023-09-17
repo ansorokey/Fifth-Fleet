@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Guild.belongsTo(models.User, { as: 'Host', foreignKey: 'hostId'});
       Guild.belongsTo(models.Greeting, { foreignKey: 'greetingId'});
+      Guild.belongsToMany(models.User, { as: 'Members', through: 'GuildMembers'});
     }
   }
   Guild.init({
