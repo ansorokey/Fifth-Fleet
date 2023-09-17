@@ -4,6 +4,10 @@ const { User } = require('../../db/models');
 const router = require('express').Router();
 const sessionRouter = require('./session');
 const userRouter = require('./users');
+const lobbyRouter = require('./lobbies');
+const lobbyGreetingRouter = require('./lobbygreetings');
+const questTypeRouter = require('./questtypes');
+const monsterRouter = require('./monsters');
 
 // Adds the current user to the request and passes it on
 // current user in db if found
@@ -13,7 +17,10 @@ router.use(restoreUser);
 // All routes here begin with /api (defined in ../index.js)
 router.use('/session', sessionRouter);
 router.use('/users', userRouter);
-
+router.use('/lobbies', lobbyRouter);
+router.use('/lobbygreetings', lobbyGreetingRouter);
+router.use('/questTypes', questTypeRouter);
+router.use('/monsters', monsterRouter);
 // test route
 // router.get('/set-token-cookie', async(_req, res) => {
 //     const user = await User.findOne({
