@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class LobbyMessage extends Model {
+  class GuildMessage extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  LobbyMessage.init({
-    senderId: {
+  GuildMessage.init({
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -22,11 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    lobbyId: {
+    guildId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Lobbies',
+        model: 'Guilds',
         key: 'id'
       }
     },
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'LobbyMessage',
+    modelName: 'GuildMessage',
   });
-  return LobbyMessage;
+  return GuildMessage;
 };

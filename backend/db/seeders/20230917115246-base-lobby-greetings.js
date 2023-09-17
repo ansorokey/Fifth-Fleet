@@ -14,7 +14,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('lobbygreetings', greetings);
+    await queryInterface.bulkInsert('greetings', greetings);
   },
 
   async down (queryInterface, Sequelize) {
@@ -27,7 +27,7 @@ module.exports = {
     const delMessages = greetings.map(g => g.message);
 
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('lobbygreetings', {
+    await queryInterface.bulkDelete('greetings', {
       message: {
         [Op.in]: delMessages
       }

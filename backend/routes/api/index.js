@@ -5,11 +5,13 @@ const router = require('express').Router();
 const sessionRouter = require('./session');
 const userRouter = require('./users');
 const lobbyRouter = require('./lobbies');
-const lobbyGreetingRouter = require('./lobbygreetings');
+const greetingRouter = require('./greetings');
 const questTypeRouter = require('./questtypes');
 const monsterRouter = require('./monsters');
 const lobbyMessageRouter = require('./lobbymessages');
 const lobbyMemberRouter = require('./lobbymembers');
+const guildRouter = require('./guilds');
+const guildMessagesRouter = require('./guildmessages');
 
 // Adds the current user to the request and passes it on
 // current user in db if found
@@ -20,11 +22,14 @@ router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', userRouter);
 router.use('/lobbies', lobbyRouter);
-router.use('/lobbygreetings', lobbyGreetingRouter);
+router.use('/greetings', greetingRouter);
 router.use('/questTypes', questTypeRouter);
 router.use('/monsters', monsterRouter);
-router.use('/lobbymessages', lobbyMessageRouter);
+router.use('/lobby-chat', lobbyMessageRouter);
 router.use('/lobbymembers', lobbyMemberRouter);
+router.use('/guilds', guildRouter);
+router.use('/guild-chat', guildMessagesRouter);
+
 // test route
 // router.get('/set-token-cookie', async(_req, res) => {
 //     const user = await User.findOne({

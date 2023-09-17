@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class LobbyGreeting extends Model {
+  class Greeting extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  LobbyGreeting.init({
+  Greeting.init({
     category: {
       type: DataTypes.ENUM,
       values: ['Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Play Style']
@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'LobbyGreeting',
+    modelName: 'Greeting',
     defaultScope: {
       attributes: {
         exclude: ['updatedAt', 'createdAt']
       }
     }
   });
-  return LobbyGreeting;
+  return Greeting;
 };

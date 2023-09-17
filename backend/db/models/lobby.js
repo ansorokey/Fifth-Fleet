@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Lobby.belongsTo(models.User, {as: 'Host', foreignKey: 'hostId'});
       Lobby.belongsTo(models.QuestType, {foreignKey: 'questTypeId'});
-      Lobby.belongsTo(models.LobbyGreeting, {foreignKey: 'messageId'});
+      Lobby.belongsTo(models.Greeting, {foreignKey: 'messageId'});
       Lobby.belongsTo(models.Monster, {foreignKey: 'targetMonsterId'});
       Lobby.belongsToMany(models.User, {
         as: 'Members',

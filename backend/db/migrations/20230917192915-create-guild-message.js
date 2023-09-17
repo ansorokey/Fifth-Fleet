@@ -2,18 +2,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('LobbyGreetings', {
+    await queryInterface.createTable('GuildMessages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      category: {
-        type: Sequelize.ENUM,
-        values: ['Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Play Style']
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
-      message: {
+      guildId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Guilds',
+          key: 'id'
+        }
+      },
+      content: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -29,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('LobbyGreetings');
+    await queryInterface.dropTable('GuildMessages');
   }
 };

@@ -1,5 +1,5 @@
 const express = require('express');
-const { Lobby, User, QuestType, LobbyGreeting, Monster, LobbyMember } = require('../../db/models');
+const { Lobby, User, QuestType, Greeting, Monster, LobbyMember } = require('../../db/models');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
                 model: QuestType
             },
             {
-                model: LobbyGreeting
+                model: Greeting
             },
             {
                 model: Monster

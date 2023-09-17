@@ -1,5 +1,5 @@
 const express = require('express');
-const { LobbyGreeting } = require('../../db/models');
+const { Greeting } = require('../../db/models');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         where.category = category
     }
 
-    const allGreetings = await LobbyGreeting.findAll({
+    const allGreetings = await Greeting.findAll({
         where
     });
 

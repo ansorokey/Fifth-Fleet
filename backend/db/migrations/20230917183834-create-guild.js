@@ -1,13 +1,20 @@
 'use strict';
+
+const { INTEGER } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Lobbies', {
+    await queryInterface.createTable('Guilds', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       hostId: {
         type: Sequelize.INTEGER,
@@ -17,28 +24,13 @@ module.exports = {
           key: 'id'
         }
       },
-      messageId: {
+      about: {
+        type: Sequelize.STRING
+      },
+      greetingId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Greetings',
-          key: 'id'
-        }
-      },
-      questTypeId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'QuestTypes',
-          key: 'id'
-        }
-      },
-      rankPreference: {
-        type: Sequelize.ENUM,
-        values: ['low', 'high', 'master']
-      },
-      targetMonsterId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Monsters',
           key: 'id'
         }
       },
@@ -55,6 +47,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Lobbies');
+    await queryInterface.dropTable('Guilds');
   }
 };
