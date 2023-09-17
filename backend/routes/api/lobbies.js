@@ -1,5 +1,5 @@
 const express = require('express');
-const { Lobby, User, QuestType, LobbyGreeting, Monster, LobbyMessage } = require('../../db/models');
+const { Lobby, User, QuestType, LobbyGreeting, Monster, LobbyMember } = require('../../db/models');
 
 const router = express.Router();
 
@@ -18,6 +18,13 @@ router.get('/', async (req, res) => {
             },
             {
                 model: Monster
+            },
+            {
+                model: User,
+                as: 'Members',
+                through: {
+                    attributes: []
+                }
             }
         ]
     });

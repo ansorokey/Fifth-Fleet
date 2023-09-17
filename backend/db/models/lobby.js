@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       Lobby.belongsTo(models.LobbyGreeting, {foreignKey: 'messageId'});
       Lobby.belongsTo(models.Monster, {foreignKey: 'targetMonsterId'});
       Lobby.belongsToMany(models.User, {
-        through: 'LobbyMembers',
+        as: 'Members',
+        through: 'LobbyMembers'
       });
     }
   }

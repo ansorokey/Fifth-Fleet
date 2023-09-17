@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   LobbyMember.init({
-    memberId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

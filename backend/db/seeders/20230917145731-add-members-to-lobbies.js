@@ -3,19 +3,19 @@
 const data = [
   {
     lobbyId: 1,
-    memberId: 1
+    userId: 1
   },
   {
     lobbyId: 1,
-    memberId: 2
+    userId: 2
   },
   {
     lobbyId: 1,
-    memberId: 3
+    userId: 3
   },
   {
     lobbyId: 1,
-    memberId: 4
+    userId: 4
   }
  ]
 /** @type {import('sequelize-cli').Migration} */
