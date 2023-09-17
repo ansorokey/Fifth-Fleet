@@ -1,7 +1,23 @@
 'use strict';
 
-const { User } = require('../models');
-
+const data = [
+  {
+    lobbyId: 1,
+    memberId: 1
+  },
+  {
+    lobbyId: 1,
+    memberId: 2
+  },
+  {
+    lobbyId: 1,
+    memberId: 3
+  },
+  {
+    lobbyId: 1,
+    memberId: 4
+  }
+ ]
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -14,13 +30,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    const allUsers = await User.findAll();
-    for(let i = 0; i <= allUsers.length; i++) {
-      if(allUsers[i]) {
-        allUsers[i].favWeaponId = i + 1;
-        await allUsers[i].save();
-      }
-    }
+   await queryInterface.bulkInsert('LobbyMembers', data);
   },
 
   async down (queryInterface, Sequelize) {
@@ -30,10 +40,9 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    const allUsers = await User.findAll();
-    for(let i = 0; i < allUsers.length; i++) {
-      allUsers[i].favWeaponId = null;
-      await allUsers[i].save();
-    }
+    const Op = Sequelize.Op;
+    await queryInterface.bulkDelete('LobbyMembers', {
+      [Op.or]: data
+    })
   }
 };

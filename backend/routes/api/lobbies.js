@@ -1,5 +1,5 @@
 const express = require('express');
-const { Lobby, User, QuestType, LobbyGreeting, Monster } = require('../../db/models');
+const { Lobby, User, QuestType, LobbyGreeting, Monster, LobbyMessage } = require('../../db/models');
 
 const router = express.Router();
 

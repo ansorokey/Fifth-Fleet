@@ -9,6 +9,7 @@ const lobbyGreetingRouter = require('./lobbygreetings');
 const questTypeRouter = require('./questtypes');
 const monsterRouter = require('./monsters');
 const lobbyMessageRouter = require('./lobbymessages');
+const lobbyMemberRouter = require('./lobbymembers');
 
 // Adds the current user to the request and passes it on
 // current user in db if found
@@ -23,6 +24,7 @@ router.use('/lobbygreetings', lobbyGreetingRouter);
 router.use('/questTypes', questTypeRouter);
 router.use('/monsters', monsterRouter);
 router.use('/lobbymessages', lobbyMessageRouter);
+router.use('/lobbymembers', lobbyMemberRouter);
 // test route
 // router.get('/set-token-cookie', async(_req, res) => {
 //     const user = await User.findOne({
