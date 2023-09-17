@@ -23,12 +23,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    const monsterNames = monsters.map(m => m.name);
-    const [Op] = Sequelize.Op;
+    // const monsterNames = monsters.map(m => m.name);
+    const Op = Sequelize.Op;
     await queryInterface.bulkDelete('monsters', {
-      name: {
-        [Op.in]: monsterNames
-      }
+      [Op.or]: monsters
     });
   }
 };

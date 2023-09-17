@@ -29,7 +29,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'questTypes';
-    await queryInterface.bulkDelete(options);
+    await queryInterface.bulkDelete('questTypes');
   }
 };

@@ -17,6 +17,7 @@ module.exports = {
     const allUsers = await User.findAll();
     for(let i = 0; i <= allUsers.length; i++) {
       if(allUsers[i]) {
+        console.log(allUsers[i]);
         allUsers[i].favWeaponId = i + 1;
         await allUsers[i].save();
       }
@@ -31,7 +32,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const allUsers = await User.findAll();
-    for(let i = 1; i <= allUsers.length; i++) {
+    for(let i = 0; i < allUsers.length; i++) {
       allUsers[i].favWeaponId = null;
       await allUsers[i].save();
     }
