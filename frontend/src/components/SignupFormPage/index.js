@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { signup } from '../../store/session';
 import { useHistory, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import OpenModalButton from '../OpenModalButton';
+import LoginFormModal from '../LoginFormModal';
 
 function SignupFormPage() {
     const currentUser = useSelector(state => state.session.user);
@@ -55,7 +57,7 @@ function SignupFormPage() {
         return <Redirect to="/" />
     }
 
-    return (
+    return (<>
         <form onSubmit={handleSubmit}>
             <input
                 type='text'
@@ -95,7 +97,13 @@ function SignupFormPage() {
 
             <button> Sign Up </button>
         </form>
-    );
+
+        <p>Already have an account?</p>
+        <OpenModalButton
+            buttonText="Sign In"
+            modalComponent={<LoginFormModal />}
+        />
+    </>);
 }
 
 export default SignupFormPage;

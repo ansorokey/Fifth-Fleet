@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
+import LandingPage from './components/LandingPage';
+import Guilds from './components/Guilds';
+import Lobbies from './components/Lobbies';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -33,8 +36,16 @@ function App() {
         <SignupFormPage />
       </Route>
 
+      <Route path="/guilds">
+        <Guilds />
+      </Route>
+
+      <Route path="/lobbies">
+        <Lobbies />
+      </Route>
+
       <Route exact path="/">
-        <h1>Hello from Homepage</h1>
+        <LandingPage />
       </Route>
     </Switch></> : <h1> Loading...</h1>}
   </>);

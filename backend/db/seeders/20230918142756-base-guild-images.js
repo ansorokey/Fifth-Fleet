@@ -1,23 +1,22 @@
 'use strict';
 
-const data = [
+const data =  [
   {
-    name: 'BONKERS',
-    hostId: '1',
-    about: 'Inspired by the actions of our ancestors, we believe that all problems in life should be solved by smackng it with the biggest stick one can get their strong, neanderthal hands on',
-    greetingId: '10'
+    userId: 1,
+    guildId: 1,
+    imageUrl: 'https://steamuserimages-a.akamaihd.net/ugc/793136464417352375/0A7299136CA7975C8A541F2FC8858CB86631BD29/?imw=1024&imh=576&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'
   },
   {
-    name: 'Katana Clan',
-    hostId: '2',
-    about: 'The way of the blade is the only way. Slice and dice. Embrace your inner samurai, gaijin-san',
-    greetingId: '15'
+    userId: 1,
+    guildId: 1,
+    imageUrl: 'https://assets.vg247.com/current//2018/07/monster_hunter_world_summer_twilight_festival-7-600x338.jpg'
   },
   {
-    name: 'Just testing, no about',
-    hostId: '3'
+    userId: 1,
+    guildId: 1,
+    imageUrl: 'https://pbs.twimg.com/media/DVj54lyU0AAAAX6.jpg'
   }
-];
+ ];
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -31,7 +30,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Guilds', data);
+   await queryInterface.bulkInsert('GuildPhotos', data)
   },
 
   async down (queryInterface, Sequelize) {
@@ -42,7 +41,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('Guilds', {
+    await queryInterface.bulkDelete({
       [Op.or]: data
     })
   }

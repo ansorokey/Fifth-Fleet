@@ -13,6 +13,7 @@ const lobbyMemberRouter = require('./lobbymembers');
 const guildRouter = require('./guilds');
 const guildMessagesRouter = require('./guildmessages');
 const guildMemberRouter = require('./guildmembers');
+const guildPhotoRouter = require('./guildphotos');
 
 // Adds the current user to the request and passes it on
 // current user in db if found
@@ -31,6 +32,7 @@ router.use('/lobbymembers', lobbyMemberRouter);
 router.use('/guilds', guildRouter);
 router.use('/guild-chat', guildMessagesRouter);
 router.use('/guildmembers', guildMemberRouter);
+router.use('/guildphotos', guildPhotoRouter);
 // test route
 // router.get('/set-token-cookie', async(_req, res) => {
 //     const user = await User.findOne({
