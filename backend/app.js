@@ -22,6 +22,7 @@ app.use(morgan('dev'));
 
 // Middleware for cookies and parsing JSON requst bodies
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false })); // line to use AWS
 app.use(express.json());
 
 // Only use CORS in dev since everything comes

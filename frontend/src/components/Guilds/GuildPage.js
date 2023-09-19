@@ -48,7 +48,7 @@ function GuildPage() {
 
                 <OpenModalButton
                     buttonText='Add Photo'
-                    modalComponent={<AddGuildPhotoForm />}
+                    modalComponent={<AddGuildPhotoForm guildId={guildId} />}
                 />
             </>
             :

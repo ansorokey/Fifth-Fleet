@@ -13,7 +13,12 @@ export async function csrfFetch(url, options = {}) {
     // when the method is not a sinmple get, we need headers
     if (options.method.toUpperCase() !== 'GET') {
         // set the content type to provided or default to application json
-        options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+        // below is original version
+        // options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+        // new version for use with formData to upload through AWS
+        if (!options.headers["Content-Type"] && !(options.body instanceof FormData)) {
+            options.headers["Content-Type"] = "application/json";
+        }
 
         // Grabs the value of the xsrf token
         options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');

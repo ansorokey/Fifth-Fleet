@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { uploadPhoto } from "../../store/guilds";
 
-function AddGuildPhotoForm() {
+function AddGuildPhotoForm({guildId}) {
     const [imageUrl, setImageUrl] = useState(null);
-    const [imageCaption, setImageCaption] = useState(null);
+    const [image, setImage] = useState(null);
+    const [caption, setCaption] = useState(null);
     const [valErrs, setValErrs] = useState({});
+
+    const dispatch = useDispatch();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -17,7 +22,7 @@ function AddGuildPhotoForm() {
             tempErrs.fileType = 'Submitted photo must end in \'.png\', \'.jpg\', or \'.jpeg\''
         }
 
-        if (imageCaption && imageCaption.length > 255) {
+        if (caption && caption.length > 255) {
             tempErrs.caption = 'max character limit exceeded (255)';
         }
 
@@ -26,6 +31,13 @@ function AddGuildPhotoForm() {
             return;
         }
 
+        const data = {
+            guildId,
+            image,
+            caption
+        }
+
+        dispatch(uploadPhoto(data));
     }
 
     return (<>
@@ -34,7 +46,9 @@ function AddGuildPhotoForm() {
                 required
                 type="file"
                 accept="image/png, image/jpg, image/jpeg"
+                // multiple
                 onChange={(e) => {
+                    setImage(e.target.files[0]);
                     setImageUrl(e.target.value);
                     setValErrs(prev => {
                         delete prev.fileType;
@@ -47,7 +61,7 @@ function AddGuildPhotoForm() {
             <textarea
                 placeholder="Enter a caption here..."
                 maxLength="255"
-                onChange={(e) => setImageCaption(e.target.value)}
+                onChange={(e) => setCaption(e.target.value)}
             />
             {valErrs && valErrs.caption}
 

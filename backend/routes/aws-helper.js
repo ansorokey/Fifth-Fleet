@@ -73,10 +73,11 @@ async function tryThis() {
     const input = {
         Body: 'Hello World',
         Bucket: 'fifth-fleet-photos',
-        Key: 'my-file.txt'
+        Key: 'test-response.txt'
     }
     const command = new PutObjectCommand(input);
     const response = await client.send(command);
+    console.log(response);
 }
 
 tryThis();
