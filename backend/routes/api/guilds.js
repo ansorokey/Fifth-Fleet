@@ -1,5 +1,5 @@
 const express = require('express');
-const { Guild, User, GuildMember, sequelize } = require('../../db/models');
+const { Guild, User, Greeting, GuildPhoto } = require('../../db/models');
 
 const router = express.Router();
 
@@ -18,15 +18,15 @@ router.get('/:guildId', async (req, res) => {
                 through: {
                     attributes: []
                 }
+            },
+            {
+                model: Greeting
+            },{
+                model: GuildPhoto,
+                as: 'Photos'
             }
         ]
     });
-
-    // const numMembers = await GuildMember.count({
-    //     where: {
-    //         guildId
-    //     }
-    // });
 
     // convert to a json object for simple adding of association count
     const jsonGuild = guild.toJSON();
@@ -51,6 +51,9 @@ router.get('/', async (req, res) => {
                 through: {
                     attributes: []
                 }
+            },
+            {
+                model: Greeting
             }
         ]
     });

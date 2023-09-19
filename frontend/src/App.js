@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
 import Guilds from './components/Guilds';
 import Lobbies from './components/Lobbies';
+import GuildPage from './components/Guilds/GuildPage';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,6 +35,10 @@ function App() {
 
       <Route exact path="/signup">
         <SignupFormPage />
+      </Route>
+
+      <Route path="/guilds/:guildId">
+        <GuildPage />
       </Route>
 
       <Route path="/guilds">
