@@ -21,9 +21,10 @@ export function setSingleGuild(guild) {
 }
 
 // reducer action: add a new photo to the guild's photos
-export function addPhoto(image) {
+export function addPhoto(guildId, image) {
     return {
         type: ADD_PHOTO,
+        guildId: +guildId,
         image
     }
 };
@@ -36,8 +37,7 @@ export function loadGuilds() {
 
             if (response.ok) {
                 const res = await response.json();
-                console.log(res.guilds);
-                // dispatch(addGuilds(res.guilds));
+                dispatch(addGuilds(res.guilds));
             }
         } catch (e) {
             // catch error
@@ -66,18 +66,36 @@ export function loadGuild(guildId) {
 // thunk action: upload a photo
 export function uploadPhoto(data) {
     return async function(dispatch) {
-        const { guildId, image } = data;
+        const { guildId, image, caption } = data;
         const formData = new FormData();
+
         formData.append('guildId', guildId);
         formData.append('image', image);
+        formData.append('caption', caption);
         const response = await csrfFetch(`/api/guilds/${data.guildId}/photos`, {
             method: 'POST',
             body: formData
         });
 
         if(response.ok){
-            const res = await response.JSON();
-            console.log()
+            const res = await response.json();
+            dispatch(addPhoto(guildId, res.image));
+        }
+    }
+}
+
+// thunk action: create a new guild
+export function createGuild(data) {
+    return async function(dispatch) {
+        const response = await csrfFetch('/api/guilds', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const res = await response.json();
+            dispatch(setSingleGuild(res.guild));
+            return res.guild.id;
         }
     }
 }
@@ -85,6 +103,7 @@ export function uploadPhoto(data) {
 function reducer(state = {}, action) {
     let newState = {};
     switch (action.type) {
+
         case ADD_GUILDS:
             action.guilds.forEach( g => {
                 newState[g.id] = g;
@@ -94,6 +113,11 @@ function reducer(state = {}, action) {
         case SET_GUILD:
             newState = {...state};
             newState[action.guild.id] = action.guild;
+            return newState;
+
+        case ADD_PHOTO:
+            newState = {...state};
+            newState[+action.guildId].Photos.push(action.image);
             return newState;
 
         default:

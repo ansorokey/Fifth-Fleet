@@ -53,9 +53,9 @@ function SignupFormPage() {
         history.push('/');
     }
 
-    if (currentUser) {
-        return <Redirect to="/" />
-    }
+    // if (currentUser) {
+    //     return <Redirect to="/" />
+    // }
 
     return (<>
         <form onSubmit={handleSubmit}>

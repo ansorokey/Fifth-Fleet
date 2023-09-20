@@ -25,25 +25,20 @@ function GuildPage() {
         setIsLoaded(true);
     }, []);
 
-    async function uploadPhoto(e) {
-        e.preventDefault();
-    }
-
     return (<>
         {isLoaded && guild ?
             <>
-                {/* <h1>This is the guild details page</h1> */}
                 <h1>{guild?.name}</h1>
                 <h2>Created by {guild?.Host?.username}</h2>
                 <p><em>{guild?.Greeting?.message}</em></p>
                 <p>{guild?.about}</p>
                 <h2> Turn this into a carousel, also normalize image size</h2>
                 <h3>Also also, make it so they can be clcked on for full size and caption</h3>
-                {guild?.Photos.map(p => {
-                    return (<>
+                {guild?.Photos?.map(p => {
+                    return (<div key={'img+cap' + p.id}>
                         <img src={p?.imageUrl}/>
                         <p>{p?.caption}</p>
-                    </>);
+                    </div>);
                 })}
 
                 <OpenModalButton

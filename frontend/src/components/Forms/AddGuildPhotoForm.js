@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { uploadPhoto } from "../../store/guilds";
+import { useModal } from "../../context/Modal";
 
 function AddGuildPhotoForm({guildId}) {
     const [imageUrl, setImageUrl] = useState(null);
     const [image, setImage] = useState(null);
     const [caption, setCaption] = useState(null);
     const [valErrs, setValErrs] = useState({});
+    const { closeModal } = useModal();
 
     const dispatch = useDispatch();
 
@@ -38,6 +40,7 @@ function AddGuildPhotoForm({guildId}) {
         }
 
         dispatch(uploadPhoto(data));
+        closeModal();
     }
 
     return (<>

@@ -50,7 +50,7 @@ function App() {
       </Route>
 
       <Route exact path="/">
-        <LandingPage />
+        <LandingPage user={currentUser}/>
       </Route>
     </Switch></> : <h1> Loading...</h1>}
   </>);

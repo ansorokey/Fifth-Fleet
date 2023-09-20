@@ -2,7 +2,7 @@ const express = require('express');
 const { Guild, User, Greeting, GuildPhoto } = require('../../db/models');
 const { singleFileUpload, singleMulterUpload } = require('../../awsS3');
 const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
-// import { requireAuth } from '../../utils/auth';
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -28,13 +28,15 @@ router.post('/:guildId/photos',  singleMulterUpload("image"), async (req, res) =
     null;
 
     const newPhoto = await GuildPhoto.create({
-        guildId,
+        guildId: +guildId,
         userId,
         imageUrl,
         caption
     });
 
-    console.log(newPhoto);
+    return res.json({
+        image: newPhoto
+    });
 });
 
 // Gret guild images
@@ -114,5 +116,19 @@ router.get('/', async (req, res) => {
         guilds: guildsJson
     });
 });
+
+// Create a guild
+router.post('/', requireAuth, async (req, res) => {
+    const { name, about, greetingId } = req.body;
+    const hostId = req.user.id;
+
+    const newGuild = await Guild.create({
+        hostId, name, about, greetingId
+    });
+
+    return res.json({
+        guild: newGuild
+    });
+})
 
 module.exports = router;

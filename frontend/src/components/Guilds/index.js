@@ -2,6 +2,8 @@ import './Guilds.css';
 import { useEffect } from 'react';
 import { loadGuilds } from '../../store/guilds';
 import { useDispatch, useSelector } from 'react-redux';
+import OpenModalButton from '../OpenModalButton';
+import CreateGuildForm from '../Forms/CreateGuildForm';
 
 function Guilds() {
 
@@ -24,6 +26,10 @@ function Guilds() {
          </div>)
         })}
         <h2> And a link to create a guild </h2>
+        <OpenModalButton
+            buttonText='Start a new guild'
+            modalComponent={<CreateGuildForm />}
+        />
         <h2> And a link to browse guilds </h2>
      </>);
 };
