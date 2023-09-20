@@ -9,6 +9,7 @@ import LandingPage from './components/LandingPage';
 import Guilds from './components/Guilds';
 import Lobbies from './components/Lobbies';
 import GuildPage from './components/Guilds/GuildPage';
+import LobbyPage from './components/Lobbies/LobbyPage';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,6 +30,14 @@ function App() {
     <Navigation isLoaded={isLoaded} currentUser={currentUser}/>
     {isLoaded ? <>
     <Switch>
+      <Route path="/guilds/:guildId">
+        <GuildPage />
+      </Route>
+
+      <Route path="/lobbies/:lobbyId">
+        <LobbyPage />
+      </Route>
+
       <Route exact path="/login">
         <LoginFormPage />
       </Route>
@@ -37,9 +46,6 @@ function App() {
         <SignupFormPage />
       </Route>
 
-      <Route path="/guilds/:guildId">
-        <GuildPage />
-      </Route>
 
       <Route path="/guilds">
         <Guilds />

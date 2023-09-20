@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
+import { useDispatch } from 'react-redux';
+import { createLobby } from "../../store/lobbies";
 
 function CreateLobbyForm() {
     const [greetings, setGreetings] = useState([]);
@@ -12,6 +14,8 @@ function CreateLobbyForm() {
     const [rankPref, setRankPref] = useState('');
     const [targetMonster, setTargetMonster] = useState(0);
     const [monsters, setMonsters] = useState([]);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function getMessages() {
@@ -46,14 +50,14 @@ function CreateLobbyForm() {
         e.preventDefault();
 
         const data = {
-            messageId: greeting,
+            messageId: +greeting,
         }
 
         if (questType) data.questTypeId = +questType;
         if (rankPref) data.rankPreference = rankPref;
-        if (targetMonster) data.targetMonsterId = targetMonster;
+        if (targetMonster) data.targetMonsterId = +targetMonster;
 
-        console.log(data);
+        dispatch(createLobby(data));
     }
 
     if (!filteredGreetings) {
@@ -155,6 +159,7 @@ function CreateLobbyForm() {
             <label>
                 Target Monster
                 <select value={targetMonster} onChange={e => setTargetMonster(e.target.value)}>
+                    <option value={0}>None</option>
                     {monsters?.map(m => {
                         return <option key={m.name} value={m.id}>
                             {m.name}

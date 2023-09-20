@@ -18,10 +18,10 @@ function Lobbies() {
         <h1>Return a list of lobbies</h1>
         {lobbiesArr.map( l => {
             return (<div key={l.id}>
-                <p>{l.Host.username}</p>
-                <p>{l.Monster.name}</p>
-                <p>{l.QuestType.type}</p>
-                <p>{l.Greeting.message}</p>
+                <p>{l?.Host?.username}</p>
+                <p>{l?.Monster?.name}</p>
+                <p>{l?.QuestType?.type}</p>
+                <p>{l?.Greeting?.message}</p>
             </div>);
         })}
         <h2> And a button to browse lobbies </h2>
