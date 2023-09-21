@@ -1,0 +1,15 @@
+.msg-prof-pic {
+    background-color: black;
+    border-radius: 100%;
+    height: 16px;
+    width: 16px;
+}
+
+.myMsg {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.otherMsg {
+    display: flex;
+}

@@ -6,12 +6,14 @@ import { useState } from "react";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import OpenModalButton from "../OpenModalButton";
 import AddGuildPhotoForm from "../Forms/AddGuildPhotoForm";
+import Chat from "../Chat";
 
 function GuildPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const {guildId} = useParams();
     const dispatch = useDispatch();
     const guild = useSelector(state => state.guilds[guildId]);
+    const user = useSelector(state => state.session.user);
 
     useEffect(() => {
         async function init(){
@@ -45,6 +47,8 @@ function GuildPage() {
                     buttonText='Add Photo'
                     modalComponent={<AddGuildPhotoForm guildId={guildId} />}
                 />
+
+                <Chat user={user}/>
             </>
             :
             <h1>Loading...</h1>

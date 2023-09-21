@@ -6,6 +6,13 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
+const path = require('path');
+const { GuildMessage } = require('./db/models/guildmessage');
+// WS
+const WebSocket = require('ws');
+
+// the websocket port will listen to a different port
+const port = 5000;
 
 // Routers
 const indexRouter = require('./routes');
@@ -19,6 +26,63 @@ const app = express();
 
 // Middleware for logging info about request and response
 app.use(morgan('dev'));
+
+// WS
+// returns the matchig static file
+// app.use(express.static(path.join(__dirname, '../frontend/public')));
+
+// WS
+// returns the index if the static file isnt found
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/public', 'index.html'));
+// });
+
+// WS
+// create a server for websockets
+const server = createServer(app);
+
+// WS
+const wss = new WebSocket.Server({server});
+
+// WS
+wss.on('connection', (ws) => {
+  // message recieved
+  ws.on('message', (jsonMsg) => {
+    const parsed = JSON.parse(jsonMsg);
+    console.log('incoming message', parsed);
+
+    const {data} = parsed;
+
+    const addChatMessage = {
+      type:  'add-chat-message',
+      data
+    };
+
+    const jsonAddChatMessage = JSON.stringify(addChatMessage);
+    console.log('back into json', jsonAddChatMessage);
+
+    // const newMessage = GuildMessage.create({
+
+    // });
+
+    wss.clients.forEach(client => {
+      // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(jsonAddChatMessage);
+      }
+    })
+
+
+  });
+
+  // close recieved
+  ws.on('close', (e) => {
+    console.log(e);
+  });
+});
+
+// WS
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Middleware for cookies and parsing JSON requst bodies
 app.use(cookieParser());
