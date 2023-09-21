@@ -1,5 +1,11 @@
 'use strict';
 
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'LobbyMessages';
+
 const convo1 = [
   {
     senderId: 2,
@@ -78,8 +84,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('LobbyMessages', convo1);
-   await queryInterface.bulkInsert('LobbyMessages', convo2);
+   await queryInterface.bulkInsert(options, convo1);
+   await queryInterface.bulkInsert(options, convo2);
 
   },
 
@@ -91,7 +97,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('LobbyMessages', {
+    await queryInterface.bulkDelete(options, {
       [Op.or]: convo1
     })
   }

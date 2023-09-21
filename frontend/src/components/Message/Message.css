@@ -5,11 +5,15 @@
     width: 16px;
 }
 
+.msg {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
 .myMsg {
     display: flex;
     flex-direction: row-reverse;
-}
-
-.otherMsg {
-    display: flex;
+    align-items: center;
+    gap: 1em;
 }

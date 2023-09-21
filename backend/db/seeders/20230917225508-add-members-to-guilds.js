@@ -1,6 +1,11 @@
 'use strict';
 
-const { query } = require('express');
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'Guildmembers';
+
 
 const data = [
   {
@@ -41,7 +46,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Guildmembers', data);
+   await queryInterface.bulkInsert(options, data);
   },
 
   async down (queryInterface, Sequelize) {
@@ -52,7 +57,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('Guildmembers', {
+    await queryInterface.bulkDelete(options, {
       [Op.or]: data
     });
   }

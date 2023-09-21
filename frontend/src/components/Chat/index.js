@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Message from "../Message";
+import ChatLog from "./ChatLog";
 
 function Chat({user}) {
     const [msg, setMsg] = useState('');
@@ -14,23 +15,25 @@ function Chat({user}) {
 
         // websocket actions
         ws.onopen = function(e) {
-
+            setMessages([]);
         }
 
-        ws.onmessage = function(e){
-            const incomingMsg = JSON.parse(e.data).data;
-            console.log(incomingMsg);
+        // ws.onmessage = function(e){
+        //     const incomingMsg = JSON.parse(e.data).data;
+        //     console.log(incomingMsg);
 
-            setMessages(prev => [...prev, incomingMsg]);
-            console.log(messages);
-        }
+        //     setMessages([...messages, incomingMsg]);
+        //     console.log(messages);
+        // }
 
         ws.onclose = function(e) {
-
+            console.log('Connection closed');
+            webSocket.current = null;
+            setMessages([]);
         }
 
         ws.onerror = function(e) {
-
+            console.error(e);
         }
 
         // cleanup function runs before useEffect runs
@@ -40,6 +43,18 @@ function Chat({user}) {
             }
         }
     }, [user]);
+
+    useEffect(() => {
+        if (webSocket.current !== null) {
+            webSocket.current.onmessage = function(e){
+                const incomingMsg = JSON.parse(e.data).data;
+                console.log(incomingMsg);
+
+                setMessages([...messages, incomingMsg]);
+                console.log(messages);
+            }
+        }
+    }, [messages]);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -56,14 +71,14 @@ function Chat({user}) {
 
         console.log('sending message', jsonMsg);
 
-        webSocket.current.send(jsonMsg)
+        webSocket.current.send(jsonMsg);
+
+        setMsg('');
     }
 
     return (<>
-        <h1> I am a chat room</h1>
-        {messages && messages.map(m => {
-            return <Message curUser={user} username={m.username} content={m.msg} />
-        })}
+
+        <ChatLog user={user} messages={messages} />
 
         <form onSubmit={handleSubmit}>
             <input

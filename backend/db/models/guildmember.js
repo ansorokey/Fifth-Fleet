@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Users',
         key: 'id'
-      }
+      },
+      onDelete: "CASCADE"
     },
     guildId: {
       type: DataTypes.INTEGER,
@@ -28,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Guilds',
         key: 'id'
-      }
+      },
+      onDelete: "CASCADE"
     },
   }, {
     sequelize,

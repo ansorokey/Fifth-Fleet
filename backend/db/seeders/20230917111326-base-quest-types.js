@@ -1,5 +1,11 @@
 'use strict';
 
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'QuestTypes';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -12,7 +18,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('questTypes', [
+   await queryInterface.bulkInsert(options, [
     { type:'Assignment' },
     { type:'Event' },
     { type:'Optional' },
@@ -29,6 +35,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('questTypes');
+    await queryInterface.bulkDelete(options);
   }
 };

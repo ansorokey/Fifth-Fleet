@@ -3,9 +3,12 @@ import './Message.css';
 function Message({curUser, username, content}) {
     const myMsg = curUser.username === username;
 
-    return (<div className={`${myMsg ? 'myMsg' : 'otherMsg'}`}>
+    return (<div className={`msg ${myMsg ? 'myMsg' : 'otherMsg'}`}>
         <div className={`msg-prof-pic`}></div>
-        <p>{content}</p>
+        <div className='username-and-content'>
+            <div>{username}</div>
+            <p>{content}</p>
+        </div>
     </div>);
 }
 

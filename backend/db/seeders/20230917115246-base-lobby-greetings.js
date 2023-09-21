@@ -2,6 +2,12 @@
 
 const greetings = require('../../utils/greetings');
 
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'Greetings';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -14,7 +20,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('greetings', greetings);
+    await queryInterface.bulkInsert(options, greetings);
   },
 
   async down (queryInterface, Sequelize) {
@@ -27,7 +33,7 @@ module.exports = {
     const delMessages = greetings.map(g => g.message);
 
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('greetings', {
+    await queryInterface.bulkDelete(options, {
       message: {
         [Op.in]: delMessages
       }

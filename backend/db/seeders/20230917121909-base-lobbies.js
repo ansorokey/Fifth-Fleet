@@ -1,30 +1,33 @@
 'use strict';
 
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'Lobbies';
+
 const data = [
   {
-    hostId: '1',
-    messageId: '1',
-    questTypeId: '1',
+    hostId: 1,
+    messageId: 1,
+    questTypeId: 1,
     rankPreference: 'low',
-    targetMonsterId: '1'
+    targetMonsterId: 1
   },
   {
-    hostId: '2',
-    messageId: '2',
-    questTypeId: '2',
+    hostId: 2,
+    messageId: 2,
+    questTypeId: 2,
     rankPreference: 'high',
-    targetMonsterId: '2'
+    targetMonsterId: 2
   },
   {
-    hostId: '3',
-    messageId: '3',
-    questTypeId: '3',
+    hostId: 3,
+    messageId: 3,
+    questTypeId: 3,
     rankPreference: 'master',
-    targetMonsterId: '3'
-  },
-  // {
-  //   hostId: '1',
-  // }
+    targetMonsterId: 3
+  }
 ]
 
 /** @type {import('sequelize-cli').Migration} */
@@ -39,7 +42,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Lobbies', data);
+   await queryInterface.bulkInsert(options, data);
   },
 
   async down (queryInterface, Sequelize) {
@@ -50,8 +53,8 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('lobbies', {
+    await queryInterface.bulkDelete(options, {
       [Op.or]: data
-    })
+    });
   }
 };

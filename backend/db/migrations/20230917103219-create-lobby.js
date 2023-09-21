@@ -1,4 +1,10 @@
 'use strict';
+
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -15,7 +21,8 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: "CASCADE"
       },
       messageId: {
         type: Sequelize.INTEGER,
@@ -52,9 +59,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Lobbies');
+    options.tableName = 'Lobbies'
+    await queryInterface.dropTable(options);
   }
 };

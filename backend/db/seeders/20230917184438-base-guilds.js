@@ -1,21 +1,27 @@
 'use strict';
 
+let options = {};
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+options.tableName = 'Guilds';
+
 const data = [
   {
     name: 'BONKERS',
-    hostId: '1',
+    hostId: 1,
     about: 'Inspired by the actions of our ancestors, we believe that all problems in life should be solved by smackng it with the biggest stick one can get their strong, neanderthal hands on',
-    greetingId: '10'
+    greetingId: 10
   },
   {
     name: 'Katana Clan',
-    hostId: '2',
+    hostId: 2,
     about: 'The way of the blade is the only way. Slice and dice. Embrace your inner samurai, gaijin-san',
-    greetingId: '15'
+    greetingId: 15
   },
   {
     name: 'Just testing, no about',
-    hostId: '3'
+    hostId: 3
   }
 ];
 
@@ -31,7 +37,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Guilds', data);
+   await queryInterface.bulkInsert(options, data);
   },
 
   async down (queryInterface, Sequelize) {
@@ -42,7 +48,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    await queryInterface.bulkDelete('Guilds', {
+    await queryInterface.bulkDelete(options, {
       [Op.or]: data
     })
   }

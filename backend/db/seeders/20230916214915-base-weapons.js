@@ -5,6 +5,7 @@ let options = {};
 if(process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
+options.tableName = 'Weapons';
 
 const data = [
   {
@@ -87,8 +88,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-
-    options.tableName = 'Weapons'
     await queryInterface.bulkDelete(options);
   }
 };

@@ -7,7 +7,8 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
 const path = require('path');
-const { GuildMessage } = require('./db/models/guildmessage');
+const { createServer } = require('http');
+// import guildmessage
 // WS
 const WebSocket = require('ws');
 
@@ -60,10 +61,6 @@ wss.on('connection', (ws) => {
 
     const jsonAddChatMessage = JSON.stringify(addChatMessage);
     console.log('back into json', jsonAddChatMessage);
-
-    // const newMessage = GuildMessage.create({
-
-    // });
 
     wss.clients.forEach(client => {
       // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
