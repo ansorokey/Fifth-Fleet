@@ -1,9 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
+import guildsReducer from './guilds';
+import lobbyReducer from './lobbies';
 
 const rootReducer = combineReducers({
-  session: sessionReducer
+  session: sessionReducer,
+  guilds: guildsReducer,
+  lobbies: lobbyReducer
 });
 
 // declare an enhancer that will have

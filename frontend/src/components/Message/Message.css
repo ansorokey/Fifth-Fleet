@@ -1,0 +1,19 @@
+.msg-prof-pic {
+    background-color: black;
+    border-radius: 100%;
+    height: 16px;
+    width: 16px;
+}
+
+.msg {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.myMsg {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 1em;
+}

@@ -30,6 +30,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      favWeaponId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Weapons',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -7,6 +7,7 @@ let options = {};
 if(process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
+options.tableName = 'Users';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -36,9 +37,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tablename = 'Users';
     const Op = Sequelize.Op;
-    return await queryInterface.bulkDelete({
+    return await queryInterface.bulkDelete(options, {
       username: {
         [Op.in]: ['aiden']
       }
