@@ -16,8 +16,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       category: {
-        type: Sequelize.ENUM,
-        values: ['Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Playstyle']
+        type: Sequelize.ENUM({
+          values: ['Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Playstyle']
+        }),
       },
       message: {
         type: Sequelize.STRING
