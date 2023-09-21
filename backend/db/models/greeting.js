@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Greeting.init({
     category: {
-      type: DataTypes.ENUM,
-      values: ['Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Play Style']
+      type: DataTypes.ENUM('Quests and Expeditions', 'Locale', 'Weapons and Armor', 'Rank', 'Playstyle'),
     },
     message: {
       type: DataTypes.STRING
