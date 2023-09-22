@@ -16,6 +16,7 @@ function Chat({user}) {
         // websocket actions
         ws.onopen = function(e) {
             setMessages([]);
+            console.log('connection secured');
         }
 
         // ws.onmessage = function(e){

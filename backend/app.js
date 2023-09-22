@@ -44,6 +44,7 @@ const server = createServer(app);
 
 // WS
 const wss = new WebSocket.Server({server});
+// const wss = new WebSocket.Server({port});
 
 // WS
 wss.on('connection', (ws) => {
@@ -79,7 +80,7 @@ wss.on('connection', (ws) => {
 });
 
 // WS
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`WS listening for messages on ${port}`));
 
 // Middleware for cookies and parsing JSON requst bodies
 app.use(cookieParser());
