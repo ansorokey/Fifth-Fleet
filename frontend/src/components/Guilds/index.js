@@ -6,26 +6,27 @@ import OpenModalButton from '../OpenModalButton';
 import CreateGuildForm from '../Forms/CreateGuildForm';
 
 function Guilds() {
-
    const dispatch = useDispatch();
    const guildsState = useSelector(state => state.guilds);
    const guildsArray = Object.values(guildsState);
 
    useEffect(() => {
-      dispatch(loadGuilds());
+      async function init(){
+         dispatch(loadGuilds());
+      }
+
+      init();
    }, []);
 
      return (<>
-        <h1> Return a list of guilds here </h1>
         {guildsArray && guildsArray.map(g => {
-         return (<div key={'guildItem#' + g.id}>
+         return (<div key={'guildItem#' + g?.id}>
             <p>{g?.name}</p>
             <p>{g?.Host?.username}</p>
             <p>{g?.Greeting?.message}</p>
             {/* <p>{g?.about}</p> */}
          </div>)
         })}
-        <h2> And a link to create a guild </h2>
         <OpenModalButton
             buttonText='Start a new guild'
             modalComponent={<CreateGuildForm />}

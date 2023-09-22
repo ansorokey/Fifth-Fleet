@@ -55,14 +55,6 @@ function GuildPage() {
         }
     </>);
 
-    // if(!isLoaded) {
-    //     return ();
-    // }
-
-    // if(guild) {
-    //     return ();
-    // }
-
 };
 
 export default GuildPage;
