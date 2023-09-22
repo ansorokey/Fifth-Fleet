@@ -16,7 +16,7 @@ function Chat({user}) {
         // websocket actions
         ws.onopen = function(e) {
             setMessages([]);
-            console.log('connection secured');
+            console.log('connection established');
         }
 
         // ws.onmessage = function(e){
@@ -28,12 +28,13 @@ function Chat({user}) {
         // }
 
         ws.onclose = function(e) {
-            console.log('Connection closed');
+            console.log('client side connection closed');
             webSocket.current = null;
             setMessages([]);
         }
 
         ws.onerror = function(e) {
+            console.log('client side connection error')
             console.error(e);
         }
 

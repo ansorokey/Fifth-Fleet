@@ -13,7 +13,7 @@ const { createServer } = require('http');
 const WebSocket = require('ws');
 
 // the websocket port will listen to a different port
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Routers
 const indexRouter = require('./routes');
@@ -75,6 +75,7 @@ wss.on('connection', (ws) => {
 
   // close recieved
   ws.on('close', (e) => {
+    console.log('server side connection closed')
     console.log(e);
   });
 });
