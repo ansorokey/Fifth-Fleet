@@ -45,6 +45,22 @@ export function loadGuilds() {
     }
 }
 
+// thunk action: query the latest guilds
+export function latestGuilds() {
+    return async function(dispatch) {
+        try{
+            const response = await csrfFetch('/api/guilds?order');
+
+            if (response.ok) {
+                const res = await response.json();
+                dispatch(addGuilds(res.guilds));
+            }
+        } catch (e) {
+            // catch error
+        }
+    }
+}
+
 // thunk action: fetch a single guild by id
 export function loadGuild(guildId) {
     return async function(dispatch) {
@@ -56,9 +72,8 @@ export function loadGuild(guildId) {
                 dispatch(setSingleGuild(res.guild));
             }
         } catch (e) {
-            const res = await e.json();
+            const res = await e;
             return res;
-            // console.log(res);
         }
     }
 }
@@ -100,24 +115,28 @@ export function createGuild(data) {
     }
 }
 
-function reducer(state = {}, action) {
-    let newState = {};
+let initialState = {arr: [], guildPhotos: {}}
+function reducer(state = initialState, action) {
+    let newState = initialState;
     switch (action.type) {
 
         case ADD_GUILDS:
             action.guilds.forEach( g => {
-                newState[g.id] = g;
+                newState[+g.id] = g;
             });
+            newState.arr = action.guilds;
             return newState;
 
         case SET_GUILD:
             newState = {...state};
             newState[action.guild.id] = action.guild;
+            newState.guildPhotos[action.guild.id] = action.guild.Photos;
+            newState.arr.push(action.guild);
             return newState;
 
         case ADD_PHOTO:
             newState = {...state};
-            newState[+action.guildId].Photos.push(action.image);
+            newState.guildPhotos[+action.guildId] = [...newState.guildPhotos[+action.guildId], action.image];
             return newState;
 
         default:

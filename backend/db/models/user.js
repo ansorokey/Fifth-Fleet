@@ -3,6 +3,8 @@ const {
   Model, Validator
 } = require('sequelize');
 
+// const {Weapon} = require('./weapon');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsTo(models.Weapon, { foreignKey: 'favWeaponId'});
+      User.belongsTo(models.Weapon, {as: 'Weapon', foreignKey: 'favWeaponId'});
       User.belongsToMany(models.Lobby, { through: 'LobbyMembers', foreignKey: 'userId', otherKey: 'lobbyId'});
       User.belongsToMany(models.Guild, { through: 'GuildMembers', foreignKey: 'userId', otherKey: 'guildId'});
     }
@@ -60,6 +62,9 @@ module.exports = (sequelize, DataTypes) => {
     defaultScope: {
       attributes: {
         exclude: ['hashedPassword', 'createdAt', 'updatedAt']
+      },
+      include: {
+        association: 'Weapon'
       }
     }
   });

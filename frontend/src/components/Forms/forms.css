@@ -1,0 +1,9 @@
+#lobby-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.greeting-categories {
+    display: flex;
+    flex-direction: column;
+}

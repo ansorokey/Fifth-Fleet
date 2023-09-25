@@ -60,12 +60,7 @@ router.post('/', validateSignup, async (req, res, next) => {
 // retrieve all users
 router.get('/', async (req, res) => {
 
-    const allUsers = await User.findAll({
-        include: {
-            model: Weapon
-        }
-
-    });
+    const allUsers = await User.findAll();
 
     res.json({
         users: allUsers

@@ -63,7 +63,18 @@ function LoginFormModal() {
                 <p>{valErrors?.password}</p>
 
                 <button> Log In </button>
+
             </form>
+
+            <button onClick={(e) => {
+                // e.preventDefault();
+                // setCredential('demouser');
+                // setPassword('password');
+                // handleSubmit(e);
+                dispatch(logIn({credential: 'demouser', password: 'password'}));
+                closeModal();
+            }}> Sign In As Demo User</button>
+
         </>
     );
 }

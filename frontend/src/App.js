@@ -10,6 +10,7 @@ import Guilds from './components/Guilds';
 import Lobbies from './components/Lobbies';
 import GuildPage from './components/Guilds/GuildPage';
 import LobbyPage from './components/Lobbies/LobbyPage';
+import { loadMonsters, loadGreetings, loadQuestTypes } from './store/utils';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,6 +20,9 @@ function App() {
   useEffect(() => {
     async function init() {
       await dispatch(restoreUser());
+      await dispatch(loadMonsters());
+      await dispatch(loadGreetings());
+      await dispatch(loadQuestTypes());
       setIsLoaded(true);
     }
 
@@ -53,6 +57,10 @@ function App() {
 
       <Route path="/lobbies">
         <Lobbies />
+      </Route>
+
+      <Route path="/lost">
+        <h1>The requested resource couldn't be found...</h1>
       </Route>
 
       <Route exact path="/">

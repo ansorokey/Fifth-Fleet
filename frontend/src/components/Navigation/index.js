@@ -9,15 +9,16 @@ function Navigation({isLoaded}) {
     // if user logged in, return a profile button and a logout button
     // let links = ;
 
-    return <nav>
-        <ul>
-            <li>
+    return <nav id="nav-bar">
+
                 <Link to="/">Home</Link>
-            </li>
-            {isLoaded && <li>
-                <ProfileButton user={currentUser} />
-            </li>}
-        </ul>
+
+                <Link to='/lobbies'>Lobbies</Link>
+
+                <Link to='/guilds'>Guilds</Link>
+
+                <Link to='/quests'>Quests</Link>
+            {isLoaded && <ProfileButton user={currentUser} />}
     </nav>;
 }
 

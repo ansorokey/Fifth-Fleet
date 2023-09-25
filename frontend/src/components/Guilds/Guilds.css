@@ -1,0 +1,43 @@
+.guild-listing-pic {
+    height: 200px;
+    width: 200px;
+    background-color: black;
+}
+
+#gld-ctn {
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+
+.gld-right-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.photo-carousel {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    width: 500px;
+}
+
+.gld-car-lnk {
+    height: 150px;
+    width: 200px;
+}
+
+.gld-car-pic {
+    /* max-width: 100%;
+    height: auto; */
+    object-fit: contain;
+    width: 200px;
+    height: 190px;
+}
+
+.guild-page-ctn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}

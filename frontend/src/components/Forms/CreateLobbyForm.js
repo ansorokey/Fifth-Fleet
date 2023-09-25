@@ -3,50 +3,32 @@ import { useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { useDispatch } from 'react-redux';
 import { createLobby } from "../../store/lobbies";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useModal } from "../../context/Modal";
+import './forms.css';
 
 function CreateLobbyForm() {
-    const [greetings, setGreetings] = useState([]);
+    const greetings = Object.values(useSelector(state => state.utils.greetings));
+    const monsters = Object.values(useSelector(state => state.utils.monsters));
+    const questTypes = Object.values(useSelector(state => state.utils.questTypes));
+
     const [greetingCategory, setGreetingCategory] = useState('Playstyle');
     const [filteredGreetings, setFilteredGreetings] = useState([]);
     const [greeting, setGreeting] = useState(69);
-    const [questTypes, setQuestTypes] = useState([]);
     const [questType, setQuestType] = useState(0);
     const [rankPref, setRankPref] = useState('');
     const [targetMonster, setTargetMonster] = useState(0);
-    const [monsters, setMonsters] = useState([]);
 
     const dispatch = useDispatch();
+    const history = useHistory();
+    const {closeModal} = useModal();
 
     useEffect(() => {
-        async function getMessages() {
-            const messages = await csrfFetch('/api/greetings');
-            const res = await messages.json();
-            setGreetings(res.greetings);
-            setFilteredGreetings(res.greetings.filter(g => g.category === 'Playstyle'));
-        }
-
-        async function getQuestTypes() {
-            const types = await csrfFetch('/api/questTypes');
-            const res = await types.json();
-            setQuestTypes(res.questTypes);
-        }
-
-        async function getMonsters() {
-            const monsters = await csrfFetch('/api/monsters');
-            const res = await monsters.json();
-            setMonsters(res.monsters);
-        }
-
-        getMessages();
-        getQuestTypes();
-        getMonsters();
-    }, []);
-
-        useEffect(() => {
         setFilteredGreetings(greetings.filter(g => g.category === greetingCategory));
     }, [greetingCategory]);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         const data = {
@@ -57,7 +39,9 @@ function CreateLobbyForm() {
         if (rankPref) data.rankPreference = rankPref;
         if (targetMonster) data.targetMonsterId = +targetMonster;
 
-        dispatch(createLobby(data));
+        const newLobby = await dispatch(createLobby(data));
+        closeModal();
+        history.push(`/lobbies/${newLobby.id}`);
     }
 
     if (!filteredGreetings) {
@@ -66,10 +50,10 @@ function CreateLobbyForm() {
 
     return (<>
         {filteredGreetings &&
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="lobby-form">
             <h1> Start a new lobby! </h1>
 
-            <label>
+            <label className="greeting-categories">
                 Pick a message so players can see what your guild is all about at a glance
                 <label>
                     Quests and Expeditions

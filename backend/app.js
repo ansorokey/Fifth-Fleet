@@ -12,6 +12,7 @@ const { createServer } = require('http');
 // WS
 const WebSocket = require('ws');
 
+// backendserver port listens on Render's default port
 // the websocket port will listen to a different port
 const port = process.env.WSPORT || 5000;
 
@@ -51,32 +52,33 @@ wss.on('connection', (ws) => {
   // message recieved
   ws.on('message', (jsonMsg) => {
     const parsed = JSON.parse(jsonMsg);
-    console.log('incoming message', parsed);
+    const id = `${parsed.session} + ${parsed.id}`;
+    ws.id = id;
 
-    const {data} = parsed;
+    if (parsed.type === 'chat') {
+      const newMsg = JSON.stringify({
+        content: parsed.content,
+        username: parsed.username
+      });
 
-    const addChatMessage = {
-      type:  'add-chat-message',
-      data
-    };
+      wss.clients.forEach(client => {
+        // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
+        if (client.id === id) {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(newMsg);
+          }
+        }
+      })
 
-    const jsonAddChatMessage = JSON.stringify(addChatMessage);
-    console.log('back into json', jsonAddChatMessage);
+    }
 
-    wss.clients.forEach(client => {
-      // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(jsonAddChatMessage);
-      }
-    })
 
 
   });
 
   // close recieved
   ws.on('close', (e) => {
-    console.log('server side connection closed')
-    console.log(e);
+    // ...
   });
 });
 

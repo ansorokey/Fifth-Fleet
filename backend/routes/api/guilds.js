@@ -39,7 +39,7 @@ router.post('/:guildId/photos',  singleMulterUpload("image"), async (req, res) =
     });
 });
 
-// Gret guild images
+// Get guild images
 router.get('/:guildId/photos', async (req, res) => {
     const { guildId } = req.params;
     const images = await GuildPhoto.findAll({
@@ -65,16 +65,29 @@ router.get('/:guildId', async (req, res) => {
                 as: 'Members',
                 through: {
                     attributes: []
+                },
+                include: {
+                    association: 'Weapon'
                 }
             },
             {
                 model: Greeting
-            },{
+            },
+            {
                 model: GuildPhoto,
-                as: 'Photos'
+                as: 'Photos',
+                include: {
+                    model: User
+                }
             }
         ]
     });
+
+    if(!guild) {
+        return res.json({
+            guild: null
+        });
+    }
 
     // convert to a json object for simple adding of association count
     const jsonGuild = guild.toJSON();
