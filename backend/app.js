@@ -9,12 +9,12 @@ const { ValidationError } = require('sequelize');
 const path = require('path');
 const { createServer } = require('http');
 // import guildmessage
-// WS
-const WebSocket = require('ws');
+// WS - WORKS
+// const WebSocket = require('ws');
 
 // backendserver port listens on Render's default port
 // the websocket port will listen to a different port
-const port = process.env.WSPORT || 5000;
+// const port = process.env.WSPORT || 5000;
 
 // Routers
 const indexRouter = require('./routes');
@@ -39,51 +39,50 @@ app.use(morgan('dev'));
 //   res.sendFile(path.join(__dirname, '../frontend/public', 'index.html'));
 // });
 
-// WS
+// WS - WORKS
 // create a server for websockets
-const server = createServer(app);
+// const server = createServer(app);
 
-// WS
-const wss = new WebSocket.Server({server});
-// const wss = new WebSocket.Server({port});
+// WS - WORKS
+// const wss = new WebSocket.Server({server});
 
-// WS
-wss.on('connection', (ws) => {
-  // message recieved
-  ws.on('message', (jsonMsg) => {
-    const parsed = JSON.parse(jsonMsg);
-    const id = `${parsed.session} + ${parsed.id}`;
-    ws.id = id;
+// WS - WORKS
+// wss.on('connection', (ws) => {
+//   // message recieved
+//   ws.on('message', (jsonMsg) => {
+//     const parsed = JSON.parse(jsonMsg);
+//     const id = `${parsed.session} + ${parsed.id}`;
+//     ws.id = id;
 
-    if (parsed.type === 'chat') {
-      const newMsg = JSON.stringify({
-        content: parsed.content,
-        username: parsed.username
-      });
+//     if (parsed.type === 'chat') {
+//       const newMsg = JSON.stringify({
+//         content: parsed.content,
+//         username: parsed.username
+//       });
 
-      wss.clients.forEach(client => {
-        // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
-        if (client.id === id) {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(newMsg);
-          }
-        }
-      })
+//       wss.clients.forEach(client => {
+//         // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
+//         if (client.id === id) {
+//           if (client.readyState === WebSocket.OPEN) {
+//             client.send(newMsg);
+//           }
+//         }
+//       })
 
-    }
-
+//     }
 
 
-  });
 
-  // close recieved
-  ws.on('close', (e) => {
-    // ...
-  });
-});
+//   });
 
-// WS
-server.listen(port, () => console.log(`WS listening for messages on ${port}`));
+//   // close recieved
+//   ws.on('close', (e) => {
+//     // ...
+//   });
+// });
+
+// WS - WORKS
+// server.listen(port, () => console.log(`WS listening for messages on ${port}`));
 
 // Middleware for cookies and parsing JSON requst bodies
 app.use(cookieParser());
