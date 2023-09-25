@@ -17,7 +17,7 @@ REMAINING TASKS
 -clicking on a member/user anywhere should link to their profile
 
 -filter guilds
--9 guilds max
+-9 guilds listed max, add pagination
 -give guild a profile picture
 -give guild a banner image
 -allow owner to edit profile picture, banner, and guild
