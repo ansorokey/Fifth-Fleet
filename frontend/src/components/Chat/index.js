@@ -10,7 +10,14 @@ function Chat({user, sessionType, session}) {
     useEffect(() => {
         if (!user) return;
 
-        const ws = new WebSocket(process.env.REACT_APP_WS_URL);
+        let ws;
+        // local
+        if (process.env.NODE_ENV === 'development') {
+            ws = new WebSocket(process.env.REACT_APP_WS_URL);
+        } else if (process.env.NODE_ENV === 'production') {
+            ws = new WebSocket('wss://ff-ws-server.onrender.com/');
+        }
+        // production
         webSocket.current = ws;
 
         // websocket actions
