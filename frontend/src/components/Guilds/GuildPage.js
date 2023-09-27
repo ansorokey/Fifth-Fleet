@@ -13,6 +13,8 @@ import Chat from "../Chat";
 import SignupFormModal from '../SignupFormModal';
 import LoginFormModal from '../LoginFormModal';
 import EditGuildForm from '../Forms/EditGuildForm'
+import EditGuildAvatarForm from '../Forms/EditGuildAvatarForm';
+import EditGuildBannerForm from "../Forms/EditGuildBannerForm";
 
 function GuildPage() {
     const history = useHistory();
@@ -46,27 +48,33 @@ function GuildPage() {
     }, [guildState]);
 
     return (<>
-        {isLoaded && guild ?
-            <div className="guild-page-ctn">
-                <div className="guild-page-content">
-                    <div className="guild-header-images">
-                        <div>
-                            <div>
-                                <img className="guild-page-banner" src={guild?.bannerUrl} />
-                                {+user?.id === +guild?.hostId && <button className="guild-change-banner-btn">Change Banner</button>}
-                            </div>
-                            <div className="avatar-ctn">
-                                <img className="guild-page-avatar" src={guild?.avatarUrl} />
-                                {+user?.id === +guild?.hostId &&
-                                <OpenModalButton
-                                    className="guild-change-avatar-btn"
-                                    buttonText='Change Avatar'
-                                    modalComponent={<AddGuildPhotoForm guild={guild} />}
-                                />}
-                            </div>
-                        </div>
-
+        {isLoaded && guild ? <div className="guild-page-ctn">
+            <div className="guild-header-images">
+                <div>
+                    <div>
+                        <img className="guild-page-banner" src={guild?.bannerUrl} />
+                        {+user?.id === +guild?.hostId &&
+                        <OpenModalButton
+                            className="guild-change-banner-btn"
+                            buttonText='Change Avatar'
+                            modalComponent={<EditGuildBannerForm guild={guild} />}
+                        />}
                     </div>
+                    <div className="avatar-ctn">
+                        <img className="guild-page-avatar" src={guild?.avatarUrl} />
+                        {+user?.id === +guild?.hostId &&
+                        <OpenModalButton
+                            className="guild-change-avatar-btn"
+                            buttonText='Change Avatar'
+                            modalComponent={<EditGuildAvatarForm guild={guild} />}
+                        />}
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="guild-page-grid">
+                <div className="guild-page-content">
                     {user && user.id === guild?.Host?.id &&
                         <>
                             <OpenModalButton
@@ -107,7 +115,7 @@ function GuildPage() {
                     {user &&
                         <OpenModalButton
                             buttonText='Add Photo'
-                            modalComponent={<AddGuildPhotoForm guildId={guildId} />}
+                            modalComponent={<AddGuildPhotoForm guild={guild} />}
                         />
                     }
 
@@ -136,6 +144,7 @@ function GuildPage() {
                 }
 
             </div>
+        </div>
             :
             <h1>Loading...</h1>
         }

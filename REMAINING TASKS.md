@@ -7,7 +7,8 @@ REMAINING TASKS
 
 -filter guilds
 -9 guilds listed max, add pagination
--allow owner to edit profile picture, banner, and guild
+- allow owner of a picture to delete a guild photo
+- give photos comments
 
 -Give users a profile picture column
 -Give users a default profile picture
@@ -19,7 +20,7 @@ REMAINING TASKS
 
 -give images comments?
 -Allow caption to be edited
--Images should also be given user information
+-Images should also be given user information instead of just the username
 
 -fix unique keys on messages
 

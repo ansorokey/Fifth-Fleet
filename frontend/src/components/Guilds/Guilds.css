@@ -32,12 +32,12 @@
 .gld-car-pic {
     /* max-width: 100%;
     height: auto; */
-    object-fit: contain;
+    object-fit: scale-down;
     width: 200px;
     height: 190px;
 }
 
-.guild-page-ctn {
+.guild-page-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -86,4 +86,7 @@
     width: 200px;
     height: 200px;
     object-fit: cover;
+    box-sizing: content-box;
+    border: 5px dashed brown;
+    background-color: rgba(0, 0, 0, 0.5);
 }

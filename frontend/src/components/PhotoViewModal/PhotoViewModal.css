@@ -9,6 +9,6 @@
 .photo-view-ctn > img {
     width: 65vw;
     height: 90vh;
-    object-fit: contain;
+    object-fit: scale-down;
     background-color: blueviolet;
 }

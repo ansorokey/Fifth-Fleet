@@ -100,7 +100,7 @@ export function uploadPhoto(data) {
             const res = await response.json();
             dispatch(addPhoto(guildId, res.image));
 
-            if(imageType === 'avatar') {
+            if(imageType) {
                 return {message: 'success', imageUrl: res.image.imageUrl}
             }
         }

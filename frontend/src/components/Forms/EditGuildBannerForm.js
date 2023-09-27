@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { uploadPhoto } from "../../store/guilds";
+import { editGuild, uploadPhoto } from "../../store/guilds";
 import { useModal } from "../../context/Modal";
 
-function AddGuildPhotoForm({guild}) {
-    const guildId = guild.id;
+function EditGuildBannerForm({guild}) {
     const [imageUrl, setImageUrl] = useState(null);
     const [image, setImage] = useState(null);
     const [caption, setCaption] = useState(null);
@@ -13,7 +12,7 @@ function AddGuildPhotoForm({guild}) {
 
     const dispatch = useDispatch();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const tempErrs = {};
 
@@ -35,12 +34,24 @@ function AddGuildPhotoForm({guild}) {
         }
 
         const data = {
-            guildId,
+            guildId: guild?.id,
             image,
-            caption
+            caption,
+            imageType: 'banner'
         }
 
-        dispatch(uploadPhoto(data));
+        const uploadResponse = await dispatch(uploadPhoto(data));
+        if (uploadResponse && uploadResponse.message === 'success') {
+            const data = {
+                name: guild?.name,
+                about: guild?.about,
+                greetingId: guild?.greetingId,
+                avatarUrl: guild?.avatarUrl,
+                bannerUrl: uploadResponse.imageUrl
+            }
+            dispatch(editGuild(data, guild?.id));
+
+        }
         closeModal();
     }
 
@@ -74,4 +85,4 @@ function AddGuildPhotoForm({guild}) {
     </>);
 };
 
-export default AddGuildPhotoForm;
+export default EditGuildBannerForm;

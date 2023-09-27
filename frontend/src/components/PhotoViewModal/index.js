@@ -15,7 +15,7 @@ function PhotoViewModal({photo}) {
     return <div className='photo-view-ctn'>
         <img src={url} />
         <div>
-            <h2>Uploaded by {owner.username}</h2>
+            <h2>Uploaded by {owner?.username}</h2>
             <p>{caption}</p>
             {user.id === userId && <form onSubmit={handleSubmit}>
                 <textarea
