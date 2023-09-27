@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const ADD_LOBBIES = 'lobbies/ADD_LOBBIES';
 const SET_LOBBY = 'lobbies/SET_LOBBY';
+const REMOVE_LOBBY = 'lobbies/REMOVE_LOBBY';
 
 // reducer action: add all the lobbies
 function addLobbies(lobbies) {
@@ -16,6 +17,14 @@ function setLobby(lobby) {
     return {
         type: SET_LOBBY,
         lobby
+    }
+}
+
+// reducr action: delete a lobby
+function removeLobby(lobbyId) {
+    return {
+        type: REMOVE_LOBBY,
+        lobbyId
     }
 }
 
@@ -75,6 +84,35 @@ export function createLobby(data) {
     }
 }
 
+// thunk action: edit a lobby
+export function editLobby(data, lobbyId) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`/api/lobbies/${lobbyId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const res = await response.json();
+            dispatch(setLobby(res.lobby));
+            return res.lobby;
+        }
+    }
+}
+
+// think action: delete a lobby
+export function deleteLobby(lobbyId) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`/api/lobbies/${lobbyId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            dispatch(removeLobby(lobbyId));
+        }
+    }
+}
+
 // reducer
 function reducer(state = {arr: []}, action) {
     let newState = {arr: []};
@@ -90,6 +128,17 @@ function reducer(state = {arr: []}, action) {
         case SET_LOBBY:
             newState = {...state};
             newState[action.lobby.id] = action.lobby;
+            return newState;
+
+        case REMOVE_LOBBY:
+            for (let l in state ) {
+                if ( +l !== +action.lobbyId && l !== 'arr') newState[l] = state[l];
+            };
+
+            state.arr.forEach(l => {
+                if (+l.id !== +action.lobbyId) newState.arr.push(l);
+            });
+
             return newState;
 
         default:

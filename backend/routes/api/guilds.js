@@ -98,6 +98,78 @@ router.get('/:guildId', async (req, res) => {
     });
 });
 
+// delete guild by Id
+router.delete('/:guildId', async (req, res) => {
+    const {guildId} = req.params;
+
+    const guild = await Guild.findByPk(guildId);
+
+    if (guild) {
+        await guild.destroy();
+        return res.json({
+            message: 'Deletion successsful'
+        });
+    }
+});
+
+// Edit guild by id
+router.put('/:guildId', async (req, res) => {
+    const {guildId} = req.params;
+    const {name, about, greetingId, avatarUrl, bannerUrl} = req.body;
+
+    const guild = await Guild.findByPk(guildId);
+
+    if (guild) {
+        guild.set({
+            name,
+            about,
+            greetingId,
+            avatarUrl,
+            bannerUrl
+        });
+
+        await guild.save();
+
+        const updatedGuild = await Guild.findByPk(guildId, {
+            include: [
+                {
+                    model: User,
+                    as: 'Host'
+                },
+                {
+                    model: User,
+                    as: 'Members',
+                    through: {
+                        attributes: []
+                    },
+                    include: {
+                        association: 'Weapon'
+                    }
+                },
+                {
+                    model: Greeting
+                },
+                {
+                    model: GuildPhoto,
+                    as: 'Photos',
+                    include: {
+                        model: User
+                    }
+                }
+            ]
+        });
+
+        const jsonGuild = updatedGuild.toJSON();
+        jsonGuild.numMembers = +updatedGuild.Members.length;
+
+        res.json({
+            guild: jsonGuild
+        });
+    } else {
+        // return an error for guild not found
+    }
+});
+
 // Get all Guilds
 router.get('/', async (req, res) => {
     const allGuilds = await Guild.findAll({

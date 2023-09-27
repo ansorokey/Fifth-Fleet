@@ -17,7 +17,7 @@ function Chat({user, sessionType, session}) {
 
         // websocket actions
         ws.onopen = function(e) {
-            setMessages([]);
+            setMessages([{content: 'Chat connected!'}]);
             const jsonMsg = JSON.stringify({
                 type: 'connect',
                 session: sessionType,
@@ -30,7 +30,12 @@ function Chat({user, sessionType, session}) {
 
         ws.onclose = function(e) {
             webSocket.current = null;
+            console.log('Client connection closed')
             setMessages([]);
+            // on creation:
+            // pass back up to parent component
+            // have parent close connection on dismount?
+
         }
 
         ws.onerror = function(e) {

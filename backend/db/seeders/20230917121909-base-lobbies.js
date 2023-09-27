@@ -12,21 +12,24 @@ const data = [
     messageId: 1,
     questTypeId: 1,
     rankPreference: 'low',
-    targetMonsterId: 1
+    targetMonsterId: 1,
+    sessionCode: 'ABCDEFGH1234'
   },
   {
     hostId: 2,
     messageId: 2,
     questTypeId: 2,
     rankPreference: 'high',
-    targetMonsterId: 2
+    targetMonsterId: 2,
+    sessionCode: 'ZYXWVUQP9021'
   },
   {
     hostId: 3,
     messageId: 3,
     questTypeId: 3,
     rankPreference: 'master',
-    targetMonsterId: 3
+    targetMonsterId: 3,
+    sessionCode: 'uaif234LkmdD'
   }
 ]
 

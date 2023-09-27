@@ -47,6 +47,68 @@ router.get('/:lobbyId', async (req, res, next) => {
     })
 });
 
+// edit lobby by id
+router.put('/:lobbyId', async (req, res) => {
+    const {lobbyId} = req.params;
+    const {messageId, questTypeId, rankPreference, targetMonsterId, sessionCode } = req.body;
+
+    const lobby = await Lobby.findByPk(lobbyId);
+
+    if (lobby) {
+        lobby.set({
+            messageId,
+            questTypeId,
+            rankPreference,
+            targetMonsterId,
+            sessionCode
+        });
+
+        await lobby.save();
+        const updatedLobby = await Lobby.findByPk(lobbyId, {
+            include: [
+                {
+                    model: User,
+                    as: 'Host'
+                },
+                {
+                    model: QuestType
+                },
+                {
+                    model: Greeting
+                },
+                {
+                    model: Monster
+                },
+                {
+                    model: User,
+                    as: 'Members',
+                    through: {
+                        attributes: []
+                    }
+                }
+            ]
+        });
+
+        return res.json({
+            lobby: updatedLobby
+        });
+    }
+
+});
+
+// delete lobby by id
+router.delete('/:lobbyId', async (req, res) => {
+    const {lobbyId} = req.params;
+
+    const lobby = await Lobby.findByPk(lobbyId);
+
+    await lobby.destroy();
+
+    return res.json({
+        message: 'Delete successful'
+    });
+})
+
 // get all lobbies
 router.get('/', async (req, res) => {
     const {name, questType, greeting} = req.query;
@@ -116,14 +178,15 @@ router.get('/', async (req, res) => {
 // create a lobby
 router.post('/', requireAuth, async (req, res) => {
     const userId = req.user.id;
-    const {messageId, questTypeId, rankPreference, targetMonsterId } = req.body;
+    const {messageId, questTypeId, rankPreference, targetMonsterId, sessionCode } = req.body;
 
     const newLobby = await Lobby.create({
         hostId: +userId,
         messageId,
         targetMonsterId,
         questTypeId,
-        rankPreference
+        rankPreference,
+        sessionCode
     });
 
     return res.json({

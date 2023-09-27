@@ -5,6 +5,7 @@ import { loadLobbies } from '../../store/lobbies';
 import OpenModalButton from '../OpenModalButton';
 import CreateLobbyForm from '../Forms/CreateLobbyForm';
 import {Link} from 'react-router-dom';
+import {v4 as uuidv4} from 'uuid';
 
 function Lobbies() {
     const user = useSelector(state => state.session.user);
@@ -75,7 +76,7 @@ function Lobbies() {
                 </div>
                 {showMonsterOptions && <>
                     <div className='two-col'>
-                        {monsters.slice(monPage, monPage + 10).map(m => <p key={m.name} onClick={() => {
+                        {monsters.slice(monPage, monPage + 10).map(m => <p key={uuidv4()} onClick={() => {
                             setMonsterName(m.name);
                             setShowMonsterOptions(false);
                         }}>{m.name}</p>)}
@@ -90,7 +91,7 @@ function Lobbies() {
                         {/* I hate this :/ there's gotta be a better way to dynamically make these */}
                         {monsters.map((m, i) => {
                             if (i % 10 === 0) {
-                                return <span onClick={() => setMonPage(i)}>{monPage === i ? solidCircle: emptyCircle}</span>;
+                                return <span key={uuidv4()} onClick={() => setMonPage(i)}>{monPage === i ? solidCircle: emptyCircle}</span>;
                             }
                         })}
 
@@ -107,7 +108,7 @@ function Lobbies() {
                 </div>
                 {showQuestTypeOptions && <>
                   <div>
-                    {questTypes.map(qt => <p key={qt.type} onClick={() => {
+                    {questTypes.map(qt => <p key={uuidv4()} onClick={() => {
                         setShowQuestTypeOptions(false);
                         setQuestTypeName(qt.type)
                     }}>{qt.type}</p>)}
@@ -132,7 +133,7 @@ function Lobbies() {
                     </select>
                     {filteredGreetings.slice(grPage, grPage + 5).map(g => {
                     return <p
-                                key={g.message}
+                                key={uuidv4()}
                                 onClick={() => {
                                     setGreetingMsg(g.message);
                                     setShowGreetingOptions(false);
@@ -148,7 +149,7 @@ function Lobbies() {
                         {/* I hate this :/ there's gotta be a better way to dynamically make these */}
                         {filteredGreetings.map((_g, i) => {
                             if (i % 5 === 0) {
-                                return <span onClick={() => setGrPage(i)}>{grPage === i ? solidCircle: emptyCircle}</span>;
+                                return <span key={uuidv4()} onClick={() => setGrPage(i)}>{grPage === i ? solidCircle: emptyCircle}</span>;
                             }
                         })}
 
@@ -177,7 +178,7 @@ function Lobbies() {
             </div>
 
             {lobbiesArr?.length ? lobbiesArr.slice(listPage, listPage + 10).map( l => {
-                return (<Link to={`/lobbies/${l.id}`} key={l.id} className="link">
+                return (<Link to={`/lobbies/${l.id}`} key={uuidv4()} className="link">
                     <div className='lobby-listing'>
                         <p className='lby-list-host'>{l?.Host?.username}</p>
                         <p className='lby-list-monster'>{l?.Monster?.name || '-----'}</p>
@@ -199,7 +200,7 @@ function Lobbies() {
                 {/* I hate this :/ there's gotta be a better way to dynamically make these */}
                 {lobbiesArr.map((m, i) => {
                     if (i % 10 === 0) {
-                        return <span onClick={() => setListPage(i)}>{listPage === i ? solidCircle: emptyCircle}</span>;
+                        return <span key={uuidv4()} onClick={() => setListPage(i)}>{listPage === i ? solidCircle: emptyCircle}</span>;
                     }
                 })}
 

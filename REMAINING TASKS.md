@@ -1,5 +1,13 @@
 REMAINING TASKS
--set up a dedicated websocket server on render (only backend)
+-ADD ERROR HANDLING AND AUTHORIZATION
+
+-A lobby can be deleted, but the chat remains open. How can I close the connection for all clients to a child component?
+-Lobbies do not need members, people can just enter (stretch goal websockets update lobby players)
+-clicking on a member/user anywhere should link to their profile
+
+-filter guilds
+-9 guilds listed max, add pagination
+-allow owner to edit profile picture, banner, and guild
 
 -Give users a profile picture column
 -Give users a default profile picture
@@ -7,23 +15,11 @@ REMAINING TASKS
 -Give users the ability to delete profile pictures
 -Give users a profile page
 
--Give lobbies a lobby code column
--Create a lobby edit form
--Give the lobby owner the ability to edit a lobby
--Give lobby owner the abiliy to delete a lobby
--Give monsters icons
--Give lobbies members
--list lobby members
--clicking on a member/user anywhere should link to their profile
 
--filter guilds
--9 guilds listed max, add pagination
--give guild a profile picture
--give guild a banner image
--allow owner to edit profile picture, banner, and guild
 
 -give images comments?
 -Allow caption to be edited
+-Images should also be given user information
 
 -fix unique keys on messages
 

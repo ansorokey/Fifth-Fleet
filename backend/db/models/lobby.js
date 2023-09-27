@@ -47,6 +47,16 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Monsters',
         key: 'id'
       }
+    },
+    sessionCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [12,12],
+          msg: 'Invalid Session Code'
+        }
+      }
     }
   }, {
     sequelize,

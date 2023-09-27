@@ -52,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      defaultValue: 'https://res.cloudinary.com/dzntryr5a/image/upload/v1695749810/Monster%20Hunter%20Icons/Profile%20Pictures/jive-sgroup-default-portrait-large_idk3mb.png'
+    },
+    bannerUrl: {
+      type: DataTypes.STRING,
+      defaultValue: 'https://res.cloudinary.com/dzntryr5a/image/upload/v1695750068/Monster%20Hunter%20Icons/Profile%20Pictures/MHW-Astera_Artwork_001_ylxulv.webp'
+    }
   }, {
     sequelize,
     modelName: 'Guild',

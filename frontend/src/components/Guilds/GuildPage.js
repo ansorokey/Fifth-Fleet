@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-import { loadGuild } from "../../store/guilds";
+import { loadGuild, deleteGuild } from "../../store/guilds";
 import { useModal } from "../../context/Modal";
 
 import AddGuildPhotoForm from "../Forms/AddGuildPhotoForm";
@@ -10,13 +10,17 @@ import PhotoViewModal from "../PhotoViewModal";
 import OpenModalButton from "../OpenModalButton";
 import PlayerListing from "../PlayerListing";
 import Chat from "../Chat";
+import SignupFormModal from '../SignupFormModal';
+import LoginFormModal from '../LoginFormModal';
+import EditGuildForm from '../Forms/EditGuildForm'
 
 function GuildPage() {
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const {guildId} = useParams();
     const {setModalContent} = useModal();
     const [isLoaded, setIsLoaded] = useState(false);
     const [photos, setPhotos] = useState([]);
-    const {guildId} = useParams();
-    const dispatch = useDispatch();
     const guildState = useSelector(state => state.guilds);
     const guild = guildState[guildId];
     const user = useSelector(state => state.session.user);
@@ -45,10 +49,44 @@ function GuildPage() {
         {isLoaded && guild ?
             <div className="guild-page-ctn">
                 <div className="guild-page-content">
-                    {user && user.id === guild?.Host?.id ? <button>Edit</button>
-                    :
-                    memberButton
+                    <div className="guild-header-images">
+                        <div>
+                            <div>
+                                <img className="guild-page-banner" src={guild?.bannerUrl} />
+                                {+user?.id === +guild?.hostId && <button className="guild-change-banner-btn">Change Banner</button>}
+                            </div>
+                            <div className="avatar-ctn">
+                                <img className="guild-page-avatar" src={guild?.avatarUrl} />
+                                {+user?.id === +guild?.hostId &&
+                                <OpenModalButton
+                                    className="guild-change-avatar-btn"
+                                    buttonText='Change Avatar'
+                                    modalComponent={<AddGuildPhotoForm guild={guild} />}
+                                />}
+                            </div>
+                        </div>
+
+                    </div>
+                    {user && user.id === guild?.Host?.id &&
+                        <>
+                            <OpenModalButton
+                                buttonText={'Edit Guild'}
+                                modalComponent={<EditGuildForm guild={guild}/>}
+                            />
+                            <button onClick={async () => {
+                                const choice = window.confirm('Are you sure you want to delete this guild?');
+                                if (choice) {
+                                    dispatch(deleteGuild(guildId));
+                                    history.push('/guilds');
+                                }
+                            }}>
+                                Delete guild
+                            </button>
+                        </>
                     }
+
+                    { user && user?.id !== guild?.hostId && memberButton}
+
                     <h1>{guild?.name}</h1>
                     <h2>Created by {guild?.Host?.username}</h2>
                     <p><em>{guild?.Greeting?.message}</em></p>
@@ -81,7 +119,21 @@ function GuildPage() {
                     </div>
                 </div>
 
-                {user && <Chat user={user} session={guild} sessionType={'guild'}/>}
+                {user ?
+                    <Chat user={user} session={guild} sessionType={'guild'}/>
+                :
+                    <div>
+                        <h2>Become a member to chat with guild members!</h2>
+                        <OpenModalButton
+                            buttonText='Sign Up'
+                            modalComponent={<SignupFormModal />}
+                        />
+                        <OpenModalButton
+                            buttonText={'Log In'}
+                            modalComponent={<LoginFormModal />}
+                        />
+                    </div>
+                }
 
             </div>
             :
