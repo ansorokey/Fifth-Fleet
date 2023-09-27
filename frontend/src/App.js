@@ -10,6 +10,7 @@ import Guilds from './components/Guilds';
 import Lobbies from './components/Lobbies';
 import GuildPage from './components/Guilds/GuildPage';
 import LobbyPage from './components/Lobbies/LobbyPage';
+import ProfilePage from './components/ProfilePage';
 import { loadMonsters, loadGreetings, loadQuestTypes } from './store/utils';
 
 function App() {
@@ -47,7 +48,7 @@ function App() {
       </Route>
 
       <Route path="/my-profile">
-        <h1>This is the user's profile page</h1>
+        <ProfilePage userId={currentUser?.id} />
       </Route>
 
       <Route exact path="/login">
