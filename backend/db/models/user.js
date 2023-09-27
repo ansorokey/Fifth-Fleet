@@ -55,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
         model: "Weapons",
         key: 'id'
       }
+    },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      defaultValue: 'https://res.cloudinary.com/dzntryr5a/image/upload/v1695852525/4al31h1ehd431_bdfdvr.png'
     }
   }, {
     sequelize,
