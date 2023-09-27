@@ -5,6 +5,7 @@ import OpenModalButton from '../OpenModalButton';
 import OpenModalMenuItem from "../OpenModalMenuItem";
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProfileButton({user}) {
     const [showMenu, setShowMenu] = useState(false);
@@ -52,6 +53,7 @@ function ProfileButton({user}) {
     const validUser = (<>
             <li>{user?.username}</li>
             <li>{user?.email}</li>
+            <li><Link to="/my-profile"><button>My Profile</button></Link></li>
             <button onClick={handleLogout}>Logout</button>
     </>);
 
