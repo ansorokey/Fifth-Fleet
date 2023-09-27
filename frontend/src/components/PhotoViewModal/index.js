@@ -6,10 +6,26 @@ function PhotoViewModal({photo}) {
     const {imageUrl:url, caption, userId, User:owner} = photo;
     const user = useSelector(state => state.session.user);
     const [newCaption, setNewCaption] = useState('');
+    const [newComment, setNewComment] = useState('');
 
     async function handleSubmit(e) {
         e.preventDefault();
         // dispatch an edit photo request
+    }
+
+    function submitComment(e) {
+        e.preventDefault();
+        alert(newComment);
+
+        const data = {
+            content: newComment,
+            userId: user?.id,
+            photoId: photo?.id
+        }
+
+        // dispatch(uploadComment(data));
+
+        setNewComment('');
     }
 
     return <div className='photo-view-ctn'>
@@ -26,6 +42,18 @@ function PhotoViewModal({photo}) {
                 />
                 <button>Save</button>
             </form>}
+
+            <h2>Comments</h2>
+            <p>List comments here</p>
+            <form onSubmit={submitComment}>
+                <input
+                    type="text"
+                    placeholder='New Comment'
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                />
+                <button>Post</button>
+            </form>
 
         </div>
     </div>
