@@ -42,6 +42,14 @@ function App() {
         <LobbyPage />
       </Route>
 
+      <Route path="/profiles/:userId">
+        <h1>This is any user's profile page</h1>
+      </Route>
+
+      <Route path="/my-profile">
+        <h1>This is the user's profile page</h1>
+      </Route>
+
       <Route exact path="/login">
         <LoginFormPage />
       </Route>
