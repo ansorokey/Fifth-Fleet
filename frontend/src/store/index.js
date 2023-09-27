@@ -4,12 +4,14 @@ import sessionReducer from './session';
 import guildsReducer from './guilds';
 import lobbyReducer from './lobbies';
 import utilsReducer from './utils'
+import profileReducer from './profiles';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   guilds: guildsReducer,
   lobbies: lobbyReducer,
-  utils: utilsReducer
+  utils: utilsReducer,
+  profiles: profileReducer
 });
 
 // declare an enhancer that will have

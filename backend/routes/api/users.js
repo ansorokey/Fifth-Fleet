@@ -28,6 +28,25 @@ const validateSignup = [
     handleValidationErrors
 ]
 
+// GET user by id
+router.get('/:userId', async (req, res) => {
+    const {userId} = req.params;
+
+    const user = await User.findByPk(userId, {
+        include: [
+            {
+                association: 'Weapon'
+            }
+        ]
+    });
+
+    if (user) {
+        return res.json({
+            user
+        });
+    }
+});
+
 // Signing Up
 // Validates user signup info before creating user
 router.post('/', validateSignup, async (req, res, next) => {
