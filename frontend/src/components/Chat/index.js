@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import Message from "../Message";
 import ChatLog from "./ChatLog";
+import './Chat.css';
 
-function Chat({user}) {
+function Chat({user, sessionType, session}) {
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
     const webSocket = useRef(null);
@@ -11,29 +11,35 @@ function Chat({user}) {
         if (!user) return;
 
         const ws = new WebSocket(process.env.REACT_APP_WS_URL);
+
+        // production
         webSocket.current = ws;
 
         // websocket actions
         ws.onopen = function(e) {
-            setMessages([]);
+            setMessages([{content: 'Chat connected!'}]);
+            const jsonMsg = JSON.stringify({
+                type: 'connect',
+                session: sessionType,
+                id: session.id,
+                content: msg,
+                username: user.username
+            });
+            ws.send(jsonMsg)
         }
 
-        // ws.onmessage = function(e){
-        //     const incomingMsg = JSON.parse(e.data).data;
-        //     console.log(incomingMsg);
-
-        //     setMessages([...messages, incomingMsg]);
-        //     console.log(messages);
-        // }
-
         ws.onclose = function(e) {
-            console.log('Connection closed');
             webSocket.current = null;
+            console.log('Client connection closed')
             setMessages([]);
+            // on creation:
+            // pass back up to parent component
+            // have parent close connection on dismount?
+
         }
 
         ws.onerror = function(e) {
-            console.error(e);
+            // ...
         }
 
         // cleanup function runs before useEffect runs
@@ -47,11 +53,8 @@ function Chat({user}) {
     useEffect(() => {
         if (webSocket.current !== null) {
             webSocket.current.onmessage = function(e){
-                const incomingMsg = JSON.parse(e.data).data;
-                console.log(incomingMsg);
-
+                const incomingMsg = JSON.parse(e.data);
                 setMessages([...messages, incomingMsg]);
-                console.log(messages);
             }
         }
     }, [messages]);
@@ -59,36 +62,34 @@ function Chat({user}) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        const data = {
-            username: user.username,
-            msg
-        }
-
         const jsonMsg = JSON.stringify({
-            type: 'send-chat-message',
-            data
+            type: 'chat',
+            session: sessionType,
+            id: session.id,
+            content: msg,
+            username: user.username
         });
-
-        console.log('sending message', jsonMsg);
 
         webSocket.current.send(jsonMsg);
 
         setMsg('');
     }
 
-    return (<>
+    return (<div className="chat-ctn">
 
         <ChatLog user={user} messages={messages} />
 
-        <form onSubmit={handleSubmit}>
+        <form className='chat-input' onSubmit={handleSubmit}>
             <input
                 type="text"
                 value={msg}
+                maxLength={255}
                 onChange={e => setMsg(e.target.value)}
+                className="chat-send-field"
             />
             <button>send</button>
         </form>
-    </>);
+    </div>);
 };
 
 export default Chat;

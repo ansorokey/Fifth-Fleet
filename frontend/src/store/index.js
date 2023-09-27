@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import guildsReducer from './guilds';
 import lobbyReducer from './lobbies';
+import utilsReducer from './utils'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   guilds: guildsReducer,
-  lobbies: lobbyReducer
+  lobbies: lobbyReducer,
+  utils: utilsReducer
 });
 
 // declare an enhancer that will have

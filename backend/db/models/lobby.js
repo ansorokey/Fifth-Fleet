@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       Lobby.belongsTo(models.Monster, {foreignKey: 'targetMonsterId'});
       Lobby.belongsToMany(models.User, {
         as: 'Members',
-        through: 'LobbyMembers'
+        through: 'LobbyMembers', foreignKey: 'lobbyId', otherKey: 'userId'
       });
     }
   }
@@ -46,6 +46,16 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Monsters',
         key: 'id'
+      }
+    },
+    sessionCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [12,12],
+          msg: 'Invalid Session Code'
+        }
       }
     }
   }, {

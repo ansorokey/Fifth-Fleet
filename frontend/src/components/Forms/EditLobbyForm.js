@@ -1,25 +1,22 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { csrfFetch } from "../../store/csrf";
-import { useDispatch } from 'react-redux';
-import { createLobby } from "../../store/lobbies";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { editLobby } from "../../store/lobbies";
 import { useModal } from "../../context/Modal";
 import './forms.css';
 
-function CreateLobbyForm() {
+function EditLobbyForm({lobby}) {
     const greetings = Object.values(useSelector(state => state.utils.greetings));
     const monsters = Object.values(useSelector(state => state.utils.monsters));
     const questTypes = Object.values(useSelector(state => state.utils.questTypes));
 
-    const [greetingCategory, setGreetingCategory] = useState('Playstyle');
+    const [greetingCategory, setGreetingCategory] = useState(lobby?.Greeting?.category);
     const [filteredGreetings, setFilteredGreetings] = useState([]);
-    const [greeting, setGreeting] = useState(69);
-    const [questType, setQuestType] = useState(0);
-    const [rankPref, setRankPref] = useState('');
-    const [targetMonster, setTargetMonster] = useState(0);
-    const [sessionCode, setSessionCode] = useState('');
+    const [greeting, setGreeting] = useState(lobby?.Greeting?.id);
+    const [questType, setQuestType] = useState(lobby?.QuestType?.id);
+    const [rankPref, setRankPref] = useState(lobby.rankPreference);
+    const [targetMonster, setTargetMonster] = useState(lobby?.targetMonsterId);
+    const [sessionCode, setSessionCode] = useState(lobby?.sessionCode);
     const [errs, setErrs] = useState({});
 
     const dispatch = useDispatch();
@@ -50,9 +47,10 @@ function CreateLobbyForm() {
         if (rankPref) data.rankPreference = rankPref;
         if (targetMonster) data.targetMonsterId = +targetMonster;
 
-        const newLobby = await dispatch(createLobby(data));
+        // const newLobby =
+        await dispatch(editLobby(data, lobby?.id));
         closeModal();
-        history.push(`/lobbies/${newLobby.id}`);
+        // history.push(`/lobbies/${newLobby.id}`);
     }
 
     if (!filteredGreetings) {
@@ -179,4 +177,4 @@ function CreateLobbyForm() {
     </>);
 };
 
-export default CreateLobbyForm;
+export default EditLobbyForm;

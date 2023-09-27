@@ -59,9 +59,6 @@ require('dotenv').config({ path: "../.env" });
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3"); // CommonJS import
 
 async function tryThis() {
-    console.log(process.env.AWS_REGION);
-    console.log(process.env.S3_SECRET);
-    console.log(process.env.S3_KEY);
     const client = new S3Client({
         bucketEndpoint: process.env.S3_BUCKET,
         region: process.env.AWS_REGION,
@@ -77,7 +74,6 @@ async function tryThis() {
     }
     const command = new PutObjectCommand(input);
     const response = await client.send(command);
-    console.log(response);
 }
 
 tryThis();

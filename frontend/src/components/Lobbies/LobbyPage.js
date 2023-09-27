@@ -1,22 +1,65 @@
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import './Lobbies.css';
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { loadLobby, deleteLobby } from "../../store/lobbies";
+import Chat from '../Chat';
+import OpenModalButton from '../OpenModalButton';
+import EditLobbyForm from '../Forms/EditLobbyForm';
 
 function LobbyPage() {
     const {lobbyId} = useParams();
     const curLobby = useSelector(state => state.lobbies[lobbyId]);
+    const user = useSelector(state => state.session.user);
+
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
-        // add the current lobby by lobby id to state
+        async function initialLoad() {
+            const response = await dispatch(loadLobby(lobbyId));
+            if (response && response.errors) {
+                history.push('/lost');
+            }
+        }
 
+        initialLoad();
     }, []);
 
     return (<>
-        {curLobby && <>
-            <h1>This is the lobby page</h1>
-            <p>{lobbyId}</p>
-        </>}
+        {curLobby && <div className="lobby-page-ctn">
+            <div className="lobby-page-content">
+                {user && user?.id === curLobby?.hostId && <OpenModalButton
+                    buttonText={'Edit Lobby'}
+                    modalComponent={<EditLobbyForm lobby={curLobby} />}
+                />}
+                {user && user?.id === curLobby?.hostId && <button
+                    onClick={() => {
+                        let choice = window.confirm('Are you sure you want to close this lobby?');
+                        if (choice) {
+                            dispatch(deleteLobby(lobbyId));
+                            history.push('/lobbies');
+                        }
+                    }}
+                >End Lobby</button>}
+                <h1>SESSION CODE:</h1>
+                <p>{curLobby?.sessionCode}</p>
 
+                <p>{lobbyId}</p>
+                <h2>Hosted by {curLobby?.Host?.username}</h2>
+                <p>{curLobby?.Greeting?.message}</p>
+                <h3>Quest Type</h3>
+                <p>{curLobby?.QuestType?.type || 'None'}</p>
+                <h3>Target Monster</h3>
+                {curLobby?.Monster && <img src={curLobby.Monster.imageUrl} />}
+                <p>{curLobby?.Monster?.name || 'None'}</p>
+                <h3>Rank Preference</h3>
+                <p>{curLobby?.rankPreference || 'None'}</p>
+                <h3>Members</h3>
+
+            </div>
+            <Chat user={user} sessionType={'lobby'} session={curLobby}/>
+        </div>}
     </>);
 }
 

@@ -1,0 +1,92 @@
+.guild-listing-pic {
+    height: 200px;
+    width: 200px;
+    background-color: black;
+}
+
+#gld-ctn {
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+
+.gld-right-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.photo-carousel {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    width: 500px;
+}
+
+.gld-car-lnk {
+    height: 150px;
+    width: 200px;
+}
+
+.gld-car-pic {
+    /* max-width: 100%;
+    height: auto; */
+    object-fit: scale-down;
+    width: 200px;
+    height: 190px;
+}
+
+.guild-page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.guild-avatar {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.guild-header-images {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.guild-change-banner-btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.avatar-ctn {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    width: 200px;
+    height: 200px;
+}
+
+.guild-change-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.guild-page-banner {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 400px;
+}
+
+.guild-page-avatar {
+    /* position: absolute; */
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    box-sizing: content-box;
+    border: 5px dashed brown;
+    background-color: rgba(0, 0, 0, 0.5);
+}

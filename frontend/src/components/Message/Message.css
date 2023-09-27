@@ -9,6 +9,10 @@
     display: flex;
     align-items: center;
     gap: 1em;
+    background-color: aqua;
+    border: 1px solid blue;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .myMsg {
@@ -16,4 +20,5 @@
     flex-direction: row-reverse;
     align-items: center;
     gap: 1em;
+    background-color: lightcoral;
 }

@@ -39,7 +39,7 @@ router.post('/:guildId/photos',  singleMulterUpload("image"), async (req, res) =
     });
 });
 
-// Gret guild images
+// Get guild images
 router.get('/:guildId/photos', async (req, res) => {
     const { guildId } = req.params;
     const images = await GuildPhoto.findAll({
@@ -65,16 +65,29 @@ router.get('/:guildId', async (req, res) => {
                 as: 'Members',
                 through: {
                     attributes: []
+                },
+                include: {
+                    association: 'Weapon'
                 }
             },
             {
                 model: Greeting
-            },{
+            },
+            {
                 model: GuildPhoto,
-                as: 'Photos'
+                as: 'Photos',
+                include: {
+                    model: User
+                }
             }
         ]
     });
+
+    if(!guild) {
+        return res.json({
+            guild: null
+        });
+    }
 
     // convert to a json object for simple adding of association count
     const jsonGuild = guild.toJSON();
@@ -83,6 +96,78 @@ router.get('/:guildId', async (req, res) => {
     res.json({
         guild: jsonGuild
     });
+});
+
+// delete guild by Id
+router.delete('/:guildId', async (req, res) => {
+    const {guildId} = req.params;
+
+    const guild = await Guild.findByPk(guildId);
+
+    if (guild) {
+        await guild.destroy();
+        return res.json({
+            message: 'Deletion successsful'
+        });
+    }
+});
+
+// Edit guild by id
+router.put('/:guildId', async (req, res) => {
+    const {guildId} = req.params;
+    const {name, about, greetingId, avatarUrl, bannerUrl} = req.body;
+
+    const guild = await Guild.findByPk(guildId);
+
+    if (guild) {
+        guild.set({
+            name,
+            about,
+            greetingId,
+            avatarUrl,
+            bannerUrl
+        });
+
+        await guild.save();
+
+        const updatedGuild = await Guild.findByPk(guildId, {
+            include: [
+                {
+                    model: User,
+                    as: 'Host'
+                },
+                {
+                    model: User,
+                    as: 'Members',
+                    through: {
+                        attributes: []
+                    },
+                    include: {
+                        association: 'Weapon'
+                    }
+                },
+                {
+                    model: Greeting
+                },
+                {
+                    model: GuildPhoto,
+                    as: 'Photos',
+                    include: {
+                        model: User
+                    }
+                }
+            ]
+        });
+
+        const jsonGuild = updatedGuild.toJSON();
+        jsonGuild.numMembers = +updatedGuild.Members.length;
+
+        res.json({
+            guild: jsonGuild
+        });
+    } else {
+        // return an error for guild not found
+    }
 });
 
 // Get all Guilds

@@ -1,6 +1,6 @@
 import { useModal } from "../../context/Modal";
 
-function OpenModalButton({modalComponent, buttonText, onButtonClick=null, onModalClose=null}) {
+function OpenModalButton({modalComponent, buttonText, onButtonClick=null, onModalClose=null, className=null}) {
     const {setModalContent, setOnModalClose} = useModal();
 
     function handleModal() {
@@ -9,11 +9,11 @@ function OpenModalButton({modalComponent, buttonText, onButtonClick=null, onModa
         setModalContent(modalComponent);
     };
 
-    return (<>
+    return (<div className={className}>
         <button onClick={handleModal}>
             {buttonText}
         </button>
-    </>);
+    </div>);
 }
 
 export default OpenModalButton;
