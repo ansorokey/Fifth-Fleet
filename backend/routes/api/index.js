@@ -14,6 +14,7 @@ const guildRouter = require('./guilds');
 const guildMessagesRouter = require('./guildmessages');
 const guildMemberRouter = require('./guildmembers');
 const guildPhotoRouter = require('./guildphotos');
+const commentRouter = require('./comments');
 
 // Adds the current user to the request and passes it on
 // current user in db if found
@@ -33,6 +34,7 @@ router.use('/guilds', guildRouter);
 router.use('/guild-chat', guildMessagesRouter);
 router.use('/guildmembers', guildMemberRouter);
 router.use('/guildphotos', guildPhotoRouter);
+router.use('/comments', commentRouter);
 // test route
 // router.get('/set-token-cookie', async(_req, res) => {
 //     const user = await User.findOne({
