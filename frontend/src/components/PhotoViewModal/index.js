@@ -1,10 +1,12 @@
 import './PhotoViewModal.css';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useState } from 'react';
-import { uploadComment } from '../../store/guilds';
+import { uploadComment, deleteComment } from '../../store/guilds';
 import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
 
 function PhotoViewModal({photo}) {
+    const {setModalContent, closeModal} = useModal();
     const {imageUrl:url, caption, userId, User:owner, Comments:comments} = photo;
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
@@ -16,7 +18,7 @@ function PhotoViewModal({photo}) {
         // dispatch an edit photo request
     }
 
-    function submitComment(e) {
+    async function submitComment(e) {
         e.preventDefault();
 
         const data = {
@@ -25,14 +27,26 @@ function PhotoViewModal({photo}) {
             photoId: photo?.id
         }
 
-        dispatch(uploadComment(data));
+        const newPhoto = await dispatch(uploadComment(data));
+        // closeModal();
+        setModalContent(<PhotoViewModal photo={newPhoto} />)
 
         setNewComment('');
     }
 
+    async function handleDeleteComment(commentId) {
+        const newPhoto = await dispatch(deleteComment(commentId));
+        console.log(newPhoto);
+        setModalContent(<PhotoViewModal photo={newPhoto} />)
+    }
+
+    async function handleEditComment(commentId){
+        //
+    }
+
     return <div className='photo-view-ctn'>
         <img src={url} />
-        <div>
+        <div className='photo-view-content'>
             <h2>Uploaded by {owner?.username}</h2>
             <p>{caption}</p>
             {user.id === userId && <form onSubmit={handleSubmit}>
@@ -46,13 +60,19 @@ function PhotoViewModal({photo}) {
             </form>}
 
             <h2>Comments</h2>
-            {comments && comments.map(c => {
-                return <div>
-                    <img src={c.User.avatarUrl}/>
-                    <p>{c.User.username}</p>
-                    <p>{c.content}</p>
-                </div>
-            })}
+            <div className='comments-list'>
+                {comments && comments.map(c => {
+                    return <div className='comment-ctn'>
+                        <img className='comment-prof-pic' src={c.User.avatarUrl}/>
+                        <div>
+                            <span>{c.User.username}</span>
+                            <p>{c.content}</p>
+                        </div>
+                        {c.userId === user.id && <button onClick={() => handleEditComment(c.id)}>Edit</button>}
+                        {c.userId === user.id && <button onClick={() => handleDeleteComment(c.id)}>Delete</button>}
+                    </div>
+                })}
+            </div>
 
 
             <form onSubmit={submitComment}>

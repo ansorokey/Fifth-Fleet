@@ -3,6 +3,17 @@ const { GuildPhoto, Comment, User } = require('../../db/models');
 
 const router = express.Router();
 
+router.get('/photos/:photoId', async (req, res) => {
+    const {photoId} = req.params;
+
+    const photo = await GuildPhoto.findByPk(photoId, {
+        include: {model: Comment}
+    });
+
+    return res.json({
+        photo
+    })
+})
 
 // create a comment for a guild photo
 router.post('/:photoId/comments', async (req, res) => {
@@ -16,17 +27,13 @@ router.post('/:photoId/comments', async (req, res) => {
         content
     });
 
-    const comment = await Comment.findByPk(newComment.id, {
-        include: [
-            {
-                model: User
-            }
-        ]
-    });
+    if (newComment) {
+        const comment = await Comment.findByPk(newComment.id);
+        return res.json({
+            comment
+        });
+    }
 
-    return res.json({
-        comment
-    });
 
 });
 

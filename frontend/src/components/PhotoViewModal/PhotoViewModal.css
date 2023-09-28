@@ -1,6 +1,7 @@
 .photo-view-ctn {
+    width: 100%;
     display: grid;
-    grid-template-columns: auto 200px;
+    grid-template-columns: 1fr 400px;
     width: 90vw;
     height: 90vh;
     background-color: aquamarine;
@@ -11,4 +12,25 @@
     height: 90vh;
     object-fit: scale-down;
     background-color: blueviolet;
+}
+
+.comments-list {
+    overflow-y: scroll;
+    height: 300px;
+    width: 100%;
+}
+
+.comment-ctn {
+    display: flex;
+    width: 100%;
+}
+
+.comment-prof-pic {
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+
+.photo-view-content {
+    width: 400px;
 }

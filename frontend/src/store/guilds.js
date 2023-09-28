@@ -5,7 +5,7 @@ export const SET_GUILD = 'guilds/SET_GUILD';
 export const ADD_PHOTO = 'guilds/ADD_PHOTO';
 export const EDIT_GUILD = 'guilds/EDIT_GUILD';
 export const REMOVE_GUILD = 'guilds/REMOVE_GUILD';
-export const POST_PHOTO_COMMENT = 'guilds/POST_PHOTO_COMMENT';
+export const ADD_COMMENT = 'guilds/POST_PHOTO_COMMENT';
 
 // reducer action: add all guilds to state
 export function addGuilds(guilds) {
@@ -119,8 +119,31 @@ export function uploadComment(data) {
         });
 
         if (response.ok) {
+            // just fetch the image and set it to guild i guess?
+            // fetch all images for this guild and re-set them?
+            const imageFetch = await csrfFetch(`/api/guildphotos/photos/${photoId}`);
+            if (imageFetch.ok) {
+                const res2 = await imageFetch.json();
+                dispatch(addPhoto(res2.photo.guildId, res2.photo));
+                return res2.photo;
+            }
+        }
+    }
+}
 
+// thunk action: delete a comment for a photo
+export function deleteComment(commentId) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`/api/comments/${commentId}`, {
+            method: 'DELETE'
+        });
 
+        if (response.ok) {
+            const res = await response.json();
+            // console.log(res.photo.guildId);
+            // console.log(res.photo);
+            dispatch(addPhoto(res.photo.guildId, res.photo))
+            return res.photo;
         }
     }
 }
@@ -191,8 +214,18 @@ function reducer(state = initialState, action) {
 
         case ADD_PHOTO:
             newState = {...state};
-            newState.guildPhotos[+action.guildId] = [...newState.guildPhotos[+action.guildId], action.image];
+            // [...newState.guildPhotos[+action.guildId], action.image];
+            newState.guildPhotos[+action.guildId] = state.guildPhotos[+action.guildId].filter( gp => {
+                // add every photo but the current (updated one) to the array
+                return (gp.id !== action.image.id)
+            });
+            // now add the updated one at the end
+            newState.guildPhotos[+action.guildId].push(action.image);
             return newState;
+
+        case ADD_COMMENT:
+            newState = {...state};
+            newState.guildPhotos[action.guildId] = []
 
         case REMOVE_GUILD:
             newState = {...state};

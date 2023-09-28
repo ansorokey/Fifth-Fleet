@@ -82,12 +82,13 @@ router.get('/:guildId', async (req, res) => {
                 model: GuildPhoto,
                 as: 'Photos',
                 include: [{
-                    model: User
-                },
-                {
                     model: Comment
                 }]
             },
+        ],
+
+        order: [
+            ['Photos', 'createdAt'],
         ]
     });
 
