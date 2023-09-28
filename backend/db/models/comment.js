@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Comment.belongsTo(models.User, {foreignKey: 'userId'})
+      Comment.belongsTo(models.User, {as: 'User', foreignKey: 'userId'})
       Comment.belongsTo(models.GuildPhoto, {foreignKey: 'photoId'})
     }
   }
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'guildPhoto',
+        model: 'GuildPhotos',
         key: 'id'
       },
       onDelete: 'CASCADE'
@@ -47,6 +47,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Comment',
+    defaultScope: {
+      include: [
+        {
+          association: 'User'
+        }
+      ]
+    }
   });
   return Comment;
 };

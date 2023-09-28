@@ -1,9 +1,12 @@
 import './PhotoViewModal.css';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useState } from 'react';
+import { uploadComment } from '../../store/guilds';
+import { useDispatch } from 'react-redux';
 
 function PhotoViewModal({photo}) {
-    const {imageUrl:url, caption, userId, User:owner} = photo;
+    const {imageUrl:url, caption, userId, User:owner, Comments:comments} = photo;
+    const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const [newCaption, setNewCaption] = useState('');
     const [newComment, setNewComment] = useState('');
@@ -15,7 +18,6 @@ function PhotoViewModal({photo}) {
 
     function submitComment(e) {
         e.preventDefault();
-        alert(newComment);
 
         const data = {
             content: newComment,
@@ -23,7 +25,7 @@ function PhotoViewModal({photo}) {
             photoId: photo?.id
         }
 
-        // dispatch(uploadComment(data));
+        dispatch(uploadComment(data));
 
         setNewComment('');
     }
@@ -44,7 +46,15 @@ function PhotoViewModal({photo}) {
             </form>}
 
             <h2>Comments</h2>
-            <p>List comments here</p>
+            {comments && comments.map(c => {
+                return <div>
+                    <img src={c.User.avatarUrl}/>
+                    <p>{c.User.username}</p>
+                    <p>{c.content}</p>
+                </div>
+            })}
+
+
             <form onSubmit={submitComment}>
                 <input
                     type="text"

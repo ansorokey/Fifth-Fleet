@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       GuildPhoto.belongsTo(models.User, {foreignKey: 'userId'});
+      GuildPhoto.hasMany(models.Comment, {foreignKey: 'photoId'})
     }
   }
   GuildPhoto.init({

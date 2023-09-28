@@ -5,6 +5,7 @@ export const SET_GUILD = 'guilds/SET_GUILD';
 export const ADD_PHOTO = 'guilds/ADD_PHOTO';
 export const EDIT_GUILD = 'guilds/EDIT_GUILD';
 export const REMOVE_GUILD = 'guilds/REMOVE_GUILD';
+export const POST_PHOTO_COMMENT = 'guilds/POST_PHOTO_COMMENT';
 
 // reducer action: add all guilds to state
 export function addGuilds(guilds) {
@@ -23,6 +24,7 @@ export function setSingleGuild(guild) {
 }
 
 // reducer action: add a new photo to the guild's photos
+// used for: Uploading an image, adding comment to an image
 export function addPhoto(guildId, image) {
     return {
         type: ADD_PHOTO,
@@ -103,6 +105,22 @@ export function uploadPhoto(data) {
             if(imageType) {
                 return {message: 'success', imageUrl: res.image.imageUrl}
             }
+        }
+    }
+}
+
+// thunk action: add a comment to a photo
+export function uploadComment(data) {
+    return async function(dispatch) {
+        const {photoId} = data;
+        const response = await csrfFetch(`/api/guildphotos/${photoId}/comments`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+
+
         }
     }
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { GuildPhoto, Comment } = require('../../db/models');
+const { GuildPhoto, Comment, User } = require('../../db/models');
 
 const router = express.Router();
 
@@ -16,8 +16,16 @@ router.post('/:photoId/comments', async (req, res) => {
         content
     });
 
+    const comment = await Comment.findByPk(newComment.id, {
+        include: [
+            {
+                model: User
+            }
+        ]
+    });
+
     return res.json({
-        comment: newComment
+        comment
     });
 
 });

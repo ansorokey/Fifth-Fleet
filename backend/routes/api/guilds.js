@@ -1,5 +1,5 @@
 const express = require('express');
-const { Guild, User, Greeting, GuildPhoto } = require('../../db/models');
+const { Guild, User, Greeting, GuildPhoto, Comment } = require('../../db/models');
 const { singleFileUpload, singleMulterUpload } = require('../../awsS3');
 const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
 const { requireAuth } = require('../../utils/auth');
@@ -43,11 +43,16 @@ router.post('/:guildId/photos',  singleMulterUpload("image"), async (req, res) =
 router.get('/:guildId/photos', async (req, res) => {
     const { guildId } = req.params;
     const images = await GuildPhoto.findAll({
-        where: { guildId }
+        where: { guildId },
+        include: [
+            {model: Comment}
+        ]
     });
 
-    const imageUrls = images.map(image => retrievePrivateFile(image.key));
-    return res.json(imageUrls);
+    // const imageUrls = images.map(image => retrievePrivateFile(image.key));
+    return res.json({
+        images
+    });
   }
 );
 
@@ -76,10 +81,13 @@ router.get('/:guildId', async (req, res) => {
             {
                 model: GuildPhoto,
                 as: 'Photos',
-                include: {
+                include: [{
                     model: User
-                }
-            }
+                },
+                {
+                    model: Comment
+                }]
+            },
         ]
     });
 
