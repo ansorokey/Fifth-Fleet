@@ -37,7 +37,7 @@ function EditGuildForm({guild}) {
 
     return (<>
         {filteredGreetings &&
-        <form onSubmit={handleSubmit}>
+        <form id="guild-form" onSubmit={handleSubmit}>
             <h1> Start your new guild! </h1>
 
             <label>
