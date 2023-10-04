@@ -1,4 +1,12 @@
 REMAINING TASKS
+
+STILL TO STYLE:
+-Photo Upload modal
+-Edit ___ modal
+-Add close buttons on all modals
+-fix select greeting msg on category change
+-add edit commment feature
+
 -ADD ERROR HANDLING AND AUTHORIZATION
 
 -A lobby can be deleted, but the chat remains open. How can I close the connection for all clients to a child component?
