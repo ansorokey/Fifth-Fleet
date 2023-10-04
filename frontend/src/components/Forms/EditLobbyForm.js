@@ -5,7 +5,7 @@ import { editLobby } from "../../store/lobbies";
 import { useModal } from "../../context/Modal";
 import './forms.css';
 
-function EditLobbyForm({lobby}) {
+function EditLobbyForm({lobby, edit=true}) {
     const greetings = Object.values(useSelector(state => state.utils.greetings));
     const monsters = Object.values(useSelector(state => state.utils.monsters));
     const questTypes = Object.values(useSelector(state => state.utils.questTypes));
@@ -60,7 +60,7 @@ function EditLobbyForm({lobby}) {
     return (<>
         {filteredGreetings &&
         <form onSubmit={handleSubmit} id="lobby-form">
-            <h1> Start a new lobby! </h1>
+            <h1> Manage your lobby! </h1>
 
             <label>
                 Add your session code so other can join you!
