@@ -75,10 +75,10 @@ function LandingPage({user}) {
             <h3>Latest Photos</h3>
             <div className='latest-pics'>
                 {pics.map(p => {
-                    return <img onClick={() => {
-                        setModalContent(<PhotoViewModal photo={p}/>)
-                        console.log(p);
-                    }} src={p.imageUrl} />
+                    // onClick={() => {
+                    //     setModalContent(<PhotoViewModal photo={p}/>)
+                    // }}
+                    return <img src={p.imageUrl} />
                 })}
             </div>
         </div>
