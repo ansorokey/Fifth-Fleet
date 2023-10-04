@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Weapon } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -28,7 +28,9 @@ router.get('/', async (req, res) => {
         const safeUser = {
             id: user.id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            avatarUrl: user.avatarUrl,
+            weaponUrl: user.Weapon.iconUrl,
         };
 
         return res.json({
@@ -53,6 +55,9 @@ router.post('/', validateLogin, async (req, res, next) => {
                 { username: credential },
                 { email: credential }
             ]
+        },
+        include: {
+            association: 'Weapon'
         }
     });
 
@@ -60,7 +65,9 @@ router.post('/', validateLogin, async (req, res, next) => {
         const safeUser = {
             id: user.id,
             email: user.email,
-            username: user.username
+            username: user.username,
+            avatarUrl: user.avatarUrl,
+            weaponUrl: user.Weapon.iconUrl,
         };
 
         // sets the JWT token using the user's info

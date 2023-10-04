@@ -7,13 +7,28 @@ router.get('/photos/:photoId', async (req, res) => {
     const {photoId} = req.params;
 
     const photo = await GuildPhoto.findByPk(photoId, {
-        include: {model: Comment}
+        include: [{model: Comment}, {model: User}]
     });
 
     return res.json({
         photo
     })
 })
+
+router.put('/photos/:photoId', async (req, res) => {
+    const {caption} = req.body;
+    const {photoId} = req.params;
+
+    const photo = await GuildPhoto.findByPk(photoId, {
+        include: [{model: Comment}, {model: User}]
+    });
+
+    photo.caption = caption;
+    await photo.save();
+
+    return res.json({photo});
+
+});
 
 // create a comment for a guild photo
 router.post('/:photoId/comments', async (req, res) => {
@@ -39,7 +54,12 @@ router.post('/:photoId/comments', async (req, res) => {
 
 // Get all guild photos across all guilds
 router.get('/all', async (req, res) => {
-    const allPhotos = await GuildPhoto.findAll();
+    const {limit} = req.query;
+
+    const allPhotos = await GuildPhoto.findAll({
+        include: [{model: Comment}, {model: User}],
+        limit
+    });
 
     res.json({
         photos: allPhotos
@@ -52,7 +72,8 @@ router.get('/:guildId', async (req, res) => {
     const allPhotos = await GuildPhoto.findAll({
         where: {
             guildId
-        }
+        },
+        include: [{model: Comment}, {model: User}]
     });
 
     res.json({

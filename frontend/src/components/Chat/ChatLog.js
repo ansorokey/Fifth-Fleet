@@ -13,7 +13,7 @@ function ChatLog({messages, user}) {
 
     return <div id='chat-log-ctn'>
         {messages && messages.map(m => {
-            return <Message key={m.content} curUser={user} username={m.username} content={m.content} />
+            return <Message key={m.content} curUser={user} username={m.username} content={m.content} avatarUrl={m.avatarUrl} weaponUrl={m.weaponUrl}/>
         })}
     </div>;
 }

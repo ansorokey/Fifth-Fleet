@@ -51,12 +51,12 @@ function GuildPage() {
         {isLoaded && guild ? <div className="guild-page-ctn">
             <div className="guild-header-images">
                 <div>
-                    <div>
+                    <div className="banner-ctn">
                         <img className="guild-page-banner" src={guild?.bannerUrl} />
                         {+user?.id === +guild?.hostId &&
                         <OpenModalButton
-                            className="guild-change-banner-btn"
-                            buttonText='Change Avatar'
+                            buttonClassName="guild-change-banner-btn"
+                            buttonText='Change Banner'
                             modalComponent={<EditGuildBannerForm guild={guild} />}
                         />}
                     </div>
@@ -64,7 +64,7 @@ function GuildPage() {
                         <img className="guild-page-avatar" src={guild?.avatarUrl} />
                         {+user?.id === +guild?.hostId &&
                         <OpenModalButton
-                            className="guild-change-avatar-btn"
+                            buttonClassName="guild-change-avatar-btn"
                             buttonText='Change Avatar'
                             modalComponent={<EditGuildAvatarForm guild={guild} />}
                         />}
@@ -120,11 +120,11 @@ function GuildPage() {
                     }
 
                     <h2>Members</h2>
-                    <div className="member-list">
+                    {guild?.Members?.length ? <div className="member-list">
                         {guild?.Members?.map(m => {
                             return <PlayerListing user={m} />
                         })}
-                    </div>
+                    </div> : <h2>No members yet!</h2>}
                 </div>
 
                 {user ?

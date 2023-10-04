@@ -1,6 +1,6 @@
 import './Navigation.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import ProfileButton from './ProfileButton';
 
 function Navigation({isLoaded}) {
@@ -11,13 +11,13 @@ function Navigation({isLoaded}) {
 
     return <nav id="nav-bar">
 
-                <Link to="/">Home</Link>
+                <NavLink exact to="/" className="nav-bar-link">Home</NavLink>
 
-                <Link to='/lobbies'>Lobbies</Link>
+                <NavLink to='/lobbies' className="nav-bar-link">Lobbies</NavLink>
 
-                <Link to='/guilds'>Guilds</Link>
+                <NavLink to='/guilds' className="nav-bar-link">Guilds</NavLink>
 
-                <Link to='/quests'>Quests</Link>
+                <NavLink to='/quests' className="nav-bar-link">Quests</NavLink>
             {isLoaded && <ProfileButton user={currentUser} />}
     </nav>;
 }

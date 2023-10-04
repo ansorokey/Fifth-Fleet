@@ -1,7 +1,39 @@
+.guild-listing {
+    background-image: url('../../../public/paper-note.png');
+    /* transform: rotateZ('90deg'); */
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 250px;
+    height: 350px;
+}
+
 .guild-listing-pic {
     height: 200px;
     width: 200px;
-    background-color: black;
+    position: absolute;
+    left: 30px;
+    top: 60px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+.gl-h2 {
+    margin: 0;
+    color: #952323;
+}
+
+.gl-h3 {
+    margin: 0;
+    color: #241468;
+}
+
+.gl-sp {
+    font-style: italic;
+    font-weight: 600;
+    color: #3E001F;
 }
 
 #gld-ctn {
@@ -12,6 +44,8 @@
 .gld-right-menu {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    row-gap: 32px;
+    column-gap: auto;
 }
 
 .photo-carousel {
@@ -40,12 +74,14 @@
 .guild-page-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    padding-top: 30px;
 }
 
-.guild-avatar {
-    width: 200px;
-    height: 200px;
+.guild-listing-avatar {
+    width: 150px;
+    height: 150px;
     object-fit: cover;
+    border-radius: 16px;
 }
 
 .guild-header-images {
@@ -56,8 +92,12 @@
 
 .guild-change-banner-btn {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    top: 4px;
+    left: 4px;
+}
+
+.banner-ctn {
+    position: relative;
 }
 
 .avatar-ctn {
@@ -79,6 +119,7 @@
     object-fit: cover;
     width: 100%;
     height: 400px;
+    margin-bottom: 20px;
 }
 
 .guild-page-avatar {
@@ -89,4 +130,61 @@
     box-sizing: content-box;
     border: 5px dashed brown;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.guild-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 80%;
+    margin: 16px 0;
+}
+
+.guild-category-select {
+    background-color: darkolivegreen;
+    color: white;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    font-size: 16px;
+    padding: 4px;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.guild-filter-btn {
+    font-size: 20px;
+    background-color: grey;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.guild-filter-choice {
+    font-size: 20px;
+    background-color: darkolivegreen;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.guild-page-content {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: whitesmoke;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding-left: 16px;
+}
+
+.guild-page-content > h1 {
+    font-size: 50px;
+    text-decoration: underline;
+    filter: drop-shadow(10px 10px 4px #000000);
+}
+
+.guild-page-content > button {
+    background-color: black;
+    color: whitesmoke;
+    padding: 8px 4px;
+    margin-right: 16px;
 }

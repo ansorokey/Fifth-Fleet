@@ -1,0 +1,33 @@
+.signup-page-ctn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 100vh;
+    padding-top: 10px;
+}
+
+.signup-page-ctn > h1 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.signup-page-ctn > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center-end;
+    gap: 16px;
+    width: 90%;
+}
+
+.signup-page-ctn > form > input {
+    padding: 8px;
+}
+
+.signup-page-ctn > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-center;
+    width: 90%;
+}

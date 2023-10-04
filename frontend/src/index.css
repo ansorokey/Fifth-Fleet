@@ -1,5 +1,18 @@
 /* TODO Add site wide styles */
+html {
+    background-image: url('../public/vintage-paper.png');
+    background-size: cover;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding-bottom: 10px;
+}
+
 a {
     text-decoration: none;
     color: currentColor;
+    width:fit-content
 }

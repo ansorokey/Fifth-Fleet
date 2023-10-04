@@ -1,5 +1,5 @@
 const express = require('express');
-const { Comment, GuildPhoto } = require('../../db/models');
+const { Comment, GuildPhoto, User } = require('../../db/models');
 
 const router = express.Router();
 
@@ -8,14 +8,19 @@ router.delete('/:commentId', async (req, res) => {
     const {commentId} = req.params;
 
     const comment = await Comment.findByPk(commentId);
+    // console.log('\n', comment, '\n');
     const photoId = comment.photoId;
+    console.log(photoId);
 
     await comment.destroy();
 
     const photo = await GuildPhoto.findByPk(photoId, {
-        include: {
+        include: [{
             model: Comment
-        }
+        },
+        {
+            model: User
+        }]
     });
     return res.json({photo})
 });

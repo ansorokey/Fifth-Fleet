@@ -59,13 +59,16 @@ function App() {
         <SignupFormPage />
       </Route>
 
-
       <Route path="/guilds">
         <Guilds />
       </Route>
 
       <Route path="/lobbies">
         <Lobbies />
+      </Route>
+
+      <Route path="/quests">
+        <h1>Coming soon!</h1>
       </Route>
 
       <Route path="/lost">

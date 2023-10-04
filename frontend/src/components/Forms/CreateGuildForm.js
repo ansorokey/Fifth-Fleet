@@ -12,6 +12,7 @@ function CreateGuildForm() {
     const [greetingCategory, setGreetingCategory] = useState('Playstyle');
     const [filteredGreetings, setFilteredGreetings] = useState([]);
     const [greeting, setGreeting] = useState(69);
+    const [errs, setErrs] = useState({});
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -29,12 +30,15 @@ function CreateGuildForm() {
     }, []);
 
     useEffect(() => {
-        setFilteredGreetings(greetings.filter(g => g.category === greetingCategory));
+        let filt = greetings.filter(g => g.category === greetingCategory);
+        setFilteredGreetings(filt);
+        if(filt[0]) setGreeting(filt[0].id);
     }, [greetingCategory]);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
+        console.log(greeting);
         const data = {
             name: guildName,
             about,
@@ -42,6 +46,10 @@ function CreateGuildForm() {
         }
 
         const res = await dispatch(createGuild(data));
+        if(res && res.errors) {
+            setErrs(res.errors);
+            return;
+        }
 
         history.push(`/guilds/${res}`);
         closeModal();
@@ -49,7 +57,7 @@ function CreateGuildForm() {
 
     return (<>
         {filteredGreetings &&
-        <form onSubmit={handleSubmit}>
+        <form id="guild-form" onSubmit={handleSubmit}>
             <h1> Start your new guild! </h1>
 
             <label>
@@ -61,6 +69,7 @@ function CreateGuildForm() {
                     onChange={e => setGuildName(e.target.value)}
                 />
             </label>
+            {errs && <span className="err-span">{errs.name}</span>}
 
             <label>
                 Give new players a brief description of your guild
@@ -72,59 +81,20 @@ function CreateGuildForm() {
 
             <label>
                 Pick a message so players can see what your guild is all about at a glance
-                <label>
-                    Quests and Expeditions
-                    <input
-                        type="radio"
-                        value='Quests and Expeditions'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Locale
-                    <input
-                        type="radio"
-                        value='Locale'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Weapons and Armor
-                    <input
-                        type="radio"
-                        value='Weapons and Armor'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Rank
-                    <input
-                        type="radio"
-                        value='Rank'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Playstyle
-                    <input
-                        type="radio"
-                        value='Playstyle'
-                        name='greetingCategory'
-                        checked={greetingCategory === 'Playstyle'}
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
+                <select className='guild-category-select' value={greetingCategory} onChange={(e) => setGreetingCategory(e.target.value)}>
+                    <option value='Quests and Expeditions'>
+                            Quests and Expeditions
+                    </option>
+                    <option value='Locale'>Locale</option>
+                    <option value='Weapons and Armor'>Weapons and Armor</option>
+                    <option value='Rank'>Rank</option>
+                    <option value='Playstyle'>Playstyle</option>
+                </select>
 
                 <select
+                    id="sel"
                     onChange={(e) => setGreeting(e.target.value)}
+                    value={greeting}
                 >
                     {filteredGreetings?.map(g => {
                         return (<option key={g.id} value={g.id}>
@@ -134,7 +104,7 @@ function CreateGuildForm() {
                 </select>
             </label>
 
-            <button>Save</button>
+            <button className="save-button">Save</button>
 
         </form>
         }

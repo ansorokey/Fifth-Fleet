@@ -24,7 +24,7 @@ const allMessages = [
     { category: 'Quests and Expeditions', message: 'Clearing bounties!' },
     {
       category: 'Quests and Expeditions',
-      message: 'Hunting tempered monstres!'
+      message: 'Hunting tempered monsters!'
     },
     { category: 'Quests and Expeditions', message: '1-star quests' },
     { category: 'Quests and Expeditions', message: '2-star quests' },

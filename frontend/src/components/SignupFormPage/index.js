@@ -26,12 +26,12 @@ function SignupFormPage() {
         }
 
         if (username.length < 4 || username.length > 30){
-            valErrors.username = 'Please provide a username 4 and 30 characters in length';
+            valErrors.username = 'Please provide a username betweeb 4 and 30 characters in length';
         }
 
         if (password.length < 6) {
-            valErrors.password = 'Password must be at least 6 characters';
-            valErrors.confirmPassword = 'Password must be at least 6 characters';
+            valErrors.password = 'Password must be at least 6 characters in length';
+            valErrors.confirmPassword = 'Password must be at least 6 characters in length';
         }
 
         if (Object.keys(errs).length) {
@@ -53,11 +53,8 @@ function SignupFormPage() {
         history.push('/');
     }
 
-    // if (currentUser) {
-    //     return <Redirect to="/" />
-    // }
-
-    return (<>
+    return (<div className='signup-page-ctn'>
+        <h1>Make an account</h1>
         <form onSubmit={handleSubmit}>
             <input
                 type='text'
@@ -98,12 +95,14 @@ function SignupFormPage() {
             <button> Sign Up </button>
         </form>
 
-        <p>Already have an account?</p>
-        <OpenModalButton
-            buttonText="Sign In"
-            modalComponent={<LoginFormModal />}
-        />
-    </>);
+        <div>
+            <p>Already have an account?</p>
+            <OpenModalButton
+                buttonText="Sign In"
+                modalComponent={<LoginFormModal />}
+            />
+        </div>
+    </div>);
 }
 
 export default SignupFormPage;

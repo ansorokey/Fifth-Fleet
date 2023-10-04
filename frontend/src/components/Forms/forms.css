@@ -1,9 +1,93 @@
+/* CREATE LOBBY FORM */
 #lobby-form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
+#lobby-form > h1 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#lobby-form > label > input,
+#lobby-form > label > select {
+    padding: 4px 0px;
+    color: white;
+    background-color: black;
+    padding-left: 8px;
+}
+
+#lobby-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 60%;
 }
 
 .greeting-categories {
     display: flex;
     flex-direction: column;
+}
+
+/* CREATE GUILD FORM */
+#guild-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
+#guild-form > h1 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#guild-form > label > input,
+#guild-form > label > select,
+#guild-form > label > textarea {
+    padding: 4px 0px;
+    color: white;
+    background-color: black;
+    padding-left: 8px;
+}
+
+#guild-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 60%;
+}
+
+.greeting-categories {
+    display: flex;
+    flex-direction: column;
+}
+
+.save-button {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: antiquewhite;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: black;
+    color: antiquewhite;
+}
+
+.err-span {
+    color: whitesmoke;
+    /* background-color: black; */
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

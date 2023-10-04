@@ -27,12 +27,12 @@ function SignupFormModal() {
         }
 
         if (username.length < 4 || username.length > 30){
-            valErrors.username = 'Please provide a username 4 and 30 characters in length';
+            valErrors.username = 'Please provide a username between 4 and 30 characters in length';
         }
 
         if (password.length < 6) {
-            valErrors.password = 'Password must be at least 6 characters';
-            valErrors.confirmPassword = 'Password must be at least 6 characters';
+            valErrors.password = 'Password must be at least 6 characters in length';
+            valErrors.confirmPassword = 'Password must be at least 6 characters in length';
         }
 
         if (Object.keys(errs).length) {
@@ -58,7 +58,9 @@ function SignupFormModal() {
         return <Redirect to="/" />
     }
 
-    return (
+    return (<div className='signup-modal-ctn'>
+        <h1 className='signup-modal-h1'>Sign Up</h1>
+
         <form onSubmit={handleSubmit}>
             <input
                 type='text'
@@ -66,7 +68,7 @@ function SignupFormModal() {
                 value={username}
                 required
                 onChange={e => setUsername(e.target.value)}
-            />
+                />
             <p>{valErrors.username}</p>
 
             <input
@@ -75,7 +77,7 @@ function SignupFormModal() {
                 value={email}
                 required
                 onChange={e => setEmail(e.target.value)}
-            />
+                />
             <p>{valErrors.email}</p>
 
             <input
@@ -84,7 +86,7 @@ function SignupFormModal() {
                 value={password}
                 required
                 onChange={e => setPassword(e.target.value)}
-            />
+                />
             <p>{valErrors.confirmPassword}</p>
 
             <input
@@ -93,12 +95,12 @@ function SignupFormModal() {
                 value={confirmPassword}
                 required
                 onChange={e => setConfirmPassword(e.target.value)}
-            />
+                />
             <p>{valErrors.password}</p>
 
-            <button> Sign Up </button>
+            <button className='signup-modal-btn'> Sign Up </button>
         </form>
-    );
+    </div>);
 }
 
 export default SignupFormModal;

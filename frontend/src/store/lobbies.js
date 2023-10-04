@@ -30,13 +30,14 @@ function removeLobby(lobbyId) {
 
 // thunk action: fetch all the lobbies
 export function loadLobbies(queryParams = {}) {
-    const {name, questType, greeting} = queryParams;
+    const {name, questType, greeting, limit} = queryParams;
     return async function(dispatch) {
         let url = '/api/lobbies?';
 
-        if(name) url += `name=${name}`;
-        if(questType) url += `questType=${questType}`;
-        if(greeting) url += `greeting=${greeting}`;
+        if(name) url += `name=${name}&&`;
+        if(questType) url += `questType=${questType}&&`;
+        if(greeting) url += `greeting=${greeting}&&`;
+        if(limit) url += `limit=${limit}&&`;
 
         const response = await csrfFetch(url);
 

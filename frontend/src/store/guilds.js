@@ -51,10 +51,14 @@ function removeGuild(guildId) {
 }
 
 // thunk action: query for all guilds
-export function loadGuilds() {
+export function loadGuilds(data={}) {
+    const {greetingId, limit} = data;
+    let url = '/api/guilds?';
+    if(greetingId) url += 'greetingId=' + greetingId + '&&';
+    if(limit) url += 'limit=' + limit + '&&';
     return async function(dispatch) {
         try{
-            const response = await csrfFetch('/api/guilds');
+            const response = await csrfFetch(url);
 
             if (response.ok) {
                 const res = await response.json();
@@ -151,16 +155,21 @@ export function deleteComment(commentId) {
 // thunk action: create a new guild
 export function createGuild(data) {
     return async function(dispatch) {
-        const response = await csrfFetch('/api/guilds', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
+        try {
+            const response = await csrfFetch('/api/guilds', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
 
-        if (response.ok) {
-            const res = await response.json();
-            dispatch(setSingleGuild(res.guild));
-            return res.guild.id;
+            if (response.ok) {
+                const res = await response.json();
+                dispatch(setSingleGuild(res.guild));
+                return res.guild.id;
+            }
+        } catch(e) {
+            return e.json();
         }
+
     }
 }
 
@@ -192,12 +201,29 @@ export function deleteGuild(guildId) {
     }
 }
 
+// thunk action: edit a photo
+export function editPhoto(photoId, data) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`/api/guildphotos/photos/${photoId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const res = await response.json();
+            dispatch(addPhoto(res.photo.guildId, res.photo));
+            return res.photo;
+        }
+    }
+}
+
 let initialState = {arr: [], guildPhotos: {}}
 function reducer(state = initialState, action) {
     let newState = initialState;
     switch (action.type) {
 
         case ADD_GUILDS:
+            newState = {arr: [], guildPhotos: {}};
             action.guilds.forEach( g => {
                 newState[+g.id] = g;
             });
@@ -215,12 +241,18 @@ function reducer(state = initialState, action) {
         case ADD_PHOTO:
             newState = {...state};
             // [...newState.guildPhotos[+action.guildId], action.image];
-            newState.guildPhotos[+action.guildId] = state.guildPhotos[+action.guildId].filter( gp => {
+            let found = false;
+            newState.guildPhotos[+action.guildId] = state.guildPhotos[+action.guildId].map( gp => {
                 // add every photo but the current (updated one) to the array
-                return (gp.id !== action.image.id)
+                if (gp.id === action.image.id) {
+                    found = true;
+                    return action.image
+                }
+
+                return gp;
             });
             // now add the updated one at the end
-            newState.guildPhotos[+action.guildId].push(action.image);
+            if (!found) newState.guildPhotos[+action.guildId].push(action.image);
             return newState;
 
         case ADD_COMMENT:

@@ -8,7 +8,7 @@ function Chat({user, sessionType, session}) {
     const webSocket = useRef(null);
 
     useEffect(() => {
-        if (!user) return;
+        // if (!user) return;
 
         const ws = new WebSocket(process.env.REACT_APP_WS_URL);
 
@@ -17,15 +17,15 @@ function Chat({user, sessionType, session}) {
 
         // websocket actions
         ws.onopen = function(e) {
-            setMessages([{content: 'Chat connected!'}]);
             const jsonMsg = JSON.stringify({
                 type: 'connect',
                 session: sessionType,
                 id: session.id,
                 content: msg,
-                username: user.username
+                username: user?.username
             });
             ws.send(jsonMsg)
+            setMessages([{username: null, content: 'Connected to chat!'}]);
         }
 
         ws.onclose = function(e) {
@@ -54,6 +54,7 @@ function Chat({user, sessionType, session}) {
         if (webSocket.current !== null) {
             webSocket.current.onmessage = function(e){
                 const incomingMsg = JSON.parse(e.data);
+                console.log(incomingMsg);
                 setMessages([...messages, incomingMsg]);
             }
         }
@@ -61,14 +62,19 @@ function Chat({user, sessionType, session}) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if(!msg.length) return;
 
         const jsonMsg = JSON.stringify({
             type: 'chat',
             session: sessionType,
             id: session.id,
             content: msg,
-            username: user.username
+            username: user?.username,
+            avatarUrl: user?.avatarUrl,
+            weaponUrl: user?.weaponUrl
         });
+
+        console.log('outgoing', jsonMsg);
 
         webSocket.current.send(jsonMsg);
 

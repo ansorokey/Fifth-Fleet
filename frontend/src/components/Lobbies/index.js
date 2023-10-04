@@ -66,20 +66,22 @@ function Lobbies() {
 
     return (<div id='lby-ctn'>
         <div className='left-menu'>
-            <button onClick={() => setShowFilterMenu(!showFilterMenu)}>Filter Lobbies</button>
+            <button className='left-menu-button' onClick={() => setShowFilterMenu(!showFilterMenu)}>Filter Lobbies</button>
 
 {/* TARGET MONSTER */}
-            {showFilterMenu && <div>
+            {showFilterMenu && <div className='filter-menu'>
                 <div className='left-menu-filter-option'>
-                    <p onClick={() => setShowMonsterOptions(!showMonsterOptions)}>Target Monster</p>
-                    {monsterName && <div><p>{monsterName}</p><i onClick={() => setMonsterName('')} className="fa-solid fa-circle-minus"></i></div>}
+                    <button onClick={() => setShowMonsterOptions(!showMonsterOptions)}>
+                        Target Monster
+                    </button>
+                    {monsterName && <div className='filter-selection'><span>{monsterName}</span><i onClick={() => setMonsterName('')} className="fa-solid fa-circle-minus"></i></div>}
                 </div>
                 {showMonsterOptions && <>
                     <div className='two-col'>
-                        {monsters.slice(monPage, monPage + 10).map(m => <p key={uuidv4()} onClick={() => {
+                        {monsters.slice(monPage, monPage + 10).map(m => <span key={uuidv4()} onClick={() => {
                             setMonsterName(m.name);
                             setShowMonsterOptions(false);
-                        }}>{m.name}</p>)}
+                        }}>{m.name}</span>)}
                     </div>
 
                     <div className='page-btns'>
@@ -103,26 +105,26 @@ function Lobbies() {
                 </>}
 {/* QUEST TYPE */}
                 <div className='left-menu-filter-option'>
-                    <p onClick={() => setShowQuestTypeOptions(!showQuestTypeOptions)}>Quest Type</p>
-                    {questTypeName && <div><p>{questTypeName}</p><i onClick={() => setQuestTypeName('')} className="fa-solid fa-circle-minus"></i></div>}
+                    <button onClick={() => setShowQuestTypeOptions(!showQuestTypeOptions)}>Quest Type</button>
+                    {questTypeName && <div className='filter-selection'><span>{questTypeName}</span><i onClick={() => setQuestTypeName('')} className="fa-solid fa-circle-minus"></i></div>}
                 </div>
                 {showQuestTypeOptions && <>
-                  <div>
-                    {questTypes.map(qt => <p key={uuidv4()} onClick={() => {
+                  <div className='two-col'>
+                    {questTypes.map(qt => <span key={uuidv4()} onClick={() => {
                         setShowQuestTypeOptions(false);
                         setQuestTypeName(qt.type)
-                    }}>{qt.type}</p>)}
+                    }}>{qt.type}</span>)}
                   </div>
                 </>}
 
 {/* GREETINGS */}
                 <div className='left-menu-filter-option'>
-                    <p onClick={() => setShowGreetingOptions(!showGreetingOptions)}>Greeting</p>
-                    {greetingMsg && <div><p>{greetingMsg}</p><i onClick={() => setGreetingMsg('')} className="fa-solid fa-circle-minus"></i></div>}
+                    <button onClick={() => setShowGreetingOptions(!showGreetingOptions)}>Greeting</button>
+                    {greetingMsg && <div className='filter-selection'><span>{greetingMsg}</span><i onClick={() => setGreetingMsg('')} className="fa-solid fa-circle-minus"></i></div>}
                 </div>
                 {showGreetingOptions &&
                 <div>
-                    <select value={greetingCat} onChange={(e) => setGreetingCat(e.target.value)}>
+                    <select className='lobby-category-select' value={greetingCat} onChange={(e) => setGreetingCat(e.target.value)}>
                         <option value='Quests and Expeditions'>
                             Quests and Expeditions
                         </option>
@@ -131,14 +133,17 @@ function Lobbies() {
                         <option value='Rank'>Rank</option>
                         <option value='Playstyle'>Playstyle</option>
                     </select>
-                    {filteredGreetings.slice(grPage, grPage + 5).map(g => {
-                    return <p
-                                key={uuidv4()}
-                                onClick={() => {
-                                    setGreetingMsg(g.message);
-                                    setShowGreetingOptions(false);
-                                }}
-                    >{g.message}</p>})}
+                    <div className='one-col'>
+                        {filteredGreetings.slice(grPage, grPage + 5).map(g => {
+                        return <span
+                                    key={uuidv4()}
+                                    onClick={() => {
+                                        setGreetingMsg(g.message);
+                                        setShowGreetingOptions(false);
+                                    }}
+                        >{g.message}</span>})}
+
+                    </div>
 
                     <div className='page-btns'>
                         <span onClick={() => setGrPage(() => {
@@ -161,15 +166,16 @@ function Lobbies() {
                 </div>
                 }
 
-                <button onClick={handleFilter}> FILTER </button>
+                <button className='filter-btn' onClick={handleFilter}> SEARCH </button>
             </div>}
             {user && <OpenModalButton
+            buttonClassName='left-menu-button'
                 buttonText='Open a Lobby'
                 modalComponent={<CreateLobbyForm />}
             />}
         </div>
 {/* LOBBY LISTINGS */}
-        <div>
+        <div className='lby-right-menu'>
             <div className='lby-list-headers'>
                 <h2>Host</h2>
                 <h2>Target Monster</h2>

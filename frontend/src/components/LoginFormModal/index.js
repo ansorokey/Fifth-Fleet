@@ -41,41 +41,51 @@ function LoginFormModal() {
     }
 
     return (
-        <>
-            <h1> Sign in </h1>
+        <div className="login-modal-ctn">
+            <h1 className="login-modal-h1"> Sign in </h1>
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Username or Email"
-                    value={credential}
-                    onChange={e => setCredential(e.target.value)}
-                    required
+                <div className="login-modal-input-ctn">
+                    <i className="fa-solid fa-at"></i>
+                    <input
+                        className="login-modal-cred"
+                        type="text"
+                        placeholder="Username or Email"
+                        value={credential}
+                        onChange={e => setCredential(e.target.value)}
+                        required
                     />
+
+                </div>
                 <p>{valErrors?.credential}</p>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
+                <div className="login-modal-input-ctn">
+                    <i className="fa-solid fa-key"></i>
+                    <input
+                        className="login-modal-pass"
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
                     />
+
+                </div>
                 <p>{valErrors?.password}</p>
 
-                <button> Log In </button>
+                <button className="login-modal-btn"> Log In </button>
 
             </form>
 
-            <button onClick={(e) => {
-                // e.preventDefault();
-                // setCredential('demouser');
-                // setPassword('password');
-                // handleSubmit(e);
-                dispatch(logIn({credential: 'demouser', password: 'password'}));
-                closeModal();
-            }}> Sign In As Demo User</button>
+                <button
+                    className='login-modal-btn'
+                    onClick={(e) => {
 
-        </>
+                    e.preventDefault();
+                    dispatch(logIn({credential: 'demouser', password: 'password'}));
+                    closeModal();
+                }}> Sign In As Demo User</button>
+
+        </div>
     );
 }
 

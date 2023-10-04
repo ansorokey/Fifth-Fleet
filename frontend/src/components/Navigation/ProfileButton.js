@@ -50,35 +50,37 @@ function ProfileButton({user}) {
         closeMenu2();
     }
 
-    const validUser = (<>
+    const validUser = (<div className="user-btn-drop-down-menu">
             <li>{user?.username}</li>
             <li>{user?.email}</li>
             <li><Link to="/my-profile"><button>My Profile</button></Link></li>
             <button onClick={handleLogout}>Logout</button>
-    </>);
+    </div>);
 
-    const nullUser = (<>
-                <OpenModalMenuItem
-                    itemText="Sign In"
+    const nullUser = (<div className="user-btn-drop-down-menu">
+                <OpenModalButton
+                    buttonClassName='prof-drop-btns'
+                    buttonText="Sign In"
                     modalComponent={<LoginFormModal />}
-                    onItemClick={closeMenu2}
+                    onButtonClick={closeMenu2}
                 />
 
-                <OpenModalMenuItem
-                    itemText="Sign Up"
+                <OpenModalButton
+                    buttonClassName='prof-drop-btns'
+                    buttonText="Sign Up"
                     modalComponent={<SignupFormModal />}
-                    onItemClick={closeMenu2}
+                    onButtonClick={closeMenu2}
                 />
-    </>);
+    </div>);
 
-    return (<>
-        <button onClick={openMenu}>
-            <i className="fa-solid fa-user"></i>
+    return (<div className="user-profile-ctn">
+        <button className="user-profile-button" onClick={openMenu}>
+            <i className="fa-solid fa-circle-user"></i>
         </button>
-        <ul hidden={!showMenu} ref={refEl}>
+        <ul className="hidden-ul" hidden={!showMenu} ref={refEl}>
             {user ? validUser : nullUser}
         </ul>
-    </>);
+    </div>);
 }
 
 export default ProfileButton;

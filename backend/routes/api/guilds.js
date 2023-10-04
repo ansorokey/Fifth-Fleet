@@ -34,8 +34,12 @@ router.post('/:guildId/photos',  singleMulterUpload("image"), async (req, res) =
         caption
     });
 
+    const returnPhoto = await GuildPhoto.findByPk(newPhoto.id, {
+        include: [{model: User}, {model: Comment}]
+    });
+
     return res.json({
-        image: newPhoto
+        image: returnPhoto
     });
 });
 
@@ -83,6 +87,9 @@ router.get('/:guildId', async (req, res) => {
                 as: 'Photos',
                 include: [{
                     model: Comment
+                },
+                {
+                    model: User
                 }]
             },
         ],
@@ -181,6 +188,17 @@ router.put('/:guildId', async (req, res) => {
 
 // Get all Guilds
 router.get('/', async (req, res) => {
+    let {greetingId, limit} = req.query;
+
+    const greetingWhere = {
+        // required: false,
+        where: {}
+    };
+
+    if(+greetingId) {
+        greetingWhere.where.greetingId = +greetingId;
+        // greetingWhere.required = true;
+    }
     const allGuilds = await Guild.findAll({
         include: [
             {
@@ -195,19 +213,24 @@ router.get('/', async (req, res) => {
                 }
             },
             {
-                model: Greeting
+                model: Greeting,
             }
-        ]
+        ],
+        ...greetingWhere
     });
 
-    const guildsJson = allGuilds.map(g => {
+    let guildsJson = allGuilds.map(g => {
         let asJson = g.toJSON();
         asJson.numMembers = +g.Members.length;
         return asJson;
     });
 
+    if(limit) {
+        guildsJson = guildsJson.slice(guildsJson.length - limit);
+    }
+
     res.json({
-        guilds: guildsJson
+        guilds: guildsJson.slice()
     });
 });
 

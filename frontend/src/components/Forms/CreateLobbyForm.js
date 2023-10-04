@@ -27,7 +27,9 @@ function CreateLobbyForm() {
     const {closeModal} = useModal();
 
     useEffect(() => {
-        setFilteredGreetings(greetings.filter(g => g.category === greetingCategory));
+        let filt = greetings.filter(g => g.category === greetingCategory);
+        setFilteredGreetings(filt);
+        if(filt[0]) setGreeting(filt[0].id);
     }, [greetingCategory]);
 
     async function handleSubmit(e) {
@@ -65,9 +67,10 @@ function CreateLobbyForm() {
             <h1> Start a new lobby! </h1>
 
             <label>
-                Add your session code so other can join you!
+                Add your session code so others can join you!
                 <input
                     required
+                    placeholder="Session Code..."
                     value={sessionCode}
                     onChange={e => setSessionCode(e.target.value)}
                 />
@@ -76,56 +79,13 @@ function CreateLobbyForm() {
 
             <label className="greeting-categories">
                 Pick a message so players can see what your guild is all about at a glance
-                <label>
-                    Quests and Expeditions
-                    <input
-                        type="radio"
-                        value='Quests and Expeditions'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Locale
-                    <input
-                        type="radio"
-                        value='Locale'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Weapons and Armor
-                    <input
-                        type="radio"
-                        value='Weapons and Armor'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Rank
-                    <input
-                        type="radio"
-                        value='Rank'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Playstyle
-                    <input
-                        type="radio"
-                        value='Playstyle'
-                        name='greetingCategory'
-                        checked={greetingCategory === 'Playstyle'}
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
+                <select value={greetingCategory} onChange={(e) => setGreetingCategory(e.target.value)}>
+                    <option value="Quests and Expeditions">Quests and Expeditions</option>
+                    <option value="Locale">Locale</option>
+                    <option value="Weapons and Armor">Weapons and Armor</option>
+                    <option value="Rank">Rank</option>
+                    <option value='Playstyle'>Playstyle</option>
+                </select>
 
                 <select
                     onChange={(e) => setGreeting(e.target.value)}

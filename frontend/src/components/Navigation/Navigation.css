@@ -1,5 +1,69 @@
+/* Navigation Bar */
 #nav-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin: 32px 0;
+}
+
+/* Nagivation Links */
+.nav-bar-link {
+    background-color: #6B4717;
+    color: white;
+    text-shadow: 2px 2px 4px black, 2px 2px 4px black;
+    font-size: 24px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.nav-bar-link:hover {
+    color: yellow;
+}
+
+.nav-bar-link.active {
+    color: crimson;
+}
+
+/* Navigation Profile Button */
+.user-profile-button {
+    background-color: #6B4717;
+    border-radius: 4px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.fa-solid.fa-circle-user {
+    font-size: 24px;
+}
+.user-profile-ctn {
+    position: relative;
+}
+
+.user-btn-drop-down-menu {
+    position: absolute;
+    right: 0;
+    background-image: url('../../../public/vintage-paper.png');
+    border: 3px solid black;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 10;
+}
+
+.hidden-ul {
+    width: 0;
+    height: 0;
+    position: absolute;
+    list-style: none;
+}
+
+.prof-drop-btns {
+    width: 75px;
+    padding: 8px 4px;
+    color: white;
+    background-color: #6B4717;
 }

@@ -1,28 +1,40 @@
 .photo-view-ctn {
-    width: 100%;
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 75% 25%;
     width: 90vw;
     height: 90vh;
-    background-color: aquamarine;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .photo-view-ctn > img {
-    width: 65vw;
+    width: 100%;
     height: 90vh;
     object-fit: scale-down;
-    background-color: blueviolet;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .comments-list {
     overflow-y: scroll;
-    height: 300px;
-    width: 100%;
+    width: 90%;
+    box-sizing: border-box;
+    height: 50vh;
 }
 
 .comment-ctn {
     display: flex;
     width: 100%;
+}
+
+.comment-ctn > button {
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.comment-ctn > button:hover {
+    color: white;
 }
 
 .comment-prof-pic {
@@ -32,5 +44,28 @@
 }
 
 .photo-view-content {
-    width: 400px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.photo-view-content > * {
+    width: 100%;
+    padding-left: 5%;
+}
+
+.caption-ctn {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.caption-ctn {
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
