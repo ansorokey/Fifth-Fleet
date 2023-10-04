@@ -45,7 +45,7 @@ function AddGuildPhotoForm({guild}) {
     }
 
     return (<>
-        <form onSubmit={handleSubmit}>
+        <form className="photo-form-ctn" onSubmit={handleSubmit}>
             <input
                 required
                 type="file"

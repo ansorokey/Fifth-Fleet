@@ -23,6 +23,7 @@
 .comment-ctn {
     display: flex;
     width: 100%;
+    position: relative;
 }
 
 .comment-ctn > button {
@@ -31,6 +32,8 @@
     width: fit-content;
     height: fit-content;
     cursor: pointer;
+    position: absolute;
+    right: 5%;
 }
 
 .comment-ctn > button:hover {
