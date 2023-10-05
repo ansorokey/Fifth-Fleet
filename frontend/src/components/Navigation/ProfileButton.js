@@ -6,8 +6,10 @@ import OpenModalMenuItem from "../OpenModalMenuItem";
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProfileButton({user}) {
+    const history = useHistory();
     const [showMenu, setShowMenu] = useState(false);
 
     const dispatch = useDispatch();
@@ -48,6 +50,7 @@ function ProfileButton({user}) {
         e.preventDefault();
         dispatch(logout());
         closeMenu2();
+        history.push('/');
     }
 
     const validUser = (<div className="user-btn-drop-down-menu">

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { editGuild, uploadPhoto } from "../../store/guilds";
+import { editGuild } from "../../store/guilds";
 import { useModal } from "../../context/Modal";
+import { uploadAvatar, loadFullUser } from '../../store/profiles';
 
-function EditGuildBannerForm({guild}) {
+function EditUserAvatarForm({user}) {
     const [imageUrl, setImageUrl] = useState(null);
     const [image, setImage] = useState(null);
-    const [caption, setCaption] = useState(null);
     const [valErrs, setValErrs] = useState({});
     const { closeModal } = useModal();
 
@@ -24,35 +24,24 @@ function EditGuildBannerForm({guild}) {
             tempErrs.fileType = 'Submitted photo must end in \'.png\', \'.jpg\', or \'.jpeg\''
         }
 
-        if (caption && caption.length > 255) {
-            tempErrs.caption = 'max character limit exceeded (255)';
-        }
-
         if (Object.values(tempErrs).length) {
             setValErrs(tempErrs);
             return;
         }
 
         const data = {
-            guildId: guild?.id,
-            image,
-            caption,
-            imageType: 'banner'
+            userId: user.id,
+            image
         }
 
-        const uploadResponse = await dispatch(uploadPhoto(data));
-        if (uploadResponse && uploadResponse.message === 'success') {
-            const data = {
-                name: guild?.name,
-                about: guild?.about,
-                greetingId: guild?.greetingId,
-                avatarUrl: guild?.avatarUrl,
-                bannerUrl: uploadResponse.imageUrl
-            }
-            dispatch(editGuild(data, guild?.id));
-
-        }
+        dispatch(uploadAvatar(data));
+        dispatch(loadFullUser(user?.id));
         closeModal();
+
+        // const uploadResponse = await dispatch(uploadAvatar(data));
+        // if (uploadResponse && uploadResponse.message === 'success') {
+
+        // }
     }
 
     return (<>
@@ -73,16 +62,9 @@ function EditGuildBannerForm({guild}) {
             />
             {valErrs && valErrs.fileType}
 
-            <textarea
-                placeholder="Enter a caption here..."
-                maxLength="255"
-                onChange={(e) => setCaption(e.target.value)}
-            />
-            {valErrs && valErrs.caption}
-
             <button>Upload</button>
         </form>
     </>);
 };
 
-export default EditGuildBannerForm;
+export default EditUserAvatarForm;

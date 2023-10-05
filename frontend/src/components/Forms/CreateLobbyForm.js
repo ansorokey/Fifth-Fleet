@@ -70,7 +70,7 @@ function CreateLobbyForm() {
                 Add your session code so others can join you!
                 <input
                     required
-                    placeholder="Session Code..."
+                    placeholder="12 Character Session Code..."
                     value={sessionCode}
                     onChange={e => setSessionCode(e.target.value)}
                 />

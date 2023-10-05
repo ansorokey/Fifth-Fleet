@@ -1,9 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Weapon } = require('../../db/models');
+const { User, Weapon, GuildPhoto, Comment } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { singleFileUpload } = require('../../awsS3');
 
 const router = express.Router();
 
@@ -18,15 +19,47 @@ const validateSignup = [
         .isLength({min: 4})
         .withMessage('Please provide a username between 4 and 30 characters in length'),
     check('username')
-        .not()
-        .isEmail()
-        .withMessage('Username cannot be an email address'),
+    .not()
+    .isEmail()
+    .withMessage('Username cannot be an email address'),
     check('password')
-        .exists({values: 'falsy'})
+    .exists({values: 'falsy'})
         .isLength({min: 6})
         .withMessage('Password must be at least 6 characters in length'),
     handleValidationErrors
 ]
+
+// GET photos by userId
+router.get('/:userId/photos', async (req, res) => {
+    const {userId} = req.params;
+
+    const myPhotos = await GuildPhoto.findAll({
+        where: {
+            userId
+        },
+        include: [
+            {model: User},
+            {model: Comment}
+        ]
+    })
+
+    return res.json({
+        photos: myPhotos
+    })
+})
+
+router.put('/:userId', async (req, res) => {
+    const {userId} = req.params;
+    const newUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
+
+    const user = await User.findByPk(userId);
+    if (newUrl) user.avatarUrl = newUrl;
+    await user.save();
+
+    return res.json({
+        user
+    })
+})
 
 // GET user by id
 router.get('/:userId', async (req, res) => {

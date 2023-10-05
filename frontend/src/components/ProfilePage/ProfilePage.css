@@ -1,0 +1,44 @@
+.profile-header {
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+
+.profile-header > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-header > button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.fa-solid.fa-pen-to-square:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.about-user-sec {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.fav-weapon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fav-weapon > img {
+    height: 100%;
+}
+
+.my-pics > img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}

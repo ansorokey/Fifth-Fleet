@@ -50,7 +50,9 @@ router.get('/:lobbyId', async (req, res, next) => {
 // edit lobby by id
 router.put('/:lobbyId', async (req, res) => {
     const {lobbyId} = req.params;
-    const {messageId, questTypeId, rankPreference, targetMonsterId, sessionCode } = req.body;
+    let {messageId, questTypeId, rankPreference, targetMonsterId, sessionCode } = req.body;
+    if (!+targetMonsterId) targetMonsterId = null;
+    console.log(req.body);
 
     const lobby = await Lobby.findByPk(lobbyId);
 

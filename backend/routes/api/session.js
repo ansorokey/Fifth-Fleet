@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
             username: user.username,
             email: user.email,
             avatarUrl: user.avatarUrl,
-            weaponUrl: user.Weapon.iconUrl,
+            weaponUrl: user?.Weapon?.iconUrl || null,
         };
 
         return res.json({
@@ -67,7 +67,7 @@ router.post('/', validateLogin, async (req, res, next) => {
             email: user.email,
             username: user.username,
             avatarUrl: user.avatarUrl,
-            weaponUrl: user.Weapon.iconUrl,
+            weaponUrl: user?.Weapon?.iconUrl || null,
         };
 
         // sets the JWT token using the user's info

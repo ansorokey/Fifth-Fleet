@@ -18,7 +18,9 @@ function EditGuildForm({guild}) {
     const { closeModal } = useModal();
 
     useEffect(() => {
-        setFilteredGreetings(greetings.filter(g => g.category === greetingCategory));
+        let filt = greetings.filter(g => g.category === greetingCategory);
+        setFilteredGreetings(filt);
+        if(filt[0]) setGreeting(filt[0].id);
     }, [greetingCategory]);
 
     function handleSubmit(e) {
@@ -60,56 +62,13 @@ function EditGuildForm({guild}) {
 
             <label>
                 Pick a message so players can see what your guild is all about at a glance
-                <label>
-                    Quests and Expeditions
-                    <input
-                        type="radio"
-                        value='Quests and Expeditions'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Locale
-                    <input
-                        type="radio"
-                        value='Locale'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Weapons and Armor
-                    <input
-                        type="radio"
-                        value='Weapons and Armor'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Rank
-                    <input
-                        type="radio"
-                        value='Rank'
-                        name='greetingCategory'
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
-
-                <label>
-                    Playstyle
-                    <input
-                        type="radio"
-                        value='Playstyle'
-                        name='greetingCategory'
-                        checked={greetingCategory === 'Playstyle'}
-                        onChange={(e) => setGreetingCategory(e.target.value) }
-                    />
-                </label>
+                <select value={greetingCategory} onChange={(e) => setGreetingCategory(e.target.value)}>
+                    <option value="Quests and Expeditions">Quests and Expeditions</option>
+                    <option value="Locale">Locale</option>
+                    <option value="Weapons and Armor">Weapons and Armor</option>
+                    <option value="Rank">Rank</option>
+                    <option value='Playstyle'>Playstyle</option>
+                </select>
 
                 <select
                     value={greeting}
