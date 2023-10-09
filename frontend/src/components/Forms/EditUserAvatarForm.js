@@ -35,7 +35,7 @@ function EditUserAvatarForm({user}) {
         }
 
         dispatch(uploadAvatar(data));
-        dispatch(loadFullUser(user?.id));
+        // dispatch(loadFullUser(user?.id));
         closeModal();
 
         // const uploadResponse = await dispatch(uploadAvatar(data));

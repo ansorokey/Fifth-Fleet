@@ -16,3 +16,7 @@ a {
     color: currentColor;
     width:fit-content
 }
+
+button {
+    cursor: pointer;
+}

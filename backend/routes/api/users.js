@@ -4,7 +4,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Weapon, GuildPhoto, Comment } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { singleFileUpload } = require('../../awsS3');
+const { singleFileUpload, singleMulterUpload } = require('../../awsS3');
 
 const router = express.Router();
 
@@ -48,17 +48,22 @@ router.get('/:userId/photos', async (req, res) => {
     })
 })
 
-router.put('/:userId', async (req, res) => {
+router.put('/:userId', singleMulterUpload("image"), async (req, res) => {
     const {userId} = req.params;
+    const {weaponId} = req.body;
     const newUrl = req.file ? await singleFileUpload({ file: req.file, public: true }) : null;
-
     const user = await User.findByPk(userId);
     if (newUrl) user.avatarUrl = newUrl;
+    if (weaponId) user.favWeaponId = weaponId;
     await user.save();
 
+    const newUser = await User.findByPk(userId, {
+        include: {association: 'Weapon'}
+    });
+
     return res.json({
-        user
-    })
+        user: newUser
+    });
 })
 
 // GET user by id

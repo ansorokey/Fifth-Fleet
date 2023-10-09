@@ -36,17 +36,12 @@ function Guilds() {
 
    useEffect(() => {
       setFilteredGreetings(greetings.filter(g => g.category === greetingCat));
-
   }, [greetingCat]);
 
   useEffect(() => {
-   console.log(greetingId);
+   dispatch(loadGuilds({greetingId}));
   }, [greetingId]);
 
-  function handleFilter(e) {
-   e.preventDefault();
-   dispatch(loadGuilds({greetingId}));
-  }
 
    return (<>
          {loaded && <div id="gld-ctn">
@@ -75,7 +70,6 @@ function Guilds() {
                      </select>
                   </div>}
 
-                  <button className='guild-filter-btn' onClick={handleFilter}>SEARCH</button>
                   <button className='guild-filter-btn' onClick={() => {setGreetingId(0); dispatch(loadGuilds())}}>CLEAR FILTERS</button>
                </div>}
 

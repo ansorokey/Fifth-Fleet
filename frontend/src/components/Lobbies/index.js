@@ -41,8 +41,15 @@ function Lobbies() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadLobbies());
-    }, [dispatch]);
+        // e.preventDefault();
+
+        const queryParams = {
+            name: monsterName,
+            questType: questTypeName,
+            greeting: greetingMsg
+        }
+        dispatch(loadLobbies(queryParams));
+    }, [dispatch, monsterName, questTypeName, greetingMsg]);
 
     useEffect(() => {
         setFilteredGreetings(greetings.filter(g => g.category === greetingCat));
@@ -53,15 +60,21 @@ function Lobbies() {
         setLobbiesArr(lobbies.arr);
     }, [lobbies]);
 
-    async function handleFilter(e) {
-        e.preventDefault();
+    // async function handleFilter(e) {
+    //     e.preventDefault();
 
-        const queryParams = {
-            name: monsterName,
-            questType: questTypeName,
-            greeting: greetingMsg
-        }
-        dispatch(loadLobbies(queryParams));
+    //     const queryParams = {
+    //         name: monsterName,
+    //         questType: questTypeName,
+    //         greeting: greetingMsg
+    //     }
+    //     dispatch(loadLobbies(queryParams));
+    // }
+
+    function clearFilters() {
+        setMonsterName('');
+        setQuestTypeName('');
+        setGreetingMsg('');
     }
 
     return (<div id='lby-ctn'>
@@ -166,7 +179,7 @@ function Lobbies() {
                 </div>
                 }
 
-                <button className='filter-btn' onClick={handleFilter}> SEARCH </button>
+                <button className='filter-btn' onClick={clearFilters}> Clear Filters </button>
             </div>}
             {user && <OpenModalButton
             buttonClassName='left-menu-button'

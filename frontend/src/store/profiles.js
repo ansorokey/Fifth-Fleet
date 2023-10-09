@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 const GET_USER = 'profiles/GET_USER';
 const GET_PICS = 'profiles/GET_PICS';
 const CHANGE_AVATAR = 'profiles/CHANGE_AVATAR';
+const EDIT_USER = 'profiles/EDIT_USER';
 
 // reducer action: add selected user to state
 function addProfile(user) {
@@ -39,7 +40,7 @@ export function loadMyPics(userId) {
 
         if (response.ok) {
             const res = await response.json();
-            dispatch(addPics(res.photos));
+            if (res.photos.length) dispatch(addPics(res.photos));
         }
     }
 }
@@ -54,15 +55,30 @@ export function uploadAvatar(data) {
 
         const response = await csrfFetch(`/api/users/${userId}`, {
             method: 'PUT',
-            body: JSON.stringify(formData)
+            body: formData
         });
 
         if (response.ok) {
             const res = await response.json();
-            console.log(res);
+            dispatch(loadFullUser(userId));
         }
     }
 
+}
+
+// thunk action: edit user
+export function editUser(data, userId) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`api/users/${userId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const res = await response.json();
+            dispatch(addProfile(res.user));
+        }
+    }
 }
 
 function reducer(state={}, action) {
