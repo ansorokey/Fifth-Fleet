@@ -17,7 +17,7 @@ function Guilds() {
    const [guildsArray, setGuildsArray] = useState([]);
    const [loaded, setLoaded] = useState(false);
    const [showFilterGuilds, setShowFilterGuilds] = useState(false);
-   const [greetingId, setGreetingId] = useState(69);
+   const [greetingId, setGreetingId] = useState(60);
    const [showGreetingFilter, setShowGreetingFilter] = useState(false);
    const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ function Guilds() {
   }, [greetingCat]);
 
   useEffect(() => {
-   dispatch(loadGuilds({greetingId}));
+   if (loaded) dispatch(loadGuilds({greetingId}));
   }, [greetingId]);
 
 

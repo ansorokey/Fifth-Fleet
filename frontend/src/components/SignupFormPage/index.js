@@ -92,13 +92,14 @@ function SignupFormPage() {
             />
             <p>{valErrors.password}</p>
 
-            <button> Sign Up </button>
+            <button className='su-btn'> Sign Up </button>
         </form>
 
         <div>
-            <p>Already have an account?</p>
+            <h2 className='already'>Already have an account?</h2>
             <OpenModalButton
                 buttonText="Sign In"
+                buttonClassName='su-btn'
                 modalComponent={<LoginFormModal />}
             />
         </div>

@@ -74,6 +74,7 @@ function CreateLobbyForm() {
                     value={sessionCode}
                     onChange={e => setSessionCode(e.target.value)}
                 />
+                <span>{sessionCode.length}/12</span>
                 {errs?.sessionCode && <div>{errs.sessionCode}</div>}
             </label>
 

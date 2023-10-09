@@ -24,6 +24,7 @@ function PhotoViewModal({photo}) {
         const newPhoto = await dispatch(editPhoto(photo.id, data))
         setNewCaption('');
         setModalContent(<PhotoViewModal photo={newPhoto} />)
+        setShowCaptionEdit(false);
     }
 
     async function submitComment(e) {

@@ -31,3 +31,15 @@
     align-items: flex-center;
     width: 90%;
 }
+
+.su-btn {
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    padding: 8px 0;
+}
+
+.already {
+    font-size: 20px;
+    text-align: center;
+}

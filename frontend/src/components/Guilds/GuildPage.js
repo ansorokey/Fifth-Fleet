@@ -36,7 +36,7 @@ function GuildPage() {
         });
     }
 
-    const memberButton = isMember ? <button>Leave Guild</button> : <button>Join Guild</button>
+    const memberButton = isMember ? <button onClick={() => alert('Feature in progress')}>Leave Guild</button> : <button onClick={() => alert('Feature in progress')}>Join Guild</button>
 
     useEffect(() => {
         dispatch(loadGuild(guildId));
@@ -130,8 +130,8 @@ function GuildPage() {
                 {user ?
                     <Chat user={user} session={guild} sessionType={'guild'}/>
                 :
-                    <div>
-                        <h2>Become a member to chat with guild members!</h2>
+                    <div className="gld-not-mem">
+                        <h2>Become a member to chat with the guild!</h2>
                         <OpenModalButton
                             buttonText='Sign Up'
                             modalComponent={<SignupFormModal />}
