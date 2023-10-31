@@ -7,14 +7,15 @@ import CreateGuildForm from '../Forms/CreateGuildForm';
 import GuildListing from './GuildListing';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useState } from 'react';
+import {v4 as uuidv4} from 'uuid';
 
 function Guilds() {
    const guildsState = useSelector(state => state.guilds);
+   const guilds = guildsState.arr;
    const user = useSelector(state => state.session.user);
    const greetings = Object.values(useSelector(state => state.utils.greetings));
    const [greetingCat, setGreetingCat] = useState('Playstyle');
    const [filteredGreetings, setFilteredGreetings] = useState([]);
-   const [guildsArray, setGuildsArray] = useState([]);
    const [loaded, setLoaded] = useState(false);
    const [showFilterGuilds, setShowFilterGuilds] = useState(false);
    const [greetingId, setGreetingId] = useState(60);
@@ -24,15 +25,10 @@ function Guilds() {
    useEffect(() => {
       async function init() {
          await dispatch(loadGuilds());
-         setGuildsArray(guildsState.arr);
          setLoaded(true);
       }
       init();
    }, []);
-
-   useEffect(() => {
-      setGuildsArray(guildsState.arr);
-   }, [guildsState]);
 
    useEffect(() => {
       setFilteredGreetings(greetings.filter(g => g.category === greetingCat));
@@ -65,7 +61,7 @@ function Guilds() {
                      <select className='guild-category-select' value={greetingId} onChange={(e) => setGreetingId(e.target.value)}>
                         <option value={0}>Select...</option>
                         {filteredGreetings.map(g => {
-                           return <option value={g.id}>{g.message}</option>
+                           return <option key={uuidv4()} value={g.id}>{g.message}</option>
                         })}
                      </select>
                   </div>}
@@ -81,8 +77,8 @@ function Guilds() {
             </div>
 
             <div className='gld-right-menu'>
-               {guildsArray.length ? guildsArray.map(g => {
-                  return (<Link to={`/guilds/${g?.id}`} key={'guildItem#' + g?.id}>
+               {guilds.length ? guilds.map(g => {
+                  return (<Link to={`/guilds/${g?.id}`} key={uuidv4()}>
                      <GuildListing guild={g} />
                   </Link>);
                }) : <h1>No matches found</h1>}

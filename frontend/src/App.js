@@ -12,8 +12,10 @@ import GuildPage from './components/Guilds/GuildPage';
 import LobbyPage from './components/Lobbies/LobbyPage';
 import ProfilePage from './components/ProfilePage';
 import { loadMonsters, loadGreetings, loadQuestTypes } from './store/utils';
+import { useModal } from './context/Modal';
 
 function App() {
+  const {modalContent, modalOpen} = useModal();
   const [isLoaded, setIsLoaded] = useState(false);
   let currentUser = useSelector(state => state.session.user);
 
@@ -30,8 +32,12 @@ function App() {
     init();
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log(modalOpen);
+  }, [modalOpen])
+
   // only returns content of initial load after useEffect has run
-  return (<>
+  return (<div className={`no-scroll-${modalOpen}`}>
     <Navigation isLoaded={isLoaded} currentUser={currentUser}/>
     {isLoaded ? <>
     <Switch>
@@ -79,7 +85,7 @@ function App() {
         <LandingPage user={currentUser}/>
       </Route>
     </Switch></> : <h1> Loading...</h1>}
-  </>);
+  </div>);
 }
 
 export default App;

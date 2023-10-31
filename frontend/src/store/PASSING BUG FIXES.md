@@ -9,6 +9,6 @@ TO DO:
 
 
 10-31
-Make the primary content stop scrolling when modal is open
 Make the sub filter options close when thew main filter button closes
 fix the position of the guild filter button
+photocarousel should be wider

@@ -275,7 +275,7 @@ function reducer(state = initialState, action) {
         case SET_GUILD:
             newState = {...state};
             newState[action.guild.id] = action.guild;
-            newState.arr.push(action.guild);
+            if(newState.arr) newState.arr.push(action.guild);
             return newState;
 
         case REMOVE_GUILD:

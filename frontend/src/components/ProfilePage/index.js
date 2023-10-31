@@ -90,11 +90,15 @@ function ProfilePage({myUserId=null}) {
         <h2>My Guilds</h2>
         <h3>Hosted</h3>
         {myOwnedGuilds?.length && myOwnedGuilds?.map(g => {
-            return <p>{g.name}</p>
+            return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
+                <p>{g.name}</p>
+            </Link>
         })}
         <h3>Member</h3>
         {myJoinedGuilds?.length && myJoinedGuilds?.map(g => {
-            return <p>{g.name}</p>
+            return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
+                <p>{g.name}</p>
+            </Link>
         })}
 
         <h2>My lobbies</h2>
@@ -112,7 +116,7 @@ function ProfilePage({myUserId=null}) {
         <h2>My Photos</h2>
         <div className='my-pics'>
             {photos.map(p => {
-                return <img src={p.imageUrl} onClick={() => setModalContent(<PhotoViewModal photoId={p.id} />)}/>
+                return <img key={uuidv4()} src={p.imageUrl} onClick={() => setModalContent(<PhotoViewModal photoId={p.id} />)}/>
             })}
         </div>
 

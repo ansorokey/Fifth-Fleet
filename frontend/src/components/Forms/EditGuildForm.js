@@ -75,7 +75,7 @@ function EditGuildForm({guild}) {
                     onChange={(e) => setGreeting(e.target.value)}
                 >
                     {filteredGreetings?.map(g => {
-                        return (<option key={g.id} value={g.id}>
+                        return (<option key={uuidv4()} value={g.id}>
                             {g.message}
                         </option>)
                     })}

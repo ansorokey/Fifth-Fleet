@@ -133,7 +133,7 @@ function GuildPage() {
 
                     {photos?.length ? <div className="photo-carousel">
                         {photos?.map(p => {
-                            return (<div key={'img+cap' + p.id} className="gld-car-lnk" onClick={() => {
+                            return (<div key={uuidv4()} className="gld-car-lnk" onClick={() => {
                                 setModalContent(<PhotoViewModal photoId={p.id}/>)
                             }}>
                                 <img src={p?.imageUrl} className="gld-car-pic"/>
@@ -154,9 +154,9 @@ function GuildPage() {
                     {guild?.Members?.length ? <div className="member-list">
                         {guild?.Members?.map(m => {
                             if (isOwner) {
-                                if(m?.GuildMembers?.status !== 'owner') return <PlayerListing user={m} showMembership={true} isPending={m?.GuildMembers?.status === 'pending'} guildId={guild.id} />
+                                if(m?.GuildMembers?.status !== 'owner') return <PlayerListing key={uuidv4()} user={m} showMembership={true} isPending={m?.GuildMembers?.status === 'pending'} guildId={guild.id} />
                             } else {
-                                if(m?.GuildMembers?.status === 'member') return <PlayerListing user={m} />
+                                if(m?.GuildMembers?.status === 'member') return <PlayerListing key={uuidv4()} user={m} />
                             }
                         })}
                     </div> : <h2>No members yet!</h2>}

@@ -92,7 +92,7 @@ function CreateLobbyForm() {
                     onChange={(e) => setGreeting(e.target.value)}
                 >
                     {filteredGreetings?.map(g => {
-                        return (<option key={g.id} value={g.id}>
+                        return (<option key={uuidv4()} value={g.id}>
                             {g.message}
                         </option>)
                     })}
@@ -107,7 +107,7 @@ function CreateLobbyForm() {
                 >
                     <option value={0}>None</option>
                     {questTypes?.map(qt => {
-                        return <option key={'questtype' + qt.id} value={qt.id}>{qt.type}</option>
+                        return <option key={uuidv4()} value={qt.id}>{qt.type}</option>
                     })}
                 </select>
             </label>
@@ -127,7 +127,7 @@ function CreateLobbyForm() {
                 <select value={targetMonster} onChange={e => setTargetMonster(e.target.value)}>
                     <option value={0}>None</option>
                     {monsters?.map(m => {
-                        return <option key={m.name} value={m.id}>
+                        return <option key={uuidv4()} value={m.id}>
                             {m.name}
                         </option>
                     })}

@@ -97,7 +97,7 @@ function CreateGuildForm() {
                     value={greeting}
                 >
                     {filteredGreetings?.map(g => {
-                        return (<option key={g.id} value={g.id}>
+                        return (<option key={uuidv4()} value={g.id}>
                             {g.message}
                         </option>)
                     })}

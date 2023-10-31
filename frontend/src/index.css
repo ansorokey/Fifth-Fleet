@@ -7,10 +7,6 @@ html {
     margin: 0;
 }
 
-body {
-    padding-bottom: 10px;
-}
-
 a {
     text-decoration: none;
     color: currentColor;
@@ -19,4 +15,14 @@ a {
 
 button {
     cursor: pointer;
+}
+
+.no-scroll-false {
+    padding-bottom: 10px;
+}
+
+.no-scroll-true {
+    overflow-y:hidden;
+    height: 98vh;
+    padding: 0;
 }

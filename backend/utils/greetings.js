@@ -1,9 +1,3 @@
-// const QandE = data.map(d => {
-//     return { category: 'Playstyle', message: d }
-// });
-
-// console.log(QandE);
-
 const allMessages = [
     {
       category: 'Quests and Expeditions',
