@@ -204,3 +204,14 @@
     padding: 8px 0;
     width: 100px;
 }
+
+@media screen and (max-width: 800px) {
+    .gld-right-menu {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .guild-page-grid {
+        display: flex;
+        flex-direction: column;
+    }
+}

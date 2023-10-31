@@ -5,13 +5,17 @@ import guildsReducer from './guilds';
 import lobbyReducer from './lobbies';
 import utilsReducer from './utils'
 import profileReducer from './profiles';
+import photosReducer from './photos';
+import commentsReducer from './comments';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   guilds: guildsReducer,
   lobbies: lobbyReducer,
   utils: utilsReducer,
-  profiles: profileReducer
+  profiles: profileReducer,
+  photos: photosReducer,
+  comments: commentsReducer
 });
 
 // declare an enhancer that will have

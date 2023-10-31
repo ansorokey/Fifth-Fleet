@@ -3,26 +3,31 @@ const { Comment, GuildPhoto, User } = require('../../db/models');
 
 const router = express.Router();
 
+//edit a comment
+router.put('/:commentId', async (req, res) => {
+    const {commentId} = req.params;
+    const {content} = req.body;
+
+    const comment = await Comment.findByPk(commentId);
+    comment.content = content;
+    await comment.save();
+
+    return res.json({
+        comment
+    });
+});
+
 // delete a comment
 router.delete('/:commentId', async (req, res) => {
     const {commentId} = req.params;
 
     const comment = await Comment.findByPk(commentId);
-    // console.log('\n', comment, '\n');
-    const photoId = comment.photoId;
-    console.log(photoId);
 
-    await comment.destroy();
+    if (comment) await comment.destroy();
 
-    const photo = await GuildPhoto.findByPk(photoId, {
-        include: [{
-            model: Comment
-        },
-        {
-            model: User
-        }]
+    return res.json({
+        "message": "successfully deleted"
     });
-    return res.json({photo})
 });
 
 // all comments

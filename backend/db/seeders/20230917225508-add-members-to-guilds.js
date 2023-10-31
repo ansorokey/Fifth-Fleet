@@ -10,27 +10,33 @@ options.tableName = 'GuildMembers';
 const data = [
   {
     userId: 1,
-    guildId: 1
+    guildId: 1,
+    status: 'owner'
   },
   {
     userId: 2,
-    guildId: 1
+    guildId: 1,
+    status: 'pending'
   },
   {
     userId: 3,
-    guildId: 1
+    guildId: 1,
+    status: 'pending'
   },
   {
     userId: 1,
-    guildId: 2
+    guildId: 2,
+    status: 'pending'
   },
   {
     userId: 2,
-    guildId: 2
+    guildId: 2,
+    status: 'owner'
   },
   {
     userId: 3,
-    guildId: 2
+    guildId: 2,
+    status: 'pending'
   },
 ]
 

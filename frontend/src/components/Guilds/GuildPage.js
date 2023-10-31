@@ -15,6 +15,8 @@ import LoginFormModal from '../LoginFormModal';
 import EditGuildForm from '../Forms/EditGuildForm'
 import EditGuildAvatarForm from '../Forms/EditGuildAvatarForm';
 import EditGuildBannerForm from "../Forms/EditGuildBannerForm";
+import { addPhotos } from "../../store/photos";
+import { csrfFetch } from "../../store/csrf";
 
 function GuildPage() {
     const history = useHistory();
@@ -22,30 +24,59 @@ function GuildPage() {
     const {guildId} = useParams();
     const {setModalContent} = useModal();
     const [isLoaded, setIsLoaded] = useState(false);
-    const [photos, setPhotos] = useState([]);
     const guildState = useSelector(state => state.guilds);
     const guild = guildState[guildId];
+    const photoState = useSelector(state => state.photos);
+    const photos = Object.values(photoState);
     const user = useSelector(state => state.session.user);
+    const isOwner = +user?.id === +guild?.hostId;
+    const [isPending, setIsPending] = useState(false);
+    const [isMember, setIsMember] = useState(false);
 
     // checks if the user's id is in the guilds members
     // sets a boolean if found
-    let isMember = false;
-    if (user) {
-        guild?.Members?.forEach(m => {
-            if (m.id === user.id) isMember = true;
+    useEffect(() => {
+        if (user) {
+            guild?.Members?.forEach(m => {
+                if (+m.id === +user.id) {
+                    if (m?.GuildMembers?.status === 'pending') {
+                        return setIsPending(true);
+                    } else {
+                        return setIsMember(true);
+                    }
+                };
+            });
+        }
+    }, [user, guild]);
+
+
+    // send membership request
+    function requestMembership(){
+        csrfFetch(`/api/guildmembers/${guildId}`, {
+            method: 'POST'
         });
+        window.alert('Request sent! Awaiting approval from owner.');
+        setIsPending(true);
     }
 
-    const memberButton = isMember ? <button onClick={() => alert('Feature in progress')}>Leave Guild</button> : <button onClick={() => alert('Feature in progress')}>Join Guild</button>
+    // send membership delete request
+    function endMembership(){
+        const confirm = window.confirm('Are you sure you want to leave this guild?');
+        if(confirm) {
+            csrfFetch(`/api/guildmembers/${guildId}/users/${user?.id}`, {
+                method: 'delete'
+            });
+            history.push('/guilds');
+        }
+    }
+
+    const memberButton = isMember ? <button onClick={endMembership}>Leave Guild</button> :
+                        isPending ? <button diabled={true}>Membership Pending</button> : <button onClick={requestMembership}>Join Guild</button>;
 
     useEffect(() => {
         dispatch(loadGuild(guildId));
         setIsLoaded(true);
     }, []);
-
-    useEffect(() => {
-        setPhotos(guildState?.guildPhotos[guildId]);
-    }, [guildState]);
 
     return (<>
         {isLoaded && guild ? <div className="guild-page-ctn">
@@ -103,7 +134,7 @@ function GuildPage() {
                     {photos?.length ? <div className="photo-carousel">
                         {photos?.map(p => {
                             return (<div key={'img+cap' + p.id} className="gld-car-lnk" onClick={() => {
-                                setModalContent(<PhotoViewModal photo={p}/>)
+                                setModalContent(<PhotoViewModal photoId={p.id}/>)
                             }}>
                                 <img src={p?.imageUrl} className="gld-car-pic"/>
                             </div>);
@@ -112,7 +143,7 @@ function GuildPage() {
                     :
                     <><h2>No photos to display</h2><p>Be the first to show off some memories and moments</p></>}
 
-                    {user &&
+                    {user && isMember &&
                         <OpenModalButton
                             buttonText='Add Photo'
                             modalComponent={<AddGuildPhotoForm guild={guild} />}
@@ -122,13 +153,17 @@ function GuildPage() {
                     <h2>Members</h2>
                     {guild?.Members?.length ? <div className="member-list">
                         {guild?.Members?.map(m => {
-                            return <PlayerListing user={m} />
+                            if (isOwner) {
+                                if(m?.GuildMembers?.status !== 'owner') return <PlayerListing user={m} showMembership={true} isPending={m?.GuildMembers?.status === 'pending'} guildId={guild.id} />
+                            } else {
+                                if(m?.GuildMembers?.status === 'member') return <PlayerListing user={m} />
+                            }
                         })}
                     </div> : <h2>No members yet!</h2>}
                 </div>
 
                 {user ?
-                    <Chat user={user} session={guild} sessionType={'guild'}/>
+                    (isMember ? <Chat user={user} session={guild} sessionType={'guild'}/> : <h2>Become a guild member to start chatting with fellow hunters!</h2>)
                 :
                     <div className="gld-not-mem">
                         <h2>Become a member to chat with the guild!</h2>

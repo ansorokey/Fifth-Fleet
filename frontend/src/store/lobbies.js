@@ -29,8 +29,8 @@ function removeLobby(lobbyId) {
 }
 
 // thunk action: fetch all the lobbies
-export function loadLobbies(queryParams = {}) {
-    const {name, questType, greeting, limit} = queryParams;
+export function loadLobbies(queryParams={}) {
+    const {name, questType, greeting, limit, hostId} = queryParams;
     return async function(dispatch) {
         let url = '/api/lobbies?';
 
@@ -38,6 +38,7 @@ export function loadLobbies(queryParams = {}) {
         if(questType) url += `questType=${questType}&&`;
         if(greeting) url += `greeting=${greeting}&&`;
         if(limit) url += `limit=${limit}&&`;
+        if(hostId) url += `hostId=${hostId}`;
 
         const response = await csrfFetch(url);
 
@@ -120,6 +121,7 @@ function reducer(state = {arr: []}, action) {
     switch(action.type) {
 
         case ADD_LOBBIES:
+            newState = {arr: []}
             action.lobbies.forEach(l => {
                 newState[l.id] = l;
             });

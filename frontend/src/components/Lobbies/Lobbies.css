@@ -234,3 +234,23 @@
 .fa-solid.fa-circle-minus {
     cursor: pointer;
 }
+
+@media screen and (max-width:800px) {
+    .lobby-page-ctn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lobby-listing {
+        font-size: 16px;
+    }
+
+    #lby-ctn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-menu {
+        margin-bottom: 32px;
+    }
+}

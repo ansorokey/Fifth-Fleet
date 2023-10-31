@@ -32,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "CASCADE"
     },
+    status: {
+      allowNull: false,
+      type: DataTypes.ENUM,
+      values: ['pending', 'member', 'owner'],
+      defaultValue: 'pending'
+    },
   }, {
     sequelize,
     modelName: 'GuildMember',

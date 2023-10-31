@@ -1,23 +1,43 @@
 import './ProfilePage.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import {loadFullUser, loadMyPics, editUser} from '../../store/profiles';
+import {loadUser, loadUserPhotos, editUser} from '../../store/profiles';
 import OpenModalButton from '../OpenModalButton';
 import EditUserAvatarForm from '../Forms/EditUserAvatarForm';
 import { useState } from 'react';
+import PhotoViewModal from '../PhotoViewModal';
+import { useModal } from '../../context/Modal';
+import { useParams, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { loadLobbies } from '../../store/lobbies';
+import { loadMyGuilds } from '../../store/guilds';
+import {v4 as uuidv4} from 'uuid';
 
-function ProfilePage({userId}) {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.profiles[userId]);
-    const pics = useSelector(state => state.profiles[userId]?.pics);
+
+function ProfilePage({myUserId=null}) {
+    // slices of state
+    let {userId} = useParams();
+    if(myUserId) userId = myUserId
+    const user = useSelector(state => state.profiles);
+    const photoState = useSelector(state => state.photos);
+    const photos = Object.values(photoState);
+    const myLobbies = useSelector(state => state.lobbies.arr);
+    const myOwnedGuilds = useSelector(state => state.guilds.owned);
+    const myJoinedGuilds = useSelector(state => state.guilds.joined);
+
+    // state varaibles
     const [editWeapon, setEditWeapon] = useState(false);
     const [newWeaponId, setNewWeaponId] = useState(1);
+    let myPage = +user?.id === userId;
+
+    // hooks
+    const dispatch = useDispatch();
+    const {setModalContent} = useModal();
 
     useEffect(() => {
-        dispatch(loadFullUser(userId));
-        // dispatch(loadMyGuilds(userId));
-        // dispatch(LoadMyLobbies(userId));
-        dispatch(loadMyPics(userId));
+        dispatch(loadUser(userId));
+        dispatch(loadUserPhotos(userId));
+        dispatch(loadLobbies({hostId:userId}))
+        dispatch(loadMyGuilds(userId));
     }, []);
 
     function changeWeapon(e) {
@@ -30,15 +50,15 @@ function ProfilePage({userId}) {
         <h1>{user?.username}</h1>
         <div className='profile-header'>
             <img src={user?.avatarUrl}/>
-            <OpenModalButton
+            {myPage && <OpenModalButton
                 buttonText='Change Avatar'
                 modalComponent={<EditUserAvatarForm user={user} />}
-            />
+            />}
         </div>
 
         <div>
             <div className='about-user-sec'>
-                <h2>Favorite Weapon</h2><i onClick={() => setEditWeapon(true)} className="fa-solid fa-pen-to-square"></i>
+                <h2>Favorite Weapon</h2>{myPage && <i onClick={() => setEditWeapon(true)} className="fa-solid fa-pen-to-square"></i>}
             </div>
                 {editWeapon && <div>
                     <select value={newWeaponId} onChange={(e) => setNewWeaponId(+e.target.value)}>
@@ -68,15 +88,31 @@ function ProfilePage({userId}) {
 
 
         <h2>My Guilds</h2>
-        <p>List the guilds they own or are a member of</p>
+        <h3>Hosted</h3>
+        {myOwnedGuilds?.length && myOwnedGuilds?.map(g => {
+            return <p>{g.name}</p>
+        })}
+        <h3>Member</h3>
+        {myJoinedGuilds?.length && myJoinedGuilds?.map(g => {
+            return <p>{g.name}</p>
+        })}
 
         <h2>My lobbies</h2>
-        <p>List the lobbies they own</p>
+        {myLobbies.length && myLobbies.map(l => {
+            return (<Link to={`/lobbies/${l.id}`} key={uuidv4()} className="link">
+                <div className='lobby-listing'>
+                    <p className='lby-list-host'>{l?.Host?.username}</p>
+                    <p className='lby-list-monster'>{l?.Monster?.name || '-----'}</p>
+                    <p className='lby-list-type'>{l?.QuestType?.type || '-----'}</p>
+                    <p>{l?.Greeting?.message}</p>
+                </div>
+            </Link>);
+        })}
 
         <h2>My Photos</h2>
         <div className='my-pics'>
-            {pics && Object.values(pics).map(p => {
-                return <img src={p.imageUrl} />
+            {photos.map(p => {
+                return <img src={p.imageUrl} onClick={() => setModalContent(<PhotoViewModal photoId={p.id} />)}/>
             })}
         </div>
 

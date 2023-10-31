@@ -113,7 +113,7 @@ router.delete('/:lobbyId', async (req, res) => {
 
 // get all lobbies
 router.get('/', async (req, res) => {
-    const {name, questType, greeting, limit} = req.query;
+    const {name, questType, greeting, limit, hostId} = req.query;
 
     const monWhere = {
         required: false,
@@ -142,7 +142,16 @@ router.get('/', async (req, res) => {
         typeWhere.required = true;
     };
 
+    const hostWhere = {
+        required: false,
+        where: {}
+    };
+    if (hostId) {
+        hostWhere.where.hostId = hostId;
+    };
+
     let allLobbies = await Lobby.findAll({
+        ...hostWhere,
         include: [
             {
                 model: User,
@@ -172,10 +181,12 @@ router.get('/', async (req, res) => {
             ['createdAt', 'DESC']
         ]
     });
+    console.log(allLobbies.length);
 
-    if (limit) {
+    if (limit && allLobbies.length > 3) {
         allLobbies = allLobbies.slice(allLobbies.length - limit);
     }
+
 
     res.json({
         lobbies: allLobbies

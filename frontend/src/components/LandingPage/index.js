@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import LoginFormPage from '../LoginFormPage';
 import SignupFormPage from '../SignupFormPage';
 import { Link } from 'react-router-dom';
-import { loadGuilds } from '../../store/guilds';
+import { loadGuilds, clearGuilds } from '../../store/guilds';
 import { loadLobbies } from '../../store/lobbies';
 import GuildListing from '../Guilds/GuildListing';
 import { useState } from 'react';
@@ -15,6 +15,8 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import OpenModalButton from '../OpenModalButton';
 import CreateGuildForm from '../Forms/CreateGuildForm';
 import CreateLobbyForm from '../Forms/CreateLobbyForm';
+import { getLatestPhotos } from '../../store/photos';
+import {v4 as uuidv4} from 'uuid';
 
 function LandingPage({user}) {
     const history = useHistory();
@@ -24,24 +26,19 @@ function LandingPage({user}) {
     const guildsArr = guildState?.arr;
     const lobbyState = useSelector(state => state.lobbies);
     const lobbiesArr = lobbyState.arr;
+    const photoState = useSelector(state => state.photos);
+    const photos = Object.values(photoState);
     const [loaded, setLoaded] = useState(false);
-    const [pics, setPics] = useState([]);
-
-    async function getPhotos() {
-        const response = await csrfFetch('/api/guildphotos/all?limit=10');
-
-        if (response.ok) {
-            const res = await response.json();
-            setPics(res.photos);
-            return;
-        }
-    }
 
     useEffect(() => {
         dispatch(loadGuilds({limit:3}));
         dispatch(loadLobbies({limit:3}));
-        getPhotos();
+        dispatch(getLatestPhotos());
         setLoaded(true);
+
+        return () => {
+            dispatch(clearGuilds());
+        }
     }, []);
 
     return <>{loaded && <div className='landing-ctn'>
@@ -52,7 +49,7 @@ function LandingPage({user}) {
             <h3>Latest Lobbies</h3>
             <div>
                 {lobbiesArr.map( l => {
-                    return (<Link to={`/lobbies/${l.id}`} className="link">
+                    return (<Link to={`/lobbies/${l.id}`} className="link" key={uuidv4()}>
                         <div className='lobby-listing'>
                             <p className='lby-list-host'>{l?.Host?.username}</p>
                             <p className='lby-list-monster'>{l?.Monster?.name || '-----'}</p>
@@ -66,7 +63,7 @@ function LandingPage({user}) {
             <div className='latest-guilds'>
 
                 {guildsArr?.map(g => {
-                    return (<Link to={`/guilds/${g?.id}`}>
+                    return (<Link to={`/guilds/${g?.id}`} key={uuidv4()}>
                     <GuildListing guild={g} />
                  </Link>)
                 })}
@@ -74,11 +71,16 @@ function LandingPage({user}) {
 
             <h3>Latest Photos</h3>
             <div className='latest-pics'>
-                {pics.map(p => {
-                    // onClick={() => {
-                    //     setModalContent(<PhotoViewModal photo={p}/>)
-                    // }}
-                    return <img src={p.imageUrl} />
+                {photos.map(p => {
+
+                    return (
+                    <img
+                        key={uuidv4()}
+                        src={p.imageUrl}
+                        onClick={() => {
+                            setModalContent(<PhotoViewModal photoId={p.id}/>)
+                        }}
+                    />)
                 })}
             </div>
         </div>

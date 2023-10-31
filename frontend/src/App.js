@@ -44,11 +44,11 @@ function App() {
       </Route>
 
       <Route path="/profiles/:userId">
-        <h1>This is any user's profile page</h1>
+        <ProfilePage />
       </Route>
 
       <Route path="/my-profile">
-        <ProfilePage userId={currentUser?.id} />
+        <ProfilePage myUserId={currentUser?.id} />
       </Route>
 
       <Route exact path="/login">

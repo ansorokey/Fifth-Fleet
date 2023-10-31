@@ -1,7 +1,8 @@
+import { addComments } from './comments';
 import { csrfFetch } from './csrf';
+import { addPhotos } from './photos';
 
 const GET_USER = 'profiles/GET_USER';
-const GET_PICS = 'profiles/GET_PICS';
 const CHANGE_AVATAR = 'profiles/CHANGE_AVATAR';
 const EDIT_USER = 'profiles/EDIT_USER';
 
@@ -13,16 +14,8 @@ function addProfile(user) {
     }
 }
 
-// reducer action: add photos uploaded by user
-function addPics(pics) {
-    return {
-        type: GET_PICS,
-        pics
-    }
-}
-
 // thunk action: get user by id
-export function loadFullUser(userId) {
+export function loadUser(userId) {
     return async function(dispatch) {
         const response = await csrfFetch(`/api/users/${userId}`);
 
@@ -34,13 +27,14 @@ export function loadFullUser(userId) {
 }
 
 // thunk action: fetch all photos by userId
-export function loadMyPics(userId) {
+export function loadUserPhotos(userId) {
     return async function (dispatch) {
         const response = await csrfFetch(`/api/users/${userId}/photos`);
 
         if (response.ok) {
             const res = await response.json();
-            if (res.photos.length) dispatch(addPics(res.photos));
+            dispatch(addPhotos(res.photos));
+            res.photos.forEach((p) => dispatch(addComments(p.Comments, p.id)));
         }
     }
 }
@@ -60,7 +54,7 @@ export function uploadAvatar(data) {
 
         if (response.ok) {
             const res = await response.json();
-            dispatch(loadFullUser(userId));
+            // dispatch(loadFullUser(userId));
         }
     }
 
@@ -86,16 +80,7 @@ function reducer(state={}, action) {
 
     switch (action.type) {
         case GET_USER:
-            newState = {...state};
-            newState[action.user.id] = action.user;
-            return newState;
-
-        case GET_PICS:
-            newState = {...state};
-            newState[action.pics[0].userId].pics = {};
-            action.pics.forEach(p => {
-                newState[p.userId].pics[p.id] = p;
-            });
+            newState = action.user;
             return newState;
 
         default:

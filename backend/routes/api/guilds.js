@@ -60,6 +60,60 @@ router.get('/:guildId/photos', async (req, res) => {
   }
 );
 
+// Get all Guilds by user
+router.get('/users/:userId', async (req, res) => {
+    let {userId} = req.params;
+
+    const hostedGuilds = await Guild.findAll({
+        include: [
+            {
+                model: User,
+                as: 'Host'
+            },
+            {
+                model: User,
+                as: 'Members',
+                through: {
+                    attributes: []
+                }
+            },
+            {
+                model: Greeting,
+            }
+        ],
+        where: {
+            hostId: userId
+        }
+    });
+
+    const joinedGuilds = await Guild.findAll({
+        include: [
+            {
+                model: User,
+                as: 'Host'
+            },
+            {
+                model: User,
+                as: 'Members',
+                where: {
+                    'id': userId
+                },
+                through: {
+                    attributes: []
+                }
+            },
+            {
+                model: Greeting,
+            }
+        ]
+    });
+
+    res.json({
+        hostedGuilds,
+        joinedGuilds
+    });
+});
+
 // Get guild by guildId
 router.get('/:guildId', async (req, res) => {
     const { guildId } = req.params;
@@ -73,7 +127,7 @@ router.get('/:guildId', async (req, res) => {
                 model: User,
                 as: 'Members',
                 through: {
-                    attributes: []
+                    attributes: ['status']
                 },
                 include: {
                     association: 'Weapon'
@@ -188,17 +242,24 @@ router.put('/:guildId', async (req, res) => {
 
 // Get all Guilds
 router.get('/', async (req, res) => {
-    let {greetingId, limit} = req.query;
+    let {greetingId, limit, hostId} = req.query;
+    console.log(hostId)
 
-    const greetingWhere = {
+    const filterWhere = {
         // required: false,
         where: {}
     };
 
     if(+greetingId) {
-        greetingWhere.where.greetingId = +greetingId;
+        filterWhere.where.greetingId = +greetingId;
         // greetingWhere.required = true;
     }
+
+    if (hostId) {
+        filterWhere.where.hostId = hostId;
+        // hostWhere.where.required = true;
+    };
+
     const allGuilds = await Guild.findAll({
         include: [
             {
@@ -216,7 +277,7 @@ router.get('/', async (req, res) => {
                 model: Greeting,
             }
         ],
-        ...greetingWhere
+        ...filterWhere
     });
 
     let guildsJson = allGuilds.map(g => {
