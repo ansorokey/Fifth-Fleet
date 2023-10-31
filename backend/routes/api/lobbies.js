@@ -52,7 +52,6 @@ router.put('/:lobbyId', async (req, res) => {
     const {lobbyId} = req.params;
     let {messageId, questTypeId, rankPreference, targetMonsterId, sessionCode } = req.body;
     if (!+targetMonsterId) targetMonsterId = null;
-    console.log(req.body);
 
     const lobby = await Lobby.findByPk(lobbyId);
 
@@ -181,7 +180,6 @@ router.get('/', async (req, res) => {
             ['createdAt', 'DESC']
         ]
     });
-    console.log(allLobbies.length);
 
     if (limit && allLobbies.length > 3) {
         allLobbies = allLobbies.slice(allLobbies.length - limit);

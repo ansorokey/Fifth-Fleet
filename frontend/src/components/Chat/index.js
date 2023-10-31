@@ -30,7 +30,6 @@ function Chat({user, sessionType, session}) {
 
         ws.onclose = function(e) {
             webSocket.current = null;
-            console.log('Client connection closed')
             setMessages([]);
             // on creation:
             // pass back up to parent component
@@ -54,7 +53,6 @@ function Chat({user, sessionType, session}) {
         if (webSocket.current !== null) {
             webSocket.current.onmessage = function(e){
                 const incomingMsg = JSON.parse(e.data);
-                console.log(incomingMsg);
                 setMessages([...messages, incomingMsg]);
             }
         }
@@ -73,8 +71,6 @@ function Chat({user, sessionType, session}) {
             avatarUrl: user?.avatarUrl,
             weaponUrl: user?.weaponUrl
         });
-
-        console.log('outgoing', jsonMsg);
 
         webSocket.current.send(jsonMsg);
 

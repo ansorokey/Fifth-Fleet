@@ -38,7 +38,6 @@ function CreateGuildForm() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        console.log(greeting);
         const data = {
             name: guildName,
             about,

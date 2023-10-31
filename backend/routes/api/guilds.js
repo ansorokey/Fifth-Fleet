@@ -243,7 +243,6 @@ router.put('/:guildId', async (req, res) => {
 // Get all Guilds
 router.get('/', async (req, res) => {
     let {greetingId, limit, hostId} = req.query;
-    console.log(hostId)
 
     const filterWhere = {
         // required: false,

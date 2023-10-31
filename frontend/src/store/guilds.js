@@ -128,8 +128,6 @@ export function loadMyGuilds(userId) {
             if (response.ok) {
                 const res = await response.json();
                 dispatch(addMyGuilds(res.hostedGuilds, res.joinedGuilds));
-                console.log(res.hostedGuilds)
-                console.log(res.joinedGuilds);
             }
         } catch (e) {
             // catch error

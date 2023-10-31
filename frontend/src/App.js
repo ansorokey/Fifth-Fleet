@@ -32,10 +32,6 @@ function App() {
     init();
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(modalOpen);
-  }, [modalOpen])
-
   // only returns content of initial load after useEffect has run
   return (<div className={`no-scroll-${modalOpen}`}>
     <Navigation isLoaded={isLoaded} currentUser={currentUser}/>
