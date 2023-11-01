@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 import { addComments } from "./comments";
 
+const ADD_PHOTO = 'guilds/ADD_PHOTO';
 const ADD_PHOTOS = 'photos/ADD_PHOTOS';
 const EDIT_PHOTO = 'photos/EDIT_PHOTO';
 
@@ -19,6 +20,16 @@ function editPhoto(photo) {
         photo
     }
 }
+
+// reducer action: add a new photo to the guild's photos
+// used for: Uploading an image, adding comment to an image
+export function addPhoto(guildId, image) {
+    return {
+        type: ADD_PHOTO,
+        guildId: +guildId,
+        image
+    }
+};
 
 // thunk action: fetch a guild's photos
 export function getGuildPhotos(guildId) {
@@ -60,12 +71,44 @@ export function updatePhoto(photoId, data) {
     }
 }
 
+// thunk action: upload a photo
+export function uploadPhoto(data) {
+    return async function(dispatch) {
+        const { guildId, image, caption, imageType } = data;
+        const formData = new FormData();
+
+        formData.append('guildId', guildId);
+        formData.append('image', image);
+        formData.append('caption', caption);
+        formData.append('imageType', imageType)
+        const response = await csrfFetch(`/api/guilds/${data.guildId}/photos`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if(response.ok){
+            const res = await response.json();
+            dispatch(addPhoto(guildId, res.image));
+
+            if(imageType) {
+                return {message: 'success', imageUrl: res.image.imageUrl}
+            }
+        }
+    }
+}
+
 // the reducer
 //
 function reducer(state={}, action) {
     let newState = {};
 
     switch (action.type) {
+
+        case ADD_PHOTO:
+            newState = {};
+            newState[action.image.id] = action.image;
+            return newState;
+
         case ADD_PHOTOS:
             newState = {};
             action.photos.forEach(p => {

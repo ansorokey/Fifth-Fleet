@@ -91,13 +91,19 @@ function ProfilePage({myUserId=null}) {
         <h3>Hosted</h3>
         {myOwnedGuilds?.length && myOwnedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
-                <p>{g.name}</p>
+                <div>
+                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
+                    <p>{g.name}</p>
+                </div>
             </Link>
         })}
         <h3>Member</h3>
         {myJoinedGuilds?.length && myJoinedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
-                <p>{g.name}</p>
+                <div>
+                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
+                    <p>{g.name}</p>
+                </div>
             </Link>
         })}
 

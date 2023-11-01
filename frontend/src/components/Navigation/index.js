@@ -17,7 +17,7 @@ function Navigation({isLoaded}) {
 
                 <NavLink to='/guilds' className="nav-bar-link">Guilds</NavLink>
 
-                <NavLink to='/quests' className="nav-bar-link">Quests</NavLink>
+                {/* <NavLink to='/quests' className="nav-bar-link">Quests</NavLink> */}
             {isLoaded && <ProfileButton user={currentUser} />}
     </nav>;
 }

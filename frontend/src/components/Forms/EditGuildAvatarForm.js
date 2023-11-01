@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { editGuild, uploadPhoto } from "../../store/guilds";
+import { editGuild } from "../../store/guilds";
+import { uploadPhoto } from "../../store/photos";
 import { useModal } from "../../context/Modal";
 
 function EditGuildAvatarForm({guild}) {

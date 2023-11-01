@@ -5,7 +5,6 @@ import { addPhotos } from "./photos";
 export const ADD_GUILDS = 'guilds/ADD_GUILDS';
 const ADD_MY_GUILDS = 'guilds/ADD_MY_GUILDS';
 export const SET_GUILD = 'guilds/SET_GUILD';
-export const ADD_PHOTO = 'guilds/ADD_PHOTO';
 export const EDIT_GUILD = 'guilds/EDIT_GUILD';
 export const REMOVE_GUILD = 'guilds/REMOVE_GUILD';
 export const ADD_COMMENT = 'guilds/POST_PHOTO_COMMENT';
@@ -62,16 +61,6 @@ export function setSingleGuild(guild) {
         guild
     }
 }
-
-// reducer action: add a new photo to the guild's photos
-// used for: Uploading an image, adding comment to an image
-export function addPhoto(guildId, image) {
-    return {
-        type: ADD_PHOTO,
-        guildId: +guildId,
-        image
-    }
-};
 
 // reducer action: edit a guild
 export function updateGuild(guild, guildId) {
@@ -171,32 +160,6 @@ export function loadGuild(guildId) {
         } catch (e) {
             const res = await e;
             return res;
-        }
-    }
-}
-
-// thunk action: upload a photo
-export function uploadPhoto(data) {
-    return async function(dispatch) {
-        const { guildId, image, caption, imageType } = data;
-        const formData = new FormData();
-
-        formData.append('guildId', guildId);
-        formData.append('image', image);
-        formData.append('caption', caption);
-        formData.append('imageType', imageType)
-        const response = await csrfFetch(`/api/guilds/${data.guildId}/photos`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if(response.ok){
-            const res = await response.json();
-            dispatch(addPhoto(guildId, res.image));
-
-            if(imageType) {
-                return {message: 'success', imageUrl: res.image.imageUrl}
-            }
         }
     }
 }
