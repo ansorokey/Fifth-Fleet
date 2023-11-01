@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { editLobby } from "../../store/lobbies";
 import { useModal } from "../../context/Modal";
+import {v4 as uuidv4} from 'uuid';
 import './forms.css';
 
 function EditLobbyForm({lobby, edit=true}) {

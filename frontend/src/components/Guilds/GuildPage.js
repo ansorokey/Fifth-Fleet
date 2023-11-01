@@ -15,6 +15,7 @@ import LoginFormModal from '../LoginFormModal';
 import EditGuildForm from '../Forms/EditGuildForm'
 import EditGuildAvatarForm from '../Forms/EditGuildAvatarForm';
 import EditGuildBannerForm from "../Forms/EditGuildBannerForm";
+import {v4 as uuidv4} from 'uuid';
 import { addPhotos } from "../../store/photos";
 import { csrfFetch } from "../../store/csrf";
 

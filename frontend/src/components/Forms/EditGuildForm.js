@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editGuild } from "../../store/guilds";
 import { useModal } from '../../context/Modal';
+import {v4 as uuidv4} from 'uuid';
 
 function EditGuildForm({guild}) {
     const greetingsState = useSelector(state => state.utils.greetings);

@@ -210,7 +210,21 @@
         grid-template-columns: 1fr 1fr;
     }
 
+    .gld-left-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
     .guild-page-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #gld-ctn {
         display: flex;
         flex-direction: column;
     }

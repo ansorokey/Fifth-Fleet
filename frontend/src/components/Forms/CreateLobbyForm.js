@@ -6,6 +6,7 @@ import { createLobby } from "../../store/lobbies";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useModal } from "../../context/Modal";
+import {v4 as uuidv4} from 'uuid';
 import './forms.css';
 
 function CreateLobbyForm() {

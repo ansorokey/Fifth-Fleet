@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createGuild } from "../../store/guilds";
 import { useModal } from '../../context/Modal';
+import {v4 as uuidv4} from 'uuid';
 
 function CreateGuildForm() {
     const [guildName, setGuildName] = useState('');

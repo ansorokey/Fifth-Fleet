@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import './Chat.css';
 import { useEffect } from "react";
 import { useRef } from "react";
+import {v4 as uuidv4} from 'uuid';
 
 function ChatLog({messages, user}) {
 

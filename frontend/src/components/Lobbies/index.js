@@ -9,8 +9,8 @@ import {v4 as uuidv4} from 'uuid';
 
 function Lobbies() {
     const user = useSelector(state => state.session.user);
-    const lobbies = useSelector(state => state.lobbies);
-    const [lobbiesArr, setLobbiesArr] = useState(lobbies.arr);
+    const lobbiesArr = useSelector(state => state.lobbies.arr);
+    // const [lobbiesArr, setLobbiesArr] = useState(lobbies.arr);
     const monsters = Object.values(useSelector(state => state.utils.monsters));
     const questTypes = Object.values(useSelector(state => state.utils.questTypes));
     const greetings = Object.values(useSelector(state => state.utils.greetings));
@@ -56,9 +56,9 @@ function Lobbies() {
         setGrPage(0);
     }, [greetingCat]);
 
-    useEffect(() => {
-        setLobbiesArr(lobbies.arr);
-    }, [lobbies]);
+    // useEffect(() => {
+    //     setLobbiesArr(lobbies.arr);
+    // }, [lobbies]);
 
     // async function handleFilter(e) {
     //     e.preventDefault();
@@ -77,9 +77,19 @@ function Lobbies() {
         setGreetingMsg('');
     }
 
+    function manageFilterButton() {
+        setShowFilterMenu(!showFilterMenu);
+        if(showFilterMenu === false) {
+            setShowGreetingOptions(false);
+            setShowMonsterOptions(false);
+            setShowQuestTypeOptions(false);
+        }
+
+    }
+
     return (<div id='lby-ctn'>
         <div className='left-menu'>
-            <button className='left-menu-button' onClick={() => setShowFilterMenu(!showFilterMenu)}>Filter Lobbies</button>
+            <button className='left-menu-button' onClick={manageFilterButton}>Filter Lobbies</button>
 
 {/* TARGET MONSTER */}
             {showFilterMenu && <div className='filter-menu'>

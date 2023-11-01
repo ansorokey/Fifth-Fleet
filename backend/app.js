@@ -29,61 +29,6 @@ const app = express();
 // Middleware for logging info about request and response
 app.use(morgan('dev'));
 
-// WS
-// returns the matchig static file
-// app.use(express.static(path.join(__dirname, '../frontend/public')));
-
-// WS
-// returns the index if the static file isnt found
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../frontend/public', 'index.html'));
-// });
-
-// WS - WORKS
-// create a server for websockets
-// const server = createServer(app);
-
-// WS - WORKS
-// const wss = new WebSocket.Server({server});
-
-// WS - WORKS
-// wss.on('connection', (ws) => {
-//   // message recieved
-//   ws.on('message', (jsonMsg) => {
-//     const parsed = JSON.parse(jsonMsg);
-//     const id = `${parsed.session} + ${parsed.id}`;
-//     ws.id = id;
-
-//     if (parsed.type === 'chat') {
-//       const newMsg = JSON.stringify({
-//         content: parsed.content,
-//         username: parsed.username
-//       });
-
-//       wss.clients.forEach(client => {
-//         // possible ready states are CONNECTING, OPEN, CLOSING, CLOSED
-//         if (client.id === id) {
-//           if (client.readyState === WebSocket.OPEN) {
-//             client.send(newMsg);
-//           }
-//         }
-//       })
-
-//     }
-
-
-
-//   });
-
-//   // close recieved
-//   ws.on('close', (e) => {
-//     // ...
-//   });
-// });
-
-// WS - WORKS
-// server.listen(port, () => console.log(`WS listening for messages on ${port}`));
-
 // Middleware for cookies and parsing JSON requst bodies
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false })); // line to use AWS
