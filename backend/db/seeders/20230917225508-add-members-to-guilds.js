@@ -8,11 +8,12 @@ options.tableName = 'GuildMembers';
 
 
 const data = [
-  {
-    userId: 1,
-    guildId: 1,
-    status: 'owner'
-  },
+  // on second thought, hosts don't need a membership status right now
+  // {
+  //   userId: 1,
+  //   guildId: 1,
+  //   status: 'owner'
+  // },
   {
     userId: 2,
     guildId: 1,
@@ -28,11 +29,11 @@ const data = [
     guildId: 2,
     status: 'pending'
   },
-  {
-    userId: 2,
-    guildId: 2,
-    status: 'owner'
-  },
+  // {
+  //   userId: 2,
+  //   guildId: 2,
+  //   status: 'owner'
+  // },
   {
     userId: 3,
     guildId: 2,

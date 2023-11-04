@@ -164,7 +164,7 @@ function GuildPage() {
                 </div>
 
                 {user ?
-                    (isMember ? <Chat user={user} session={guild} sessionType={'guild'}/> : <h2>Become a guild member to start chatting with fellow hunters!</h2>)
+                    ((isMember || isOwner) ? <Chat user={user} session={guild} sessionType={'guild'}/> : <h2>Become a guild member to start chatting with fellow hunters!</h2>)
                 :
                     <div className="gld-not-mem">
                         <h2>Become a member to chat with the guild!</h2>
