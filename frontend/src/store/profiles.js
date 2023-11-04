@@ -6,6 +6,14 @@ const GET_USER = 'profiles/GET_USER';
 const CHANGE_AVATAR = 'profiles/CHANGE_AVATAR';
 const EDIT_USER = 'profiles/EDIT_USER';
 
+// reducer action: change avatar
+function changeAvatar(user){
+    return {
+        type: CHANGE_AVATAR,
+        user
+    }
+}
+
 // reducer action: add selected user to state
 function addProfile(user) {
     return {
@@ -54,7 +62,8 @@ export function uploadAvatar(data) {
 
         if (response.ok) {
             const res = await response.json();
-            // dispatch(loadFullUser(userId));
+            console.log(res.user)
+            dispatch(changeAvatar(res.user))
         }
     }
 
@@ -81,6 +90,11 @@ function reducer(state={}, action) {
     switch (action.type) {
         case GET_USER:
             newState = action.user;
+            return newState;
+
+        case CHANGE_AVATAR:
+            newState = {...state}
+            newState.avatarUrl = action.user.avatarUrl;
             return newState;
 
         default:

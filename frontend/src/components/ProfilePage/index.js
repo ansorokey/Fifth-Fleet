@@ -44,6 +44,7 @@ function ProfilePage({myUserId=null}) {
         e.preventDefault();
 
         dispatch(editUser({weaponId: newWeaponId}, userId));
+        setEditWeapon(false);
     }
 
     return (<div>
@@ -89,26 +90,26 @@ function ProfilePage({myUserId=null}) {
 
         <h2>My Guilds</h2>
         <h3>Hosted</h3>
-        {myOwnedGuilds?.length && myOwnedGuilds?.map(g => {
+        {myOwnedGuilds?.length ? myOwnedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
                 <div>
                     <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
                     <p>{g.name}</p>
                 </div>
             </Link>
-        })}
+        }) : null}
         <h3>Member</h3>
-        {myJoinedGuilds?.length && myJoinedGuilds?.map(g => {
+        {myJoinedGuilds?.length ? myJoinedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
                 <div>
                     <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
                     <p>{g.name}</p>
                 </div>
             </Link>
-        })}
+        }) : null}
 
         <h2>My lobbies</h2>
-        {myLobbies.length && myLobbies.map(l => {
+        {myLobbies.length ? myLobbies.map(l => {
             return (<Link to={`/lobbies/${l.id}`} key={uuidv4()} className="link">
                 <div className='lobby-listing'>
                     <p className='lby-list-host'>{l?.Host?.username}</p>
@@ -117,7 +118,7 @@ function ProfilePage({myUserId=null}) {
                     <p>{l?.Greeting?.message}</p>
                 </div>
             </Link>);
-        })}
+        }) : null}
 
         <h2>My Photos</h2>
         <div className='my-pics'>
