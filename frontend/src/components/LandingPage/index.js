@@ -71,7 +71,7 @@ function LandingPage({user}) {
 
             <h3>Latest Photos</h3>
             <div className='latest-pics'>
-                {photos.map(p => {
+                {photos.reverse().map(p => {
 
                     return (
                     <img

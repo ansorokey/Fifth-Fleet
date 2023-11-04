@@ -196,6 +196,7 @@ export function editGuild(data, guildId) {
         if (response.ok) {
             const res = await response.json();
             dispatch(updateGuild(res.guild, guildId));
+            dispatch(addPhotos(res.guild.Photos));
         }
     }
 }
