@@ -133,7 +133,7 @@ function GuildPage() {
                     <p>{guild?.about}</p>
 
                     {photos?.length ? <div className="photo-carousel">
-                        {photos?.map(p => {
+                        {photos?.reverse().map(p => {
                             return (<div key={uuidv4()} className="gld-car-lnk" onClick={() => {
                                 setModalContent(<PhotoViewModal photoId={p.id}/>)
                             }}>

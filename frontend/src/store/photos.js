@@ -105,7 +105,7 @@ function reducer(state={}, action) {
     switch (action.type) {
 
         case ADD_PHOTO:
-            newState = {};
+            newState = {...state};
             newState[action.image.id] = action.image;
             return newState;
 
