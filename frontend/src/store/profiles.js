@@ -62,7 +62,6 @@ export function uploadAvatar(data) {
 
         if (response.ok) {
             const res = await response.json();
-            console.log(res.user)
             dispatch(changeAvatar(res.user))
         }
     }
