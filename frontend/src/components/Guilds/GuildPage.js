@@ -144,7 +144,7 @@ function GuildPage() {
                     :
                     <><h2>No photos to display</h2><p>Be the first to show off some memories and moments</p></>}
 
-                    {user && isMember &&
+                    {user && (isMember || isOwner) &&
                         <OpenModalButton
                             buttonText='Add Photo'
                             modalComponent={<AddGuildPhotoForm guild={guild} />}
