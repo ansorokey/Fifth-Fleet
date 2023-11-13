@@ -98,7 +98,8 @@ function PhotoViewModal({photoId}) {
         <div className='photo-view-content'>
             <div className='user-details'>
                 <h2 className='photoview-h2'>Uploaded by {owner?.username}</h2>
-                <i className={`fa-solid fa-trash ${!isOwner ? 'hide' : null}`} title="Delete Photo" onClick={handleDeletePhoto}></i>
+                {isOwner && <i className="fa-solid fa-trash" title="Delete Photo" onClick={handleDeletePhoto}></i>}
+
                 <div className='caption-ctn'>
                     {caption !== 'null' && <span className='caption'>{caption}</span>}
                     {isOwner && <i onClick={() => setShowCaptionEdit(!showCaptionEdit)} className="fa-solid fa-pen-to-square" title='Edit Caption'></i>}
