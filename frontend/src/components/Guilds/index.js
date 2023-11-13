@@ -18,7 +18,7 @@ function Guilds() {
    const [filteredGreetings, setFilteredGreetings] = useState([]);
    const [loaded, setLoaded] = useState(false);
    const [showFilterGuilds, setShowFilterGuilds] = useState(false);
-   const [greetingId, setGreetingId] = useState(60);
+   const [greetingId, setGreetingId] = useState(0);
    const [showGreetingFilter, setShowGreetingFilter] = useState(false);
    const dispatch = useDispatch();
 
@@ -71,7 +71,8 @@ function Guilds() {
 
                {user &&
                <OpenModalButton
-               buttonClassName='left-menu-button'                  buttonText='Start a new guild'
+                  buttonClassName='left-menu-button'
+                  buttonText='Start a new guild'
                   modalComponent={<CreateGuildForm />}
                />}
             </div>
