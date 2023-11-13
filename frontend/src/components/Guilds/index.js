@@ -24,7 +24,7 @@ function Guilds() {
 
    useEffect(() => {
       async function init() {
-         await dispatch(loadGuilds());
+         dispatch(loadGuilds());
          setLoaded(true);
       }
       init();
