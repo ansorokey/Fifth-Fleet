@@ -73,14 +73,17 @@ function LandingPage({user}) {
             <div className='latest-pics'>
                 {photos.reverse().map(p => {
 
-                    return (
+                    return (<div className='photo-listing'>
+                    {/* <i className="fa-solid fa-trash"></i> */}
                     <img
                         key={uuidv4()}
                         src={p.imageUrl}
                         onClick={() => {
                             setModalContent(<PhotoViewModal photoId={p.id}/>)
                         }}
-                    />)
+                    />
+                    </div>
+                    )
                 })}
             </div>
         </div>

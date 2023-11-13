@@ -43,7 +43,7 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.latest-pics > img {
+.latest-pics div img {
     width: 450px;
     height: 250px;
     object-fit: cover;
