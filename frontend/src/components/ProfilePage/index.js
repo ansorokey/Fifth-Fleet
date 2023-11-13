@@ -97,7 +97,7 @@ function ProfilePage({myUserId=null}) {
                     <p>{g.name}</p>
                 </div>
             </Link>
-        }) : null}
+        }) : <h3>You are not hosting any guilds</h3>}
         <h3>Member</h3>
         {myJoinedGuilds?.length ? myJoinedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
@@ -106,7 +106,7 @@ function ProfilePage({myUserId=null}) {
                     <p>{g.name}</p>
                 </div>
             </Link>
-        }) : null}
+        }) : <h3>You are not a member of any guilds</h3>}
 
         <h2>My lobbies</h2>
         {myLobbies.length ? myLobbies.map(l => {
@@ -118,7 +118,7 @@ function ProfilePage({myUserId=null}) {
                     <p>{l?.Greeting?.message}</p>
                 </div>
             </Link>);
-        }) : null}
+        }) : <h3>You are not running any lobbies</h3>}
 
         <h2>My Photos</h2>
         <div className='my-pics'>

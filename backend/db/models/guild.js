@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Guild.belongsTo(models.Greeting, { foreignKey: 'greetingId'});
       Guild.belongsToMany(models.User, { as: 'Members', through: 'GuildMembers', foreignKey: 'guildId', otherKey: 'userId'});
       Guild.hasMany(models.GuildPhoto, { as: 'Photos', foreignKey: 'guildId', otherKey: 'userId'});
+      Guild.hasMany(models.GuildMember, {as: 'Membership'})
     }
   }
   Guild.init({

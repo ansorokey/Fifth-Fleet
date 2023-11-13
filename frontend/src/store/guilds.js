@@ -228,7 +228,7 @@ function reducer(state = initialState, action) {
             return newState;
 
         case ADD_MY_GUILDS:
-            newState = {owned: [], joined: []}
+            newState = {arr:[], owned: [], joined: []}
             newState.owned = action.owned;
             newState.joined = action.joined;
         return newState;
