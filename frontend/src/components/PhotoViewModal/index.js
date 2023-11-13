@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { uploadComment, deleteComment, updateComment } from '../../store/comments';
-import { updatePhoto } from '../../store/photos';
+import { updatePhoto, deletePhoto } from '../../store/photos';
 import {v4 as uuidv4} from 'uuid';
 
 function PhotoViewModal({photoId}) {
@@ -81,13 +81,23 @@ function PhotoViewModal({photoId}) {
         setNewComment(content);
     }
 
+    // Delete a photo
+    function handleDeletePhoto() {
+        if(user?.id !== userId) {
+            alert('You are not authorized to perform this action');
+            return;
+        }
+
+        dispatch(deletePhoto(photoId));
+    }
+
     // return component
     return <div className='photo-view-ctn'>
         <img src={url} />
         <div className='photo-view-content'>
             <div className='user-details'>
                 <h2 className='photoview-h2'>Uploaded by {owner?.username}</h2>
-                <i className={`fa-solid fa-trash ${!isOwner ? 'hide' : null}`} title="Delete Photo"></i>
+                <i className={`fa-solid fa-trash ${!isOwner ? 'hide' : null}`} title="Delete Photo" onClick={handleDeletePhoto}></i>
                 <div className='caption-ctn'>
                     {caption !== 'null' && <span className='caption'>{caption}</span>}
                     {isOwner && <i onClick={() => setShowCaptionEdit(!showCaptionEdit)} className="fa-solid fa-pen-to-square" title='Edit Caption'></i>}
