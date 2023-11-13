@@ -134,6 +134,7 @@ function GuildPage() {
                     <p><em>{guild?.Greeting?.message}</em></p>
                     <p>{guild?.about}</p>
 
+                    <h2>Photos</h2>
                     {photos?.length ? <div className="photo-carousel">
                         {photos?.reverse().map(p => {
                             return (<div key={uuidv4()} className="gld-car-lnk" onClick={() => {
@@ -144,7 +145,7 @@ function GuildPage() {
                         })}
                     </div>
                     :
-                    <div><h2>No photos to display</h2>{(isMember || isOwner) && <p>Be the first to show off some memories and moments</p>}</div>}
+                    <div><h3>No photos to display</h3>{(isMember || isOwner) && <p>Be the first to show off some memories and moments</p>}</div>}
 
                     {user && (isMember || isOwner) &&
                         <OpenModalButton
