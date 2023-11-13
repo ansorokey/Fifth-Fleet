@@ -139,6 +139,7 @@ function PhotoViewModal({photoId}) {
             {user && <form onSubmit={submitComment}>
                 <input
                     type="text"
+                    maxLength={50}
                     placeholder={editing ? 'Edit your comment' : 'Post a New Comment'}
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
