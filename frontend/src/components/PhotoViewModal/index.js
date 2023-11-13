@@ -26,6 +26,7 @@ function PhotoViewModal({photoId}) {
 
     // extra
     const {imageUrl:url, caption, userId, User:owner} = photo;
+    const isOwner = userId === user?.id;
 
     // form submission: edit photo caption
     async function handleEditCaption(e) {
@@ -86,10 +87,10 @@ function PhotoViewModal({photoId}) {
         <div className='photo-view-content'>
             <div className='user-details'>
                 <h2 className='photoview-h2'>Uploaded by {owner?.username}</h2>
-                <i className="fa-solid fa-trash" title="Delete Photo"></i>
+                <i className={`fa-solid fa-trash ${!isOwner ? 'hide' : null}`} title="Delete Photo"></i>
                 <div className='caption-ctn'>
                     {caption !== 'null' && <span className='caption'>{caption}</span>}
-                    {user?.id === userId && <i onClick={() => setShowCaptionEdit(!showCaptionEdit)} className="fa-solid fa-pen-to-square" title='Edit Caption'></i>}
+                    {isOwner && <i onClick={() => setShowCaptionEdit(!showCaptionEdit)} className="fa-solid fa-pen-to-square" title='Edit Caption'></i>}
                 </div>
                 {showCaptionEdit && <form onSubmit={handleEditCaption}>
                     <textarea
