@@ -144,7 +144,11 @@ function reducer(state={}, action) {
             newState[action.photo.id] = action.photo;
             return newState;
 
-        case
+        case REMOVE_PHOTO:
+            for(let p in state) {
+                if(+p !== +action.photoId) newState[p] = state[p];
+            }
+            return newState;
 
         default:
             return state;

@@ -89,6 +89,7 @@ function PhotoViewModal({photoId}) {
         }
 
         dispatch(deletePhoto(photoId));
+        closeModal();
     }
 
     // return component
