@@ -30,6 +30,18 @@ router.put('/photos/:photoId', async (req, res) => {
 
 });
 
+router.delete('/photos/:photoId', async (req, res) => {
+    const {photoId} = req.params;
+
+    const deletedPhoto = await GuildPhoto.findByPk(photoId);
+
+    await deletedPhoto.destroy();
+
+    return res.json({
+        message: 'Photo successfully deleted'
+    });
+})
+
 // create a comment for a guild photo
 router.post('/:photoId/comments', async (req, res) => {
     const {photoId} = req.params;

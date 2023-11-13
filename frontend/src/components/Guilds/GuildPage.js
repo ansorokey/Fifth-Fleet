@@ -41,8 +41,10 @@ function GuildPage() {
             guild?.Members?.forEach(m => {
                 if (+m.id === +user.id) {
                     if (m?.GuildMembers?.status === 'pending') {
+                        setIsMember(false);
                         return setIsPending(true);
                     } else {
+                        setIsPending(false);
                         return setIsMember(true);
                     }
                 };
@@ -72,7 +74,7 @@ function GuildPage() {
     }
 
     const memberButton = isMember ? <button onClick={endMembership}>Leave Guild</button> :
-                        isPending ? <button diabled={true}>Membership Pending</button> : <button onClick={requestMembership}>Join Guild</button>;
+                        isPending ? <button disabled={true}>Membership Pending</button> : <button onClick={requestMembership}>Join Guild</button>;
 
     useEffect(() => {
         dispatch(loadGuild(guildId));
@@ -142,7 +144,7 @@ function GuildPage() {
                         })}
                     </div>
                     :
-                    <><h2>No photos to display</h2><p>Be the first to show off some memories and moments</p></>}
+                    <div><h2>No photos to display</h2>{(isMember || isOwner) && <p>Be the first to show off some memories and moments</p>}</div>}
 
                     {user && (isMember || isOwner) &&
                         <OpenModalButton
@@ -152,7 +154,8 @@ function GuildPage() {
                     }
 
                     <h2>Members</h2>
-                    {guild?.Members?.length ? <div className="member-list">
+                    {!guild?.Members?.filter(m => m?.GuildMembers?.status === 'member').length && !isOwner && <h2>No members yet!</h2>}
+                    {guild?.Members?.length && <div className="member-list">
                         {guild?.Members?.map(m => {
                             if (isOwner) {
                                 if(m?.GuildMembers?.status !== 'owner') return <PlayerListing key={uuidv4()} user={m} showMembership={true} isPending={m?.GuildMembers?.status === 'pending'} guildId={guild.id} />
@@ -160,7 +163,7 @@ function GuildPage() {
                                 if(m?.GuildMembers?.status === 'member') return <PlayerListing key={uuidv4()} user={m} />
                             }
                         })}
-                    </div> : <h2>No members yet!</h2>}
+                    </div>}
                 </div>
 
                 {user ?

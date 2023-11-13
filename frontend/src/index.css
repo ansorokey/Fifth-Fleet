@@ -26,3 +26,11 @@ button {
     height: 98vh;
     padding: 0;
 }
+
+.fa-solid.fa-trash:hover {
+    color: white;
+}
+
+.hide {
+    display: none;
+}

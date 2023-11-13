@@ -1,5 +1,5 @@
 const express = require('express');
-const { Guild, User, Greeting, GuildPhoto, Comment } = require('../../db/models');
+const { Guild, User, Greeting, GuildPhoto, Comment, GuildMember } = require('../../db/models');
 const { singleFileUpload, singleMulterUpload } = require('../../awsS3');
 const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
 const { requireAuth } = require('../../utils/auth');
@@ -100,6 +100,15 @@ router.get('/users/:userId', async (req, res) => {
                 },
                 through: {
                     attributes: []
+                }
+            },
+            {
+                model: GuildMember,
+                as: 'Membership',
+                attributes: ['userId', 'status'],
+                where: {
+                    userId,
+                    status: 'member'
                 }
             },
             {

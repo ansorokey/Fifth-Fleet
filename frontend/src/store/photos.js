@@ -4,6 +4,15 @@ import { addComments } from "./comments";
 const ADD_PHOTO = 'guilds/ADD_PHOTO';
 const ADD_PHOTOS = 'photos/ADD_PHOTOS';
 const EDIT_PHOTO = 'photos/EDIT_PHOTO';
+const REMOVE_PHOTO = 'photos/REMOVE_PHOTO';
+
+// reducer action: remove a photo
+function removePhoto(photoId) {
+    return {
+        type: REMOVE_PHOTO,
+        photoId
+    }
+}
 
 // reducer action: add latest photos
 export function addPhotos(photos) {
@@ -97,8 +106,22 @@ export function uploadPhoto(data) {
     }
 }
 
+// thunk action: delete a photo
+export function deletePhoto(photoId) {
+    return async function(dispatch) {
+        const response = await csrfFetch(`/api/guildphotos/photos/${photoId}`, {
+            method: 'DELETE'
+        });
+
+        if(response.ok) {
+            const res = await response.json();
+
+            dispatch(removePhoto(photoId))
+        }
+    }
+}
+
 // the reducer
-//
 function reducer(state={}, action) {
     let newState = {};
 
@@ -119,6 +142,12 @@ function reducer(state={}, action) {
         case EDIT_PHOTO:
             newState = {...state};
             newState[action.photo.id] = action.photo;
+            return newState;
+
+        case REMOVE_PHOTO:
+            for(let p in state) {
+                if(+p !== +action.photoId) newState[p] = state[p];
+            }
             return newState;
 
         default:

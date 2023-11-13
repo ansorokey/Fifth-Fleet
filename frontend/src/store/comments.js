@@ -104,7 +104,13 @@ function reducer(state={}, action) {
 
         case ADD_ONE_COMMENT:
             newState = {...state};
-            newState[action.photoId] = [...newState[action.photoId], action.comment]
+            // if a new photo is uploaded, it won't have any comments in the state
+            //so we need to set it to a new array of comments
+            if(action.photoId in newState) {
+                newState[action.photoId] = [...newState[action.photoId], action.comment]
+            } else {
+                newState[action.photoId] = [action.comment];
+            }
             return newState;
 
         case EDIT_COMMENT:
