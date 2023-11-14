@@ -12,8 +12,8 @@ function Message({curUser, username='Guest', content, weaponUrl=null, avatarUrl=
 
     return (<div className={`msg ${msgType}`}>
         {msgType !== 'system' && <div className='msg-pics'>
-            <img className='msg-prof-pic' src={avatarUrl} />
-            {weaponUrl && <img className='msg-weapon' src={weaponUrl}/>}
+            <img className='msg-prof-pic' src={avatarUrl} alt="" />
+            {weaponUrl && <img className='msg-weapon' src={weaponUrl} alt=""/>}
         </div>
             }
         <div className='username-and-content'>

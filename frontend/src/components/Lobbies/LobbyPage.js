@@ -24,7 +24,7 @@ function LobbyPage() {
         }
 
         initialLoad();
-    }, []);
+    }, [dispatch, history, lobbyId]);
 
     return (<>
         {curLobby && <div className="lobby-page-ctn">
@@ -36,7 +36,7 @@ function LobbyPage() {
                 <h3>Quest Type</h3>
                 <p>{curLobby?.QuestType?.type || 'None'}</p>
                 <h3>Target Monster</h3>
-                {curLobby?.Monster && <img className='lby-target-monster' src={curLobby.Monster.imageUrl} />}
+                {curLobby?.Monster && <img className='lby-target-monster' src={curLobby.Monster.imageUrl} alt="" />}
                 <p>{curLobby?.Monster?.name || 'None'}</p>
                 <h3>Rank Preference</h3>
                 <p>{curLobby?.rankPreference || 'None'}</p>

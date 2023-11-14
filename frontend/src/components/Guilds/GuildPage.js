@@ -16,7 +16,6 @@ import EditGuildForm from '../Forms/EditGuildForm'
 import EditGuildAvatarForm from '../Forms/EditGuildAvatarForm';
 import EditGuildBannerForm from "../Forms/EditGuildBannerForm";
 import {v4 as uuidv4} from 'uuid';
-import { addPhotos } from "../../store/photos";
 import { csrfFetch } from "../../store/csrf";
 
 function GuildPage() {
@@ -33,6 +32,16 @@ function GuildPage() {
     const isOwner = +user?.id === +guild?.hostId;
     const [isPending, setIsPending] = useState(false);
     const [isMember, setIsMember] = useState(false);
+
+    useEffect(() => {
+        async function initialLoad() {
+            const response = await dispatch(loadGuild(guildId));
+            if(response?.error) return history.push('/lost');
+            setIsLoaded(true);
+        }
+
+        initialLoad();
+    }, [dispatch, guildId]);
 
     // checks if the user's id is in the guilds members
     // sets a boolean if found
@@ -76,17 +85,13 @@ function GuildPage() {
     const memberButton = isMember ? <button onClick={endMembership}>Leave Guild</button> :
                         isPending ? <button disabled={true}>Membership Pending</button> : <button onClick={requestMembership}>Join Guild</button>;
 
-    useEffect(() => {
-        dispatch(loadGuild(guildId));
-        setIsLoaded(true);
-    }, []);
 
     return (<>
         {isLoaded && guild ? <div className="guild-page-ctn">
             <div className="guild-header-images">
                 <div>
                     <div className="banner-ctn">
-                        <img className="guild-page-banner" src={guild?.bannerUrl} />
+                        <img className="guild-page-banner" src={guild?.bannerUrl} alt="" />
                         {+user?.id === +guild?.hostId &&
                         <OpenModalButton
                             buttonClassName="guild-change-banner-btn"
@@ -95,7 +100,7 @@ function GuildPage() {
                         />}
                     </div>
                     <div className="avatar-ctn">
-                        <img className="guild-page-avatar" src={guild?.avatarUrl} />
+                        <img className="guild-page-avatar" src={guild?.avatarUrl} alt=""/>
                         {+user?.id === +guild?.hostId &&
                         <OpenModalButton
                             buttonClassName="guild-change-avatar-btn"
@@ -140,7 +145,7 @@ function GuildPage() {
                             return (<div key={uuidv4()} className="gld-car-lnk" onClick={() => {
                                 setModalContent(<PhotoViewModal photoId={p.id}/>)
                             }}>
-                                <img src={p?.imageUrl} className="gld-car-pic"/>
+                                <img src={p?.imageUrl} className="gld-car-pic" alt=""/>
                             </div>);
                         })}
                     </div>
@@ -156,15 +161,17 @@ function GuildPage() {
 
                     <h2>Members</h2>
                     {!guild?.Members?.filter(m => m?.GuildMembers?.status === 'member').length && !isOwner && <h2>No members yet!</h2>}
-                    {guild?.Members?.length && <div className="member-list">
+                    {guild?.Members?.length ? <div className="member-list">
                         {guild?.Members?.map(m => {
                             if (isOwner) {
                                 if(m?.GuildMembers?.status !== 'owner') return <PlayerListing key={uuidv4()} user={m} showMembership={true} isPending={m?.GuildMembers?.status === 'pending'} guildId={guild.id} />
                             } else {
                                 if(m?.GuildMembers?.status === 'member') return <PlayerListing key={uuidv4()} user={m} />
                             }
+
+                            return null;
                         })}
-                    </div>}
+                    </div> : null}
                 </div>
 
                 {user ?

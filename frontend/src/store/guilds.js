@@ -108,7 +108,7 @@ export function approveMembershipThunk(data) {
     }
 }
 
-// thunk action: query for all guilds
+// thunk action: query for all user's guilds
 export function loadMyGuilds(userId) {
     return async function(dispatch) {
         try{
@@ -153,6 +153,7 @@ export function loadGuild(guildId) {
 
             if ( response.ok) {
                 const res = await response.json();
+                if(res.guild === null) return ({error: 'no matching guild'})
                 dispatch(setSingleGuild(res.guild));
                 dispatch(addPhotos(res.guild.Photos));
                 res.guild.Photos.forEach(p => dispatch(addComments(p.Comments, p.id,)))

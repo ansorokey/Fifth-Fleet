@@ -42,8 +42,8 @@ function PlayerListing({user, showMembership=false, isPending=false, guildId}) {
             {showMembership && <i onClick={removeMembership} className="fa-solid fa-circle-xmark"></i>}
         </div>
         <div className='player-list-pics'>
-            <img className='player-pic-icon' src={user?.avatarUrl}></img>
-            <img className='player-weapon-icon' src={user?.Weapon?.iconUrl} />
+            <img className='player-pic-icon' src={user?.avatarUrl} alt="" />
+            <img className='player-weapon-icon' src={user?.Weapon?.iconUrl} alt=""/>
         </div>
         {user?.username}
     </div>);
