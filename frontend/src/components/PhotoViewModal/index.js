@@ -22,7 +22,7 @@ function PhotoViewModal({photoId}) {
 
     // hooks
     const dispatch = useDispatch();
-    const {setModalContent, closeModal} = useModal();
+    const {closeModal} = useModal();
 
     // extra
     const {imageUrl:url, caption, userId, User:owner} = photo;
@@ -71,7 +71,9 @@ function PhotoViewModal({photoId}) {
 
     // form submission: delete a comment
     async function handleDeleteComment(commentId) {
-        dispatch(deleteComment(commentId, photoId));
+        const confirm = window.confirm('Delete this comment?');
+
+        if(confirm) dispatch(deleteComment(commentId, photoId));
     }
 
     // form submission: edit a comment
@@ -94,7 +96,7 @@ function PhotoViewModal({photoId}) {
 
     // return component
     return <div className='photo-view-ctn'>
-        <img src={url} />
+        <img src={url} alt=""/>
         <div className='photo-view-content'>
             <div className='user-details'>
                 <h2 className='photoview-h2'>Uploaded by {owner?.username}</h2>
@@ -120,7 +122,7 @@ function PhotoViewModal({photoId}) {
                 <div className='comments-list'>
                     {comments && comments.map(c => {
                         return <div className='comment-ctn' key={uuidv4()}>
-                            <img className='comment-prof-pic' src={c.User.avatarUrl}/>
+                            <img className='comment-prof-pic' src={c.User.avatarUrl} alt="" />
                             <div>
                                 <span>{c.User.username}</span>
                                 <p>{c.content}</p>
@@ -139,6 +141,7 @@ function PhotoViewModal({photoId}) {
             {user && <form onSubmit={submitComment}>
                 <input
                     type="text"
+                    maxLength={50}
                     placeholder={editing ? 'Edit your comment' : 'Post a New Comment'}
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}

@@ -41,6 +41,11 @@
     color: white;
 }
 
+.comment-ctn div p {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
 .comment-prof-pic {
     width: 48px;
     height: 48px;

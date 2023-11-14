@@ -1,14 +1,12 @@
 import './LandingPage.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import LoginFormPage from '../LoginFormPage';
 import SignupFormPage from '../SignupFormPage';
 import { Link } from 'react-router-dom';
 import { loadGuilds, clearGuilds } from '../../store/guilds';
 import { loadLobbies } from '../../store/lobbies';
 import GuildListing from '../Guilds/GuildListing';
 import { useState } from 'react';
-import { csrfFetch } from '../../store/csrf';
 import PhotoViewModal from '../PhotoViewModal';
 import { useModal } from '../../context/Modal';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -39,7 +37,7 @@ function LandingPage({user}) {
         return () => {
             dispatch(clearGuilds());
         }
-    }, []);
+    }, [dispatch]);
 
     return <>{loaded && <div className='landing-ctn'>
         <div className='landing-content'>
@@ -81,6 +79,7 @@ function LandingPage({user}) {
                         onClick={() => {
                             setModalContent(<PhotoViewModal photoId={p.id}/>)
                         }}
+                        alt=""
                     />
                     </div>
                     )

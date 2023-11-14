@@ -38,7 +38,7 @@ function ProfilePage({myUserId=null}) {
         dispatch(loadUserPhotos(userId));
         dispatch(loadLobbies({hostId:userId}))
         dispatch(loadMyGuilds(userId));
-    }, []);
+    }, [dispatch, userId]);
 
     function changeWeapon(e) {
         e.preventDefault();
@@ -50,7 +50,7 @@ function ProfilePage({myUserId=null}) {
     return (<div>
         <h1>{user?.username}</h1>
         <div className='profile-header'>
-            <img src={user?.avatarUrl}/>
+            <img src={user?.avatarUrl} alt="" />
             {myPage && <OpenModalButton
                 buttonText='Change Avatar'
                 modalComponent={<EditUserAvatarForm user={user} />}
@@ -82,7 +82,7 @@ function ProfilePage({myUserId=null}) {
                     <button onClick={() => setEditWeapon(false)}>Cancel</button>
                 </div>}
             <div className='fav-weapon'>
-                <img src={user?.Weapon?.iconUrl} />
+                <img src={user?.Weapon?.iconUrl} alt="" />
                 {user?.Weapon?.id ? <h3>{user?.Weapon?.name}</h3> : <h3>No weapon chosen</h3>}
             </div>
         </div>
@@ -93,7 +93,7 @@ function ProfilePage({myUserId=null}) {
         {myOwnedGuilds?.length ? myOwnedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
                 <div>
-                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
+                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} alt="" />
                     <p>{g.name}</p>
                 </div>
             </Link>
@@ -102,7 +102,7 @@ function ProfilePage({myUserId=null}) {
         {myJoinedGuilds?.length ? myJoinedGuilds?.map(g => {
             return <Link to={`/guilds/${g.id}`} key={uuidv4()} className="profile-guild-link">
                 <div>
-                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} />
+                    <img className='prof-mini-guild-avatar' src={g.avatarUrl} alt="" />
                     <p>{g.name}</p>
                 </div>
             </Link>
@@ -123,7 +123,7 @@ function ProfilePage({myUserId=null}) {
         <h2>My Photos</h2>
         <div className='my-pics'>
             {photos.map(p => {
-                return <img key={uuidv4()} src={p.imageUrl} onClick={() => setModalContent(<PhotoViewModal photoId={p.id} />)}/>
+                return <img key={uuidv4()} src={p.imageUrl} alt="" onClick={() => setModalContent(<PhotoViewModal photoId={p.id} />)}/>
             })}
         </div>
 
