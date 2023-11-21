@@ -11,6 +11,7 @@ import Lobbies from './components/Lobbies';
 import GuildPage from './components/Guilds/GuildPage';
 import LobbyPage from './components/Lobbies/LobbyPage';
 import ProfilePage from './components/ProfilePage';
+import Footer from './components/Footer/Footer';
 import { loadMonsters, loadGreetings, loadQuestTypes } from './store/utils';
 import { useModal } from './context/Modal';
 
@@ -81,6 +82,7 @@ function App() {
         <LandingPage user={currentUser}/>
       </Route>
     </Switch></> : <h1> Loading...</h1>}
+    <Footer />
   </div>);
 }
 

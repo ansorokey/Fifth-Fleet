@@ -2,13 +2,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
+    align-items: center;
     height: 100vh;
     padding-top: 10px;
-}
-
-.signup-page-ctn > h1 {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .signup-page-ctn > form {

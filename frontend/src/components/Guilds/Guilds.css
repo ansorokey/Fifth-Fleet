@@ -205,6 +205,23 @@
     width: 100px;
 }
 
+.guild-page-grid > h2 {
+    padding: 100px 100px 0;
+    text-align: center;
+}
+
+.guild-listing h2 {
+    font-size: 1.5em;
+}
+
+.guild-listing h3 {
+    font-size: 1em;
+}
+
+.guild-listing .gl-sp {
+    font-size: 1em;
+}
+
 @media screen and (max-width: 1000px) {
     .gld-right-menu {
         grid-template-columns: 1fr 1fr;

@@ -1,7 +1,8 @@
 .landing-ctn {
     display: grid;
     grid-template-columns: 60% 35%;
-    padding: 30px 5vw;
+    padding: 30px;
+    gap: 5%;
 }
 
 .landing-content {
@@ -13,15 +14,18 @@
 
 .signed-in-options {
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    height: 100vh;
-    padding-left: 10vw;
+    grid-template-rows: 200px 200px;
+    align-items: center;
+    /* height: 100vh; */
+    /* padding-left: 10vw; */
+    /* align-items: center; */
+    /* justify-items: center; */
 }
 
 .signed-in-options > div {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .signed-in-options > div > button {

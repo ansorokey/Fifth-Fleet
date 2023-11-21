@@ -7,6 +7,16 @@ html {
     margin: 0;
 }
 
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.no-scroll-false, .no-scroll-true {
+    padding: 0;
+    margin: 0;
+}
+
 a {
     text-decoration: none;
     color: currentColor;
@@ -17,9 +27,25 @@ button {
     cursor: pointer;
 }
 
-.no-scroll-false {
-    padding-bottom: 10px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Trade Winds';
 }
+
+h1 {
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+/* .no-scroll-false {
+    padding-bottom: 10px;
+} */
 
 .no-scroll-true {
     overflow-y:hidden;
