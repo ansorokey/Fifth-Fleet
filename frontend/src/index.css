@@ -8,8 +8,10 @@ html {
 }
 
 body {
-    padding: 0;
+    padding: 0 30px 130px;
     margin: 0;
+    position: relative;
+    min-height: calc(100vh - 130px);
 }
 
 .no-scroll-false, .no-scroll-true {
